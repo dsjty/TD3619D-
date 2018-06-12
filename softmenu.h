@@ -43,7 +43,7 @@
 #define SIA_INPUT_TEXT              0x00001000      //输入框为字符串输入
 #define SIA_INPUT_TIME              0x00002000      //输入框为数值输入 (时间)
 #define SIA_EXLBL                   0x00004000      //扩展标签 (Extend Label, 仅ButtonEx)
-#define SIA_MAINRES                 0x00008000      //资源在E5062.exe中, 配合 SIA_BITMAP
+#define SIA_MAINRES                 0x00008000      //资源在E5070.exe中, 配合 SIA_BITMAP
 #define SIA_UNREAD					0x00020000		//为序列号框定义的静态文本框
 
 #define SIA_PSTMSG_432_2            0x00010000 
@@ -130,7 +130,9 @@ typedef struct _SOFT_SUB_ITEM
   lpOpt[9]                Uncheck lpThis          (取消选中的类地址)
   lpOpt[10]               Uncheck dwFuncId        (取消选中的功能索引)
   lpOpt[11]               func_PopWndUpdateProc   (浮动输入框事件处理过程)
-  取消选中的参数暂只在频标部分出现 (SIF_UNCHECKFUNC) */
+  取消选中的参数暂只在频标部分出现 (SIF_UNCHECKFUNC)
+  lpOpt[12]				  STR_chk				//乱其名的，因为移植到WIN7需要做基址校准，所以这个用作标志位;
+  */
   void                  * lpOpt[16];
 
   /* 项目事件 (void *) * 16

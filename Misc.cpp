@@ -145,6 +145,7 @@ NAKED void * fnhk_00906467()
 // 	   lbl_Retn:
 // 	__asm pop eax
 // 	__asm retn 0x04
+	__asm retn
 }
 #endif
 

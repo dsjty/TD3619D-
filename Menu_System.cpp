@@ -2,7 +2,7 @@
 
 #define SERIAL_NUMBER	_T("SerialNum.dat")
 
-extern DLG_CTXT dcColorWizard;
+//extern DLG_CTXT dcColorWizard;
 
 const char szMULTiport1[] = "SENSe*:MULTiport:PORT1:SELect";
 const char szMULTiport2[] = "SENSe*:MULTiport:PORT2:SELect";
@@ -406,101 +406,6 @@ static SOFT_SUB_ITEM subitemSystem[] =
 	}
 };
 
-//多端口子条目
-static SOFT_SUB_ITEM subitemMultiport[] =
-{
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		0,
-		L"Multiport Control\0多端口控制\0多端口控制\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00000000, 0, (void *)0x00B64B58, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SYS_MPS,
-		CA_SYS_MPS,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_NOT_ENTER | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		1,
-		L"Reflection\0反射\0反射\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00, 0, (void *)szMULTiport1, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_DEC_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SYS_MPS_XX,
-		NULL,
-		sizeof(wcsListMultiport) / sizeof(LPCWSTR),
-		wcsListMultiport,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_NOT_ENTER | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		2,
-		L"Transmission\0传输\0傳輸\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00, 0, (void *)szMULTiport2, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_DEC_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SYS_MPS_XX,
-		NULL,
-		sizeof(wcsListMultiport) / sizeof(LPCWSTR),
-		wcsListMultiport,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		3,
-		L"Property\0校准信息显示\0多端口控制\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00060500, 0, (void *)0x00B64B3C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SYS_MPS,
-		CA_SYS_MPS,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-};
 
 
 int WINAPI fnUpdateData_SICL_LAN(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
@@ -851,332 +756,332 @@ int WINAPI fnItemClicked_TestMenu(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 	return 0;
 }
 
-//服务菜单
-static SOFT_SUB_ITEM subitemSrv[] =
-{
-	{
-		SIF_NOREPLY | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE | SIA_EXLBL | SIA_UPDATEITEM | SIA_UNREAD,
-		SIS_ButtonEx,
-		0,
-		L"Serial Number\0序列号\0序列號\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		RESERVE_DWORD16,
-		{ 0, 0, 0, &fnItemClicked_Seir, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		0,
-		0,
-		0,
-		0,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE ,
-		SIS_ButtonEx,
-		0,
-		L"Power On Test\0电源测试\0電源測試\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B7CA78, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM,
-		CA_SRVMEU_TM,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		1,
-		L"Display\0显示测试\0顯示測試\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM,
-		CA_SRVMEU_TM,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		2,
-		L"Front Panel\0前面板测试\0前面板測試\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM,
-		CA_SRVMEU_TM,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE ,
-		SIS_ButtonEx,
-		3,
-		L"Adjust Touch Screen\0触摸屏调整\0觸摸屏調整\0\0",  
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM,
-		CA_SRVMEU_TM,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		1,
-		L"Security Level\0安全级别\0安全等級\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00050400, 0, (void *)0x00B684D4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_SL,
-		CA_SRVMEU_SL,
-		sizeof(wcsListSecurityLv) / sizeof(LPCWSTR),
-		wcsListSecurityLv,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		0,
-		L"Measure(SVC)\0测量(SVC)\0測量(SVC)\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00080700, 0, (void *)0x00B7B9D0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SVC,
-		CA_SRVMEU_TM_SF_SVC,
-		sizeof(wcsListMeasureSVC) / sizeof(LPCWSTR),
-		wcsListMeasureSVC,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		3,
-		L"Dummy DUT\0Dummy DUT\0Dummy DUT\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00090800, 0, (void *)0x00B6B860, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_DUT,
-		CA_SRVMEU_TM_SF_DUT,
-		sizeof(wcsListDummyDUT) / sizeof(LPCWSTR),
-		wcsListDummyDUT,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		0,
-		L"Freq Reference\0Freq Reference\0Freq Reference\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B7BF54, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		1,
-		L"Synthe Gain\0Synthe Gain\0Synthe Gain\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00020100, 0, (void *)0x00B7BF28, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		2,
-		L"Local Power\0Local Power\0Local Power\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00030200, 0, (void *)0x00B7BF00, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		3,
-		L"Source Power\0Source Power\0Source Power\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00040300, 0, (void *)0x00B7BED8, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		4,
-		L"IF Range\0IF Range\0IF Range\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00050400, 0, (void *)0x00B7BEB4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		5,
-		L"Port Char\0Port Char\0Port Char\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00060500, 0, (void *)0x00B7BE88, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SRVMEU_TM_SF_SysCal,
-		CA_SRVMEU_TM_SF_SysCal,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-
-};
+// 服务菜单
+// static SOFT_SUB_ITEM subitemSrv[] =
+// {
+// 	{
+// 		SIF_NOREPLY | SIF_FN_UPDATEDATA,
+// 		SIA_FULLLINE | SIA_EXLBL | SIA_UPDATEITEM | SIA_UNREAD,
+// 		SIS_ButtonEx,
+// 		0,
+// 		L"Serial Number\0序列号\0序列號\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H2,
+// 		NULL,
+// 		RESERVE_DWORD16,
+// 		{ 0, 0, 0, &fnItemClicked_Seir, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		0,
+// 		0,
+// 		0,
+// 		0,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE ,
+// 		SIS_ButtonEx,
+// 		0,
+// 		L"Power On Test\0电源测试\0電源測試\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00010000, 0, (void *)0x00B7CA78, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM,
+// 		CA_SRVMEU_TM,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE,
+// 		SIS_ButtonEx,
+// 		1,
+// 		L"Display\0显示测试\0顯示測試\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM,
+// 		CA_SRVMEU_TM,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE,
+// 		SIS_ButtonEx,
+// 		2,
+// 		L"Front Panel\0前面板测试\0前面板測試\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM,
+// 		CA_SRVMEU_TM,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE ,
+// 		SIS_ButtonEx,
+// 		3,
+// 		L"Adjust Touch Screen\0触摸屏调整\0觸摸屏調整\0\0",  
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		RESERVE_DWORD16,
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM,
+// 		CA_SRVMEU_TM,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
+// 		SIA_FULLLINE,
+// 		SIS_ComboButtonEx,
+// 		1,
+// 		L"Security Level\0安全级别\0安全等級\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H2,
+// 		NULL,
+// 		{ (void *)0x00050400, 0, (void *)0x00B684D4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_SL,
+// 		CA_SRVMEU_SL,
+// 		sizeof(wcsListSecurityLv) / sizeof(LPCWSTR),
+// 		wcsListSecurityLv,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
+// 		SIA_FULLLINE,
+// 		SIS_ComboButtonEx,
+// 		0,
+// 		L"Measure(SVC)\0测量(SVC)\0測量(SVC)\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H2,
+// 		NULL,
+// 		{ (void *)0x00080700, 0, (void *)0x00B7B9D0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SVC,
+// 		CA_SRVMEU_TM_SF_SVC,
+// 		sizeof(wcsListMeasureSVC) / sizeof(LPCWSTR),
+// 		wcsListMeasureSVC,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
+// 		SIA_FULLLINE,
+// 		SIS_ComboButtonEx,
+// 		3,
+// 		L"Dummy DUT\0Dummy DUT\0Dummy DUT\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H2,
+// 		NULL,
+// 		{ (void *)0x00090800, 0, (void *)0x00B6B860, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_DUT,
+// 		CA_SRVMEU_TM_SF_DUT,
+// 		sizeof(wcsListDummyDUT) / sizeof(LPCWSTR),
+// 		wcsListDummyDUT,
+// 		RESERVE_DWORD4,
+// 		{ 0, 0, 0, 0 }
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		0,
+// 		L"Freq Reference\0Freq Reference\0Freq Reference\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00010000, 0, (void *)0x00B7BF54, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		1,
+// 		L"Synthe Gain\0Synthe Gain\0Synthe Gain\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00020100, 0, (void *)0x00B7BF28, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		2,
+// 		L"Local Power\0Local Power\0Local Power\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00030200, 0, (void *)0x00B7BF00, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		3,
+// 		L"Source Power\0Source Power\0Source Power\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00040300, 0, (void *)0x00B7BED8, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		4,
+// 		L"IF Range\0IF Range\0IF Range\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00050400, 0, (void *)0x00B7BEB4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 	,
+// 	{
+// 		SIF_ORIGCLICK,
+// 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+// 		SIS_CheckButtonEx,
+// 		5,
+// 		L"Port Char\0Port Char\0Port Char\0\0",
+// 		NULL,
+// 		BtnWidth_W,
+// 		BtnHeith_H,
+// 		NULL,
+// 		{ (void *)0x00060500, 0, (void *)0x00B7BE88, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+// 		RESERVE_DWORD16,
+// 		INVALID_INDEX,
+// 		NULL,
+// 		NULL,
+// 		TA_SRVMEU_TM_SF_SysCal,
+// 		CA_SRVMEU_TM_SF_SysCal,
+// 		NULL,
+// 		NULL,
+// 		RESERVE_DWORD4,
+// 		RESERVE_DWORD4
+// 	}
+// 
+// };
 
 
 int WINAPI fnUpdateData_PresetS(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
@@ -1526,7 +1431,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		NULL,
 		NULL,
 		NULL,
-		&dcColorWizard,
+		/*&dcColorWizard,*/0,
 		NULL,
 		NULL,
 		RESERVE_DWORD4,
@@ -1659,19 +1564,6 @@ static int WINAPI fnTagPageEnter_System(DWORD dwFlags, WPARAM wParam, LPARAM lPa
 	return 0;
 }
 
-static int WINAPI fnTagPageEnter_Multiport(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_Enter(CA_SYSTEM);
-	OrigSoftMenu_UpdateItems(CA_SYSTEM);
-	OrigSoftMenu_Enter(CA_SYS_MPS);
-	OrigSoftMenu_UpdateItems(CA_SYS_MPS);
-
-	subitemMultiport[1].lpThis = GetSubMenuPointer(CA_SYS_MPS, 1);
-	subitemMultiport[2].lpThis = GetSubMenuPointer(CA_SYS_MPS, 2);
-
-	return 0;
-}
-
 
 static int WINAPI fnTagPageEnter_GLSETUP(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
 {
@@ -1733,13 +1625,6 @@ static int WINAPI fnTagPageEnter_GLSETUP(DWORD dwFlags, WPARAM wParam, LPARAM lP
 	return 0;
 }
 
-static int WINAPI fnTagPageEnter_SrvMeu(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_Enter(CA_SRVMEU);
-	OrigSoftMenu_UpdateItems(CA_SRVMEU);
-	return 0;
-}
-
 static int WINAPI fnTagPageEnter_Misc(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
 {
 	OrigSoftMenu_Enter(CA_SYSTEM);
@@ -1777,40 +1662,12 @@ SOFT_TAG_PAGE submenuSystem[] =
 	{
 		TPF_FN_ENTER,
 		0,
-		L"Multiport\0多端口\0多端口\0\0",
-		NULL,
-		sizeof(subitemMultiport) / sizeof(SOFT_SUB_ITEM),
-		subitemMultiport,
-		RESERVE_DWORD4,
-		&fnTagPageEnter_Multiport,
-		NULL,
-		0,
-		{ L"::/Setting_Control_Functions/Initial_Source_Port_Control_function.htm", 0, 0, 0 }
-	}
-	,
-	{
-		TPF_FN_ENTER,
-		0,
 		L"GPIB && LAN Setup\0程控接口\0程控接口\0\0",
 		NULL,
 		sizeof(subitemGLSETUP) / sizeof(SOFT_SUB_ITEM),
 		subitemGLSETUP,
 		RESERVE_DWORD4,
 		&fnTagPageEnter_GLSETUP,
-		NULL,
-		0,
-		{ L"::/Setting_Control_Functions/Setting_the_GPIB.htm", 0, 0, 0 }
-	}
-	,
-	{
-		TPF_FN_ENTER,
-		0,
-		L"Service Menu\0服务菜单\0服務菜單\0\0",
-		NULL,
-		sizeof(subitemSrv) / sizeof(SOFT_SUB_ITEM),
-		subitemSrv,
-		RESERVE_DWORD4,
-		&fnTagPageEnter_SrvMeu,
 		NULL,
 		0,
 		{ L"::/Setting_Control_Functions/Setting_the_GPIB.htm", 0, 0, 0 }

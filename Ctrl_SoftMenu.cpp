@@ -1,6 +1,6 @@
 ﻿#include "stdafx.h"
 
-#define WIDTH_SOFTMENU_MIN          148			//这里取值必须满足(N-0.5)/1.25为整数...因为懒得在程序里做判断纠错...
+#define WIDTH_SOFTMENU_MIN          148				//这里取值必须满足(N-0.5)/1.25为整数...因为懒得在程序里做判断纠错...
 #define WIDTH_SOFTMENU_MAX          240
 #define WIDTH_SOFTMENU              WIDTH_SOFTMENU_MIN + 20
 
@@ -53,11 +53,11 @@ void DSM_TagPage(HWND hWnd, HDC hDC, const LPPAINTSTRUCT lpps);
 LRESULT CALLBACK cwrphk_MainWnd(int nCode, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK cwphk_MainWnd(int nCode, WPARAM wParam, LPARAM lParam);
 void SetSoftMenuWidth(WORD wWidth);
-void UpdateToolbarHeight();
+//void UpdateToolbarHeight();
 //int PhysEventHook();
 
 
-void UpdateWidthPointer(BOOL blFirst)
+void UpdateWidthPointer()
 {
 	void *lpVar = (void *)(BASE + 0x35B7918);
 
@@ -464,7 +464,6 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		SizeMainWnd(TRUE);
 		HWND hParenthwnd = GetParent(hWnd);
 		ShowWindow(hParenthwnd, SW_MAXIMIZE);
-		CloseHandle(hParenthwnd);
 		KillTimer(hWnd, 0x1);
 		break;
 	}
@@ -526,11 +525,6 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 	case WM_ERASEBKGND:
 		return TRUE;
-
-	case WM_MOUSEMOVE:
-	{
-	}
-	break;
 
 	case WM_LBUTTONDOWN:
 	{
@@ -750,7 +744,7 @@ void SetSoftMenuWidth(WORD wWidth)
 {
 	if (!lpdwMenuWidth)
 	{
-		UpdateWidthPointer(TRUE);
+		UpdateWidthPointer();
 
 		if (lpdwMenuWidth)
 			*lpdwMenuWidth = wWidth;
@@ -796,18 +790,19 @@ void UpdateSize_UI()
 	wHeight_SoftMenu = lngHeight - HEIGHT_DIFF_SOFTMENU;
 	lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
 
+
 	if (!lpdwMenuWidth)
 	{
-		UpdateWidthPointer(TRUE);
+		UpdateWidthPointer();
 
 		if (lpdwMenuWidth)
 		{
-			*lpdwMenuWidth = wWidth_SoftMenu;
+			*lpdwMenuWidth = lngWidth;
 		}
 	}
 	else
 	{
-		*lpdwMenuWidth = wWidth_SoftMenu;
+		*lpdwMenuWidth = lngWidth;
 	}
 
 	/*

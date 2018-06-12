@@ -26,7 +26,7 @@ SOFT_SUB_ITEM subitemFrequency[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB93F8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163C2B8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -49,7 +49,7 @@ SOFT_SUB_ITEM subitemFrequency[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB946C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163C368, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -72,7 +72,7 @@ SOFT_SUB_ITEM subitemFrequency[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB94E0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163C418, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -95,7 +95,7 @@ SOFT_SUB_ITEM subitemFrequency[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9554, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163C4C8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -122,7 +122,7 @@ static SOFT_SUB_ITEM subitemPower[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9650, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B6C28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -136,39 +136,16 @@ static SOFT_SUB_ITEM subitemPower[] =
 	}
 	,
 	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		1,
-		L"Power Ranges\0功率范围\0功率範圍\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B65BF8, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_GetSub_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SS_PWR_PR,
-		CA_SS_PWR_PR,
-		sizeof(wcsListPR) / sizeof(LPCWSTR),
-		wcsListPR,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
 		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
 		SIS_CheckButtonEx,
-		2,
+		1,
 		L"Port Couple\0端口耦合\0端口藕合\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00020100, 0, (void *)0x00B7CDB8, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00020100, 0, (void *)0x00D81F8C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, &fnClicked_PortCouple, 0, &fnUpdateData_FREQ_PC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -191,7 +168,7 @@ static SOFT_SUB_ITEM subitemPower[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9650, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B6C28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -214,7 +191,7 @@ static SOFT_SUB_ITEM subitemPower[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9650, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B6C28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -230,7 +207,8 @@ static SOFT_SUB_ITEM subitemPower[] =
 
 static int WINAPI fnUpdateData_FREQ_PC(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
-	if (lpSubItem == NULL) return -1;
+	if (lpSubItem == NULL) 
+		return -1;
 
 	UpdateCheckBoxState(lpSubItem);
 
@@ -297,7 +275,7 @@ SOFT_SUB_ITEM subitemIFBW[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB8D28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B35D4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,

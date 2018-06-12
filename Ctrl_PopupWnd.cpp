@@ -18,6 +18,7 @@ WCHAR wcsSuffix[MAX_PATH] = { 0 };
 
 static LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 static LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void SetInputType(int nNewType);
 
 
 int PopWnd_PopupInputBox(HWND hParent, LPCWSTR lpTitle, void *lpInput, PSOFT_SUB_ITEM lpSubItem, DWORD dwFlags)
@@ -237,7 +238,7 @@ int PopWnd_Finetune(BOOL blFinetune2, int nDelta, int nCount)
 	}
 
 	if (blRet)
-		fnSetDbl(lpInputObject, dblOutput);
+		fnSetDbl(lpInputObject, &dblOutput);
 
 	FmtValueToStringEx(lpInputObject, szText, MAX_PATH, fnGetDbl(lpInputObject));
 	MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
@@ -264,97 +265,6 @@ HWND PopWnd_GetPopInputWnd()
 {
 	return hInputEdit;
 }
-
-/*
-int PopWnd_FrontPanelEventHandler(LPARAM lParam, DWORD dwFlags)
-{
-HWND hFocus = GetFocus();
-HWND hParent = GetParent(hFocus);
-int nSubFocus, nRet = 1;
-
-if (hFocus == hWnd_PopWnd)
-{
-nSubFocus = 0;
-}
-else if (hParent == hwSoftItem)
-{
-if (hFocus == hInputEdit)
-nSubFocus = 1;
-else if (hFocus == hBtnEnter)
-nSubFocus = 2;
-else if (hFocus == hBtnClose)
-nSubFocus = 3;
-else if (hFocus == hUpDn1)
-nSubFocus = 4;
-else if (hFocus == hUpDn2)
-nSubFocus = 5;
-}
-else
-{
-return nRet;
-}
-
-if (lpInputItem == NULL || lpInputObject == NULL) return 1;
-
-if (GetForegroundWindow() == hwMainWnd)
-{
-switch (nSubFocus)
-{
-case 0:   //主窗口
-case 1:   //编辑框
-switch (LOWORD(lParam))
-{
-case 0x1B:  //  上   → (顺时针旋转)
-PopWnd_Finetune(FALSE, 1);
-nRet = 0;
-break;
-
-case 0x1C:  //  下   ← (逆时针旋转)
-PopWnd_Finetune(FALSE, -1);
-nRet = 0;
-break;
-}
-break;
-
-case 2:
-case 3:
-break;
-
-case 4:
-switch (LOWORD(lParam))
-{
-case 0x1B:  //  上   → (顺时针旋转)
-PopWnd_Finetune(FALSE, 1);
-nRet = 0;
-break;
-
-case 0x1C:  //  下   ← (逆时针旋转)
-PopWnd_Finetune(FALSE, -1);
-nRet = 0;
-break;
-}
-break;
-
-case 5:
-switch (LOWORD(lParam))
-{
-case 0x1B:  //  上   → (顺时针旋转)
-PopWnd_Finetune(TRUE, 1);
-nRet = 0;
-break;
-
-case 0x1C:  //  下   ← (逆时针旋转)
-PopWnd_Finetune(TRUE, -1);
-nRet = 0;
-break;
-}
-break;
-}
-}
-
-return nRet;
-}
-*/
 
 LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -650,7 +560,7 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 
 //浮动输入框的输入框窗口过程
 LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
-{/*
+{
 	LRESULT lResult = 0;
 
 	switch (msg)
@@ -901,7 +811,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				OrigSoftMenu_ItemClicked2(lpInputItem->lpThis, lpInputItem->lpVTable, lpInputItem->dwFunctionId);
 			}
 
-			fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpInputObject);
+			fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)(BASE + (DWORD)lpInputObject));
 			FmtValueToStringExW(lpInputObject, wcsText, MAX_PATH, fnGetDbl(lpInputObject));
 			SetWindowTextW(hWnd, wcsText);
 		}
@@ -917,6 +827,6 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		break;
 	}
-	*/
-return 0;// lResult;
+	
+return lResult;
 }

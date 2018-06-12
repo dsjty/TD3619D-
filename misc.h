@@ -33,6 +33,28 @@ typedef struct _BAS_STR
 	DWORD           dwBufferMaxLen;
 } BAS_STR, *PBAS_STR;
 
+//avg输入输出字符结构体
+typedef struct _AVG_STR
+{
+	union
+	{
+		WCHAR			szText[8];
+		WCHAR			*lpszText;
+	};
+	DWORD           dwStringLen;
+	DWORD           dwBufferMaxLen;
+}AVG_STR, *PAVG_STR;
+
+typedef struct _AVG_STRA
+{
+	union
+	{
+		char			szText[16];
+		char			*lpszText;
+	};
+	DWORD           dwStringLen;
+	DWORD           dwBufferMaxLen;
+}AVG_STRA, *PAVG_STRA;
 
 //本地化文本的HOOK结构体
 typedef struct _LOCALE_TEXT_
@@ -49,11 +71,13 @@ typedef void(__cdecl *fn_Free)(void *_Block);
 
 typedef double(__thiscall *fn_GetDouble)(void *lpThis);
 
-typedef BOOL(__thiscall *fn_SetDouble)(void *lpThis, double dblInput);
+typedef BOOL(__thiscall *fn_SetDouble)(void *lpThis, double *dblInput);
 
-typedef PBAS_STR(__thiscall *fn_FmtToString)(void *lpThis, PBAS_STR lpOutBasStr, double dblVal);
+typedef PAVG_STR(__thiscall *fn_FmtToStringAvg)(void *lpThis, PAVG_STR lpOutBasStr, double dblVal);
 
-typedef double(__thiscall *fn_ScanfToDouble)(void *lpThis, PBAS_STR lpInBasStr);
+typedef PAVG_STR(__thiscall *fn_FmtToString)(void *lpThis, PAVG_STR lpOutBasStr, double dblVal);
+
+typedef double(__thiscall *fn_ScanfToDouble)(void *lpThis, PAVG_STR lpInBasStr);
 
 
 /*

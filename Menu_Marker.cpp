@@ -37,8 +37,6 @@ const LPCSTR szMULTiTRACking[] =
 	"CALCulate*:TRACe*:MARKer10:FUNCtion:MULTi:TRACking",
 };
 
-//const char szTRACking[] = "CALCulate*:TRACe*:MARKer*:FUNCtion:TRACking";
-//const char szMULTiTRACking[] = "CALCulate*:TRACe*:MARKer*:FUNCtion:MULTi:TRACking";
 const char szPPOLarity[] = "CALCulate*:TRACe*:MARKer*:FUNCtion:PPOLarity";
 const char szMULTiPPOLarity[] = "CALCulate*:TRACe*:MARKer*:FUNCtion:MULTi:PPOLarity";
 const char szTTRansition[] = "CALCulate*:TRACe*:MARKer*:FUNCtion:TTRansition";
@@ -81,7 +79,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)0, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)1, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)0, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)1, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -104,7 +102,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)1, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)2, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)1, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)2, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -127,7 +125,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)2, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)3, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)2, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)3, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -150,7 +148,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)3, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)4, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)3, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)4, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -173,7 +171,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)4, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)5, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)4, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)5, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -196,7 +194,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)5, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)6, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)5, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)6, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -219,7 +217,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)6, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)7, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)6, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)7, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -242,7 +240,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)7, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)8, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)7, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)8, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -265,7 +263,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)8, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)9, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)8, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)9, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_Marker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -279,7 +277,6 @@ SOFT_SUB_ITEM subitemMarker[] =
 	}
 	,
 	{
-		//SIF_ORIGCLICK | SIF_UNCHECKFUNC | SIF_NOT_ENTER | SIF_POPINPUTWND,
 		SIF_ORIGCLICK | SIF_NOT_ENTER | SIF_POPINPUTWND | SIF_FN_CLICKED,
 		SIA_FULLLINE | SIA_GETCHKSTATE | SIA_FINETUNE | SIA_FINETUNE2 | SIA_SETSTATEIDX | SIA_UPDATEITEM | SIA_PSTMSG_432_2,
 		SIS_CheckButtonEx,
@@ -289,7 +286,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ 0, (void *)0x00BB7C80, (void *)0x00BC1458, (void *)9, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)10, &func_PWUP_Marker, 0, 0, 0, 0 },
+		{ 0, (void *)0x010AEF8C, (void *)0x035BADD0, (void *)9, 0, 0, 0, 0, TA_CLRMARKER, CA_CLRMARKER, (void *)10, &func_PWUP_Marker, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_RefMarker, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -358,7 +355,7 @@ SOFT_SUB_ITEM subitemMarker[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B799D0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0x00D7AF78, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_RefMarkerMode, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -382,7 +379,7 @@ int WINAPI fnItemClicked_Marker(DWORD dwFlags, WPARAM wParam, LPARAM lParam, str
 		OrigSoftMenu_UpdateItems(CA_MARKER);
 		UpdateCheckBoxState(lpSubItem);
 
-		GetMarkerStateIndex((void *)0x00BC1458, &nCurIndex, NULL, &blRef);
+		GetMarkerStateIndex((void *)(0x035BADD0), &nCurIndex, NULL, &blRef);
 
 		if (nCurIndex == 9)
 			EnableWindow(subitemMarker[11]._hWnd, FALSE);
@@ -405,7 +402,7 @@ int WINAPI fnItemClicked_RefMarker(DWORD dwFlags, WPARAM wParam, LPARAM lParam, 
 		OrigSoftMenu_UpdateItems(CA_MARKER);
 		UpdateCheckBoxState(lpSubItem);
 
-		GetMarkerStateIndex((void *)0x00BC1458, &nCurIndex, NULL, &blRef);
+		GetMarkerStateIndex((void *)0x035BADD0, &nCurIndex, NULL, &blRef);
 
 		if (nCurIndex == 9)
 			EnableWindow(subitemMarker[11]._hWnd, FALSE);
@@ -456,7 +453,6 @@ int WINAPI fnItemClicked_MarkerToRefMarker(DWORD dwFlags, WPARAM wParam, LPARAM 
 	{
 		OrigSoftMenu_UpdateItems(CA_MARKER);
 		PopWnd_UpdateInputBox();
-		//PopWnd_SetTitleSuffix(GetStringByIndex(L"-Ref\0-基准\0-基準\0\0", nLangId));
 	}
 
 	return 0;
@@ -470,7 +466,7 @@ int WINAPI fnItemClicked_RefMarkerMode(DWORD dwFlags, WPARAM wParam, LPARAM lPar
 		bool blRef = false;
 
 		UpdateCheckBoxState(lpSubItem);
-		GetMarkerStateIndex((void *)0x00BC1458, &nCurIndex, NULL, &blRef);
+		GetMarkerStateIndex((void *)0x035BADD0, &nCurIndex, NULL, &blRef);
 
 		if (nCurIndex == 9)
 			EnableWindow(subitemMarker[11]._hWnd, FALSE);
@@ -563,11 +559,12 @@ static int WINAPI fnUpdateData_Tracking(DWORD dwFlags, WPARAM wParam, LPARAM lPa
 	int nIndex = GetSubMenuSelected_Radio(CA_MARKERSEA), nCurIndex;
 	bool blRef;
 
-	GetMarkerStateIndex((void *)0x00BC1458, &nCurIndex, NULL, &blRef);
+	GetMarkerStateIndex((void *)0x035BADD0, &nCurIndex, NULL, &blRef);
 
 	if (nCurIndex < 0 || nCurIndex > 9)
 	{
 		lpSubItem->lpOpt[2] = (void *)szTRACking[0];
+		lpSubItem->lpOpt[12] = (void*)1;
 		return 0;
 	}
 
@@ -576,10 +573,12 @@ static int WINAPI fnUpdateData_Tracking(DWORD dwFlags, WPARAM wParam, LPARAM lPa
 	case 4:
 	case 5:
 		lpSubItem->lpOpt[2] = (void *)szMULTiTRACking[nCurIndex];
+		lpSubItem->lpOpt[12] = (void*)1;
 		break;
 
 	default:
 		lpSubItem->lpOpt[2] = (void *)szTRACking[nCurIndex];
+		lpSubItem->lpOpt[12] = (void*)1;
 		break;
 	}
 
@@ -645,7 +644,7 @@ SOFT_SUB_ITEM subitemMarkerSearch[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x5E, 0, (void *)szTRACking[0], (void *)0x00001077, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x5E, 0, (void *)szTRACking[0], (void *)0x00001077, 0, 0, 0, 0, 0, 0, 0, 0,(void*)1, 0, 0, 0 },
 		{ 0, 0, 0, &fnUpdateData_Tracking, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -668,7 +667,7 @@ SOFT_SUB_ITEM subitemMarkerSearch[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x0, 0, (void *)0x00B7A74C, (void *)0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x0, 0, (void *)0x00D7BF50, (void *)0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -691,7 +690,7 @@ SOFT_SUB_ITEM subitemMarkerSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB90D8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163A740, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -714,7 +713,7 @@ SOFT_SUB_ITEM subitemMarkerSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB90A8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163A788, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -726,29 +725,6 @@ SOFT_SUB_ITEM subitemMarkerSearch[] =
 		RESERVE_DWORD4,
 		RESERVE_DWORD4
 	}
-	/*,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		3,
-		L"Couple\0耦合频标方式\0藕合頻標方式\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x4, 0, (void *)0x00B7A77C, (void *)0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SEARCHRANGE,
-		CA_SEARCHRANGE,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}*/
 };
 
 
@@ -834,7 +810,7 @@ SOFT_SUB_ITEM subitemPeakSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB91A8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B5374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -903,7 +879,7 @@ SOFT_SUB_ITEM subitemPeakSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9158, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B5374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1022,7 +998,7 @@ SOFT_SUB_ITEM subitemTargetSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB91D0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B5374, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1091,7 +1067,7 @@ SOFT_SUB_ITEM subitemTargetSearch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9180, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B5354, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1141,7 +1117,7 @@ SOFT_SUB_ITEM subitemBandwidthAndNotch[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x006A6900, 0, (void *)0x00B7A31C, (void *)0x1C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x006A6900, 0, (void *)0x00D7C048, (void *)0x1C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1164,7 +1140,7 @@ SOFT_SUB_ITEM subitemBandwidthAndNotch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9130, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B538C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1187,7 +1163,7 @@ SOFT_SUB_ITEM subitemBandwidthAndNotch[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00706F00, 0, (void *)0x00B7A2D0, (void *)0x1C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00706F00, 0, (void *)0x00D7C004, (void *)0x1C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1210,7 +1186,7 @@ SOFT_SUB_ITEM subitemBandwidthAndNotch[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9108, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B53A4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1353,7 +1329,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00201F00, 0, (void *)0x00B79E98, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00201F00, 0, (void *)0x00D7B364, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1376,7 +1352,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00242300, 0, (void *)0x00B79D98, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00242300, 0, (void *)0x00D7B2DC, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1399,7 +1375,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00282700, 0, (void *)0x00B5E65C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00282700, 0, (void *)0x00D64C78, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1422,53 +1398,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00424100, 0, (void *)0x00B79D48, (void *)0xF8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_MARKERFUNC,
-		CA_MARKERFUNC,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		9,
-		L"Flatness\0平坦度\0平坦度\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00444300, 0, (void *)0x00B79D0C, (void *)0xC6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_MARKERFUNC,
-		CA_MARKERFUNC,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		10,
-		L"RV Filter Stats\0RF 滤波器状态\0RF 濾波器狀態\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00464500, 0, (void *)0x00B79CCC, (void *)0x70, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00424100, 0, (void *)0x00D64490, (void *)0xF8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1514,7 +1444,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9058, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163A250, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1537,7 +1467,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB9078, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x0163A27C, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1560,7 +1490,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B5E994, (void *)0x77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0x00D64CBC, (void *)0x77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1583,7 +1513,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00050400, 0, (void *)0x00B5EB7C, (void *)0x77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00050400, 0, (void *)0x00D64CEC, (void *)0x77, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,

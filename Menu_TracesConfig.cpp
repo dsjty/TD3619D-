@@ -22,7 +22,7 @@ SOFT_SUB_ITEM subitemTracesConfig[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B6ACA4, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0x00D6A8CC, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_DEC_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,

@@ -3,16 +3,16 @@
 // extern SOFT_MENU menuMeasurement;
 extern SOFT_MENU menuTracesConfig;
 extern SOFT_MENU menuChannelsConfig;
-// extern SOFT_MENU menuMarker;
+extern SOFT_MENU menuMarker;
 extern SOFT_MENU menuAnalysis;
-// extern SOFT_MENU menuAverage;
+extern SOFT_MENU menuAverage;
 // extern SOFT_MENU menuSweepSetup;
 // extern SOFT_MENU menuCalibration;
-// extern SOFT_MENU menuFrequency;
-// extern SOFT_MENU menuPower;
+extern SOFT_MENU menuFrequency;
+extern SOFT_MENU menuPower;
 // extern SOFT_MENU menuSystem;
 // extern SOFT_MENU menuSaveRecall;
-// extern SOFT_MENU menuDisplay;
+extern SOFT_MENU menuDisplay;
 // extern SOFT_MENU menuMacroSetup;
 extern SOFT_MENU menuPreset;
 

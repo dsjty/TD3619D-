@@ -8,6 +8,7 @@
 #include <Windowsx.h>
 #endif
 
+
 inline BOOL WriteMemory(LPVOID lpAny, LPCVOID lpData, SIZE_T stCount)
 {
 	DWORD dwOldProtect;
@@ -20,36 +21,47 @@ inline BOOL WriteMemory(LPVOID lpAny, LPCVOID lpData, SIZE_T stCount)
 	return VirtualProtect(lpAny, stCount, dwOldProtect, &dwOldProtect);
 }
 
+//上层函数+基址
 inline void *GetOffsetPointer(void *lpAny, int nOffset)
 {
 	return *(void **)((int)lpAny + nOffset);
 }
 
+//上层函数+基址
 inline fn_SetDouble GetAddr_SetDbl(void *lpInput)
 {
 	return (fn_SetDouble)*(DWORD *)(*((DWORD *)lpInput) + 0x04);
 }
 
+//上层函数+基址
 inline fn_GetDouble GetAddr_GetDbl(void *lpInput)
 {
 	return (fn_GetDouble)*(DWORD *)(*((DWORD *)lpInput) + 0x08);
 }
-
+//上层函数+基址
 inline fn_ScanfToDouble GetAddr_ScfDbl(void *lpInput)
 {
 	return (fn_ScanfToDouble)*(DWORD *)(*((DWORD *)lpInput) + 0x0C);
 }
 
+//交由上层函数+基址
 inline fn_FmtToString GetAddr_FmtStr(void *lpInput)
 {
 	return (fn_FmtToString)*(DWORD *)(((DWORD *)lpInput)[1] + 0x24);
 }
 
+//交由上层函数+基址
+inline fn_FmtToStringAvg GetAddr_FmtStrA(void *lpInput)
+{
+	return (fn_FmtToStringAvg)*(DWORD *)(((DWORD *)lpInput)[1] + 0x24);
+}
+
+//上层函数+基址
 inline fn_FineTune GetAddr_FineTune(void *lpInput)
 {
 	return (fn_FineTune)*(DWORD *)(((DWORD *)lpInput)[1] + 0x0C);
 }
-
+//上层函数+基址
 inline fn_FineTune2 GetAddr_FineTune2(void *lpInput)
 {
 	return (fn_FineTune2)*(DWORD *)(((DWORD *)lpInput)[1] + 0x08);
@@ -60,8 +72,7 @@ inline BOOL HitRect(RECT rect, int x, int y)
 	if (rect.right - rect.left == 0 || rect.bottom - rect.top == 0)
 		return FALSE;
 
-	if ((x >= rect.left) && (x < rect.right) &&
-		(y >= rect.top) && (y < rect.bottom))
+	if ((x >= rect.left) && (x < rect.right) && (y >= rect.top) && (y < rect.bottom))
 		return TRUE;
 	else
 		return FALSE;
@@ -252,7 +263,8 @@ inline PSOFT_TAG_PAGE GetTagPageByIndex(DWORD dwIndex)
 		btMenuIndex = 0;
 	}
 
-	if (lpMenuStack[btMenuIndex] == NULL) return NULL;
+	if (lpMenuStack[btMenuIndex] == NULL) 
+		return NULL;
 
 	if (dwIndex >= lpMenuStack[btMenuIndex]->dwNumOfTagPages)
 		return NULL;
@@ -430,6 +442,11 @@ inline void UpdateCheckBoxState(PSOFT_SUB_ITEM lpSubItem)
 	{
 		int nOnOff = 0;
 
+		if (lpSubItem->lpOpt[12])
+		{
+			lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+			lpSubItem->lpOpt[12] = 0;
+		}
 		GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nOnOff, (int)lpSubItem->lpOpt[0]);
 
 		if (GET_BYTE_0(nOnOff) != 0)

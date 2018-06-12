@@ -132,29 +132,6 @@ static SOFT_SUB_ITEM subitemPower[] =
 	}
 	,
 	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		1,
-		L"Power Ranges\0功率范围\0功率範圍\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B65BF8, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_GetSub_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SS_PWR_PR,
-		CA_SS_PWR_PR,
-		sizeof(wcsListPR) / sizeof(LPCWSTR),
-		wcsListPR,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
 		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
 		SIS_CheckButtonEx,

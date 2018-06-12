@@ -37,7 +37,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v120_xp</PlatformToolset>
+    <PlatformToolset>v140_xp</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
     <UseOfMfc>Static</UseOfMfc>
   </PropertyGroup>
@@ -134,6 +134,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <OutputFile>$(OutDir)TDcore$(TargetExt)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -271,8 +272,18 @@
     <ClCompile Include="EventHook.cpp" />
     <ClCompile Include="MenuRoot.cpp" />
     <ClCompile Include="Menu_Analysis.cpp" />
+    <ClCompile Include="Menu_Average.cpp" />
     <ClCompile Include="Menu_ChannelsConfig.cpp" />
+    <ClCompile Include="Menu_Display.cpp" />
+    <ClCompile Include="Menu_Frequency.cpp" />
+    <ClCompile Include="Menu_MacroSetup.cpp" />
+    <ClCompile Include="Menu_Marker.cpp" />
+    <ClCompile Include="Menu_Measurement.cpp" />
+    <ClCompile Include="Menu_Power.cpp" />
     <ClCompile Include="Menu_Preset.cpp" />
+    <ClCompile Include="Menu_SaveRecall.cpp" />
+    <ClCompile Include="Menu_SweepSetup.cpp" />
+    <ClCompile Include="Menu_System.cpp" />
     <ClCompile Include="Menu_TracesConfig.cpp" />
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="Network Analyzer Core.cpp" />

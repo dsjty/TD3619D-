@@ -144,6 +144,36 @@
     <ClCompile Include="EventHook.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Menu_Average.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Display.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Frequency.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_MacroSetup.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Marker.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Measurement.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Power.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_SaveRecall.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_SweepSetup.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_System.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Network Analyzer Core.rc">

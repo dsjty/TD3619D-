@@ -64,66 +64,61 @@ const LPCWSTR wcsListPR[] =
 
 int WINAPI fnItemClicked_OpenELL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
-// 	if (wParam == IC_CLICKED_LAST)
-// 	{
-// 		OrigSoftMenu_Enter(CA_ANALYSIS);
-// 		OrigSoftMenu_Enter(CA_LIMITTEST);
-// 
-// 		OrigSoftMenu_Enter(lpSubItem->lpThis);
-// 		OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
-// 
-// 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
-// 		Toolbar_Redraw();
-// 	}
+	if (wParam == IC_CLICKED_LAST)
+	{
+		OrigSoftMenu_Enter(CA_ANALYSIS);
+		OrigSoftMenu_Enter(CA_LIMITTEST);
 
+		OrigSoftMenu_Enter(lpSubItem->lpThis);
+		OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
+
+		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
+	}
 	return 0;
 }
 
 int WINAPI fnItemClicked_CloseELL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
-// 	if (wParam == IC_CLICKED_LAST)
-// 	{
-// 		OrigSoftMenu_Leave(lpSubItem->lpThis);
-// 
-// 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
-// 		Toolbar_Redraw();
-// 	}
+ 	if (wParam == IC_CLICKED_LAST)
+ 	{
+ 		OrigSoftMenu_Leave(lpSubItem->lpThis);
+ 
+ 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
+ 		//Toolbar_Redraw();
+ 	}
 
 	return 0;
 }
 
 int WINAPI fnItemClicked_OpenERL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
-// 	if (wParam == IC_CLICKED_LAST)
-// 	{
-// 		OrigSoftMenu_Enter(CA_ANALYSIS);
-// 
-// 		OrigSoftMenu_Enter(CA_RIPPLELIMIT);
-// 
-// 		OrigSoftMenu_Enter(lpSubItem->lpThis);
-// 		OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
-// 
-// 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
-// 		Toolbar_Redraw();
-// 	}
+ 	if (wParam == IC_CLICKED_LAST)
+ 	{
+ 		OrigSoftMenu_Enter(CA_ANALYSIS);
+ 
+ 		OrigSoftMenu_Enter(CA_RIPPLELIMIT);
+ 
+ 		OrigSoftMenu_Enter(lpSubItem->lpThis);
+ 		OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
+ 
+ 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
+ 		//Toolbar_Redraw();
+ 	}
 
 	return 0;
 }
 
 int WINAPI fnItemClicked_CloseERL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
-// 	if (wParam == IC_CLICKED_LAST)
-// 	{
-// 		OrigSoftMenu_Leave(lpSubItem->lpThis);
-// 
-// 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
-// 		Toolbar_Redraw();
-// 	}
+ 	if (wParam == IC_CLICKED_LAST)
+ 	{
+ 		OrigSoftMenu_Leave(lpSubItem->lpThis);
+ 
+ 		PSTMSG(hwMainWnd, WM_SIZE, SIZE_RESTORED, MAKELPARAM(wWidth_MainWnd, wHeight_MainWnd));
+ 		//Toolbar_Redraw();
+ 	}
 	return 0;
 }
-
-int WINAPI fnUpdateData_Type(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem);
-int WINAPI fnUpdateData_Unit(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem);
 
 int WINAPI fnUpdateData_RefType(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
 {
@@ -131,7 +126,8 @@ int WINAPI fnUpdateData_RefType(DWORD dwFlags, WPARAM wParam, LPARAM lParam, str
 	LPCWSTR *lppWStr = (LPCWSTR *)lpSubItem->lpParams;
 	LPCWSTR lpText = NULL;
 
-	if (lpSubItem->lpOpt[2] == NULL) return -1;
+	if (lpSubItem->lpOpt[2] == NULL) 
+		return -1;
 
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 
@@ -158,27 +154,6 @@ int WINAPI fnItemClicked_RefType(DWORD dwFlags, WPARAM wParam, LPARAM lParam, st
 	return 0;
 }
 
-int WINAPI fnUpdateData_P1C_Len(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOT_ENTER))
-		OrigSoftMenu_Enter(CA_SRL);
-
-	OrigSoftMenu_ItemClicked2(CA_SRL, TA_SRL, 1);
-
-	return 0;
-}
-
-int WINAPI fnUpdateIndex_P2C_Len(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	DWORD *dwIndex = (DWORD *)0x00BB8C90;
-
-	if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOT_ENTER))
-		OrigSoftMenu_Enter(CA_SRL);
-
-	OrigSoftMenu_ItemClicked2(CA_SRL, TA_SRL, 2);
-
-	return 0;
-}
 
 //极限测试子条目
 SOFT_SUB_ITEM subitemLimitTest[] =
@@ -193,7 +168,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B779B4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)(0xD63DA4), (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -216,7 +191,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00050400, 0, (void *)0x00B77A20, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00050400, 0, (void *)(0xD63C50), (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -233,36 +208,13 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		SIF_ORIGCLICK,
 		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
 		SIS_CheckButtonEx,
-		2,
-		L"Clip Lines\0间隔线\0間隔線\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00090800, 0, (void *)0x00B779EC, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_LIMITTEST,
-		CA_LIMITTEST,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		5,
+		4,
 		L"Fail Sign\0失败标志\0失敗標誌\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x000D0C00, 0, (void *)0x00B6076C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x000D0C00, 0, (void *)(0xD64F7C), (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -302,7 +254,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		SIF_FN_CLICKED,
 		SIA_FULLLINE,
 		SIS_ButtonEx,
-		3,
+		2,
 		L"Open Edit Limit Line\0打开编辑极限线标\0打開編輯極限線標\0\0",
 		NULL,
 		BtnWidth_W,
@@ -325,7 +277,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		SIF_FN_CLICKED | SIF_FN_SETFOCUS,
 		SIA_FULLLINE,
 		SIS_ButtonEx,
-		3,
+		2,
 		L"Close Edit Limit Line\0关闭编辑极限线标\0關閉編輯極限線標\0\0",
 		NULL,
 		BtnWidth_W,
@@ -492,7 +444,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB8AB8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)CA_LT_LLO_MAO, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -515,7 +467,7 @@ SOFT_SUB_ITEM subitemLimitTest[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB8AE8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B34A0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -566,7 +518,7 @@ SOFT_SUB_ITEM subitemRippleLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B77C5C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0xD64664, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -589,7 +541,7 @@ SOFT_SUB_ITEM subitemRippleLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00050400, 0, (void *)0x00B77C8C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00050400, 0, (void *)0x00D64584, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -612,7 +564,7 @@ SOFT_SUB_ITEM subitemRippleLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00090800, 0, (void *)0x00B6076C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00090800, 0, (void *)0x00D64F7C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -635,7 +587,7 @@ SOFT_SUB_ITEM subitemRippleLimit[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x00080700, 0, (void *)0x00B77DBC, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00080700, 0, (void *)0x00D645D4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -658,7 +610,7 @@ SOFT_SUB_ITEM subitemRippleLimit[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B77CC8, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0x00D645AC, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_DEC_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -870,7 +822,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00020100, 0, (void *)0x00B77EF8, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00020100, 0, (void *)0x00D636BC, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -893,7 +845,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00060500, 0, (void *)0x00B77F94, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00060500, 0, (void *)0x00D635E8, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -916,7 +868,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x000A0900, 0, (void *)0x00B77F60, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x000A0900, 0, (void *)0x00D635C0, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -939,7 +891,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x000E0D00, 0, (void *)0x00B6076C, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x000E0D00, 0, (void *)0x00D64F7C, (void *)0x06, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -962,7 +914,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BB8A90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x010B34F0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -985,7 +937,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BC8708, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x01636EDC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1008,7 +960,7 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ 0, (void *)0x00BC8758, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, (void *)0x01636F50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1021,363 +973,6 @@ SOFT_SUB_ITEM subitemBandwidthLimit[] =
 		{ 0, 0, 0, 0 }
 	}
 };
-
-
-//故障定位子条目
-SOFT_SUB_ITEM subitemFaultLocation[] =
-{
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
-		SIS_CheckButtonEx,
-		0,
-		L"Fault Location\0故障定位\0故障定位\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		{ (void *)0x00030200, 0, (void *)0x00B5BFA0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		NULL,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		1,
-		L"Start\0起始\0起始\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8C18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		2,
-		L"Stop\0终止\0終止\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8BC8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		3,
-		L"Center\0中心频率\0中心頻率\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8B78, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		4,
-		L"Span\0带宽\0帶寬\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8B28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		5,
-		L"Set Freq Low Pass\0设置频率低通\0設置頻率低通\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		6,
-		L"Type\0类型\0類型\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00030200, 0, (void *)0x00B7780C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Type, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FL_TYPE,
-		CA_FL_TYPE,
-		sizeof(wcsListFLType) / sizeof(LPCWSTR),
-		wcsListFLType,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE | SIA_INPUT_TIME,
-		SIS_InputButtonEx,
-		9,
-		L"Cable Loss\0电缆损耗\0電纜損耗\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8B10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		10,
-		L"Unit\0单位\0單位\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00161500, 0, (void *)0x00B772AC, (void *)0x91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Unit, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FL_UNIT,
-		CA_FL_UNIT,
-		sizeof(wcsListFLUnit) / sizeof(LPCWSTR),
-		wcsListFLUnit,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		10,
-		L"Window\0窗口\0窗口\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00080700, 0, (void *)0x00B77774, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FL_WIND,
-		CA_FL_WIND,
-		sizeof(wcsListFLWindow) / sizeof(LPCWSTR),
-		wcsListFLWindow,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		3,
-		L"Impulse Width\0Impulse Width\0Impulse Width\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8D00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FL_WIND,
-		CA_FL_WIND,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		4,
-		L"Kalser Beta\0Kalser Beta\0Kalser Beta\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB8CE8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FL_WIND,
-		CA_FL_WIND,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE | SIA_EXLBL | SIA_UPDATEITEM,
-		SIS_ButtonEx,
-		8,
-		L"Reflection Type\0反射类型\0反射類型\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x00111000, 0, (void *)0x00B5BAE4, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, &fnItemClicked_RefType, 0, &fnUpdateData_RefType, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_FAULTLOC,
-		CA_FAULTLOC,
-		sizeof(wcsListFLRefType) / sizeof(LPCWSTR),
-		wcsListFLRefType,
-		RESERVE_DWORD4,
-		{ 0, 0, 0, 0 }
-	}
-};
-
-int WINAPI fnUpdateData_Type(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	if (lpSubItem && lpSubItem->lpThis)
-	{
-		int nIndex = 0;
-		nIndex = GetSubMenuSelected(lpSubItem->lpThis);
-		ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex);
-
-		if (nIndex == 1)
-			subitemFaultLocation[10].szItemText = L"Step Rise\0Step Rise\0Step Rise\0\0";
-		else
-			subitemFaultLocation[10].szItemText = L"Impulse Width\0Impulse Width\0Impulse Width\0\0";
-
-
-		if (subitemFaultLocation[10]._hWnd)
-		{
-			SetWindowTextW(subitemFaultLocation[10]._hWnd, GetStringByIndex(subitemFaultLocation[10].szItemText, nLangId));
-			InvalidateRect(subitemFaultLocation[10]._hWnd, NULL, TRUE);
-			UpdateWindow(subitemFaultLocation[10]._hWnd);
-		}
-	}
-
-	return 0;
-}
-
-int WINAPI fnUpdateData_Unit(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	if (lpSubItem && lpSubItem->lpThis)
-	{
-		int nIndex = 0;
-		nIndex = GetSubMenuSelected(lpSubItem->lpThis);
-
-		if (nIndex == 0)
-		{
-			SET_FLAGS(subitemFaultLocation[1].dwAttributes, SIA_INPUT_TIME);
-			SET_FLAGS(subitemFaultLocation[2].dwAttributes, SIA_INPUT_TIME);
-			SET_FLAGS(subitemFaultLocation[3].dwAttributes, SIA_INPUT_TIME);
-			SET_FLAGS(subitemFaultLocation[4].dwAttributes, SIA_INPUT_TIME);
-		}
-		else
-		{
-			NOT_FLAGS(subitemFaultLocation[1].dwAttributes, SIA_INPUT_TIME);
-			NOT_FLAGS(subitemFaultLocation[2].dwAttributes, SIA_INPUT_TIME);
-			NOT_FLAGS(subitemFaultLocation[3].dwAttributes, SIA_INPUT_TIME);
-			NOT_FLAGS(subitemFaultLocation[4].dwAttributes, SIA_INPUT_TIME);
-		}
-
-		ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex);
-	}
-
-	return 0;
-}
 
 //转换子条目
 SOFT_SUB_ITEM subitemConversion[] =
@@ -1392,7 +987,7 @@ SOFT_SUB_ITEM subitemConversion[] =
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B77FF0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00010000, 0, (void *)0x00D63704, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -1415,7 +1010,7 @@ SOFT_SUB_ITEM subitemConversion[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x000C0B00, 0, (void *)0x00B7804C, (void *)0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x000C0B00, 0, (void *)0x00D636DC, (void *)0x14, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -1464,14 +1059,6 @@ int WINAPI fnTagPageEnter_BWLimit(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 {
 	OrigSoftMenu_UpdateItems(CA_ANALYSIS);
 	OrigSoftMenu_UpdateItems(CA_BWLIMIT);
-
-	return 0;
-}
-
-int WINAPI fnTagPageEnter_FaultLoc(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_UpdateItems(CA_ANALYSIS);
-	OrigSoftMenu_UpdateItems(CA_FAULTLOC);
 
 	return 0;
 }
@@ -1528,20 +1115,6 @@ SOFT_TAG_PAGE submenuAnalysis[] =
 		NULL,
 		0,
 		{ L"::/Measurement/Data_Analysis/Bandwidth_Test.htm", (void*)1092, 0, 0 }
-	}
-	,
-	{
-		TPF_FN_ENTER,
-		0,
-		L"Fault Location\0故障定位\0故障定位\0\0",
-		NULL,
-		sizeof(subitemFaultLocation) / sizeof(SOFT_SUB_ITEM),
-		subitemFaultLocation,
-		RESERVE_DWORD4,
-		&fnTagPageEnter_FaultLoc,
-		NULL,
-		0,
-		{ 0, 0, 0, 0 }
 	}
 	,
 	{

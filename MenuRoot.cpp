@@ -3,16 +3,16 @@
 // extern SOFT_MENU menuMeasurement;
 extern SOFT_MENU menuTracesConfig;
 extern SOFT_MENU menuChannelsConfig;
-// extern SOFT_MENU menuMarker;
+extern SOFT_MENU menuMarker;
 extern SOFT_MENU menuAnalysis;
-// extern SOFT_MENU menuAverage;
+extern SOFT_MENU menuAverage;
 // extern SOFT_MENU menuSweepSetup;
 // extern SOFT_MENU menuCalibration;
-// extern SOFT_MENU menuFrequency;
-// extern SOFT_MENU menuPower;
+extern SOFT_MENU menuFrequency;
+extern SOFT_MENU menuPower;
 // extern SOFT_MENU menuSystem;
 // extern SOFT_MENU menuSaveRecall;
-// extern SOFT_MENU menuDisplay;
+extern SOFT_MENU menuDisplay;
 // extern SOFT_MENU menuMacroSetup;
 extern SOFT_MENU menuPreset;
 
@@ -90,52 +90,52 @@ SOFT_SUB_ITEM subitemTrace[] =
 		RESERVE_DWORD4,
 		{ 0, 1010, 0, 0 }
 	}
-// 	,
-// 	{
-// 		SIF_ISMENU,
-// 		SIA_FULLLINE,
-// 		SIS_ButtonEx,
-// 		0,
-// 		L"Measurement\0测量\0測量\0\0",
-// 		NULL,
-// 		BtnWidth_W,
-// 		BtnHeith_Root,
-// 		NULL,
-// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Measurement.htm" },
-// 		RESERVE_DWORD16,
-// 		0,
-// 		NULL,
-// 		NULL,
-// 		NULL,
-// 		&menuMeasurement,
-// 		0,
-// 		NULL,
-// 		RESERVE_DWORD4,
-// 		{ 0, 1021, 0, 0 }
-// 	}
-// 	,
-// 	{
-// 		SIF_ISMENU,
-// 		SIA_FULLLINE,
-// 		SIS_ButtonEx,
-// 		0,
-// 		L"Marker\0频标\0頻標\0\0",
-// 		NULL,
-// 		BtnWidth_W,
-// 		BtnHeith_Root,
-// 		NULL,
-// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Data_Analysis/Analyzing_Data_on_the_Trace_Using_the_Marker.htm" },
-// 		RESERVE_DWORD16,
-// 		0,
-// 		NULL,
-// 		NULL,
-// 		NULL,
-// 		&menuMarker,
-// 		0,
-// 		NULL,
-// 		RESERVE_DWORD4,
-// 		{ 0, 1082, 0, 0 }
-// 	}
+	,
+	{
+		SIF_ISMENU,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Measurement\0测量\0測量\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_Root,
+		NULL,
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Measurement.htm" },
+		RESERVE_DWORD16,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		0,//&menuMeasurement,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		{ 0, 1021, 0, 0 }
+	}
+	,
+	{
+		SIF_ISMENU,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Marker\0频标\0頻標\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_Root,
+		NULL,
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Data_Analysis/Analyzing_Data_on_the_Trace_Using_the_Marker.htm" },
+		RESERVE_DWORD16,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		&menuMarker,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		{ 0, 1082, 0, 0 }
+	}
 	,
 	{
 		SIF_ISMENU,
@@ -243,75 +243,75 @@ SOFT_SUB_ITEM subitemChannel[] =
 		RESERVE_DWORD4,
 		{ 0, 1010, 0, 0 }
 	}
-// 	,
-// 	{
-// 		SIF_ISMENU,
-// 		SIA_FULLLINE,
-// 		SIS_ButtonEx,
-// 		0,
-// 		L"Average\0平均\0平均\0\0",
-// 		NULL,
-// 		BtnWidth_W,
-// 		BtnHeith_Root,
-// 		NULL,
-// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm#Parameter_setting_for_each_setup_item__analyzer__channel__trace_" },
-// 		RESERVE_DWORD16,
-// 		0,
-// 		NULL,
-// 		NULL,
-// 		NULL,
-// 		&menuAverage,
-// 		0,
-// 		NULL,
-// 		RESERVE_DWORD4,
-// 		{ 0, 1024, 0, 0 }
-// 	}
-// 	,
-// 	{
-// 		SIF_ISMENU,
-// 		SIA_FULLLINE,
-// 		SIS_ButtonEx,
-// 		0,
-// 		L"Sweep Setup\0扫描设置\0掃描設置\0\0",
-// 			NULL,
-// 		BtnWidth_W,
-// 		BtnHeith_Root,
-// 		NULL,
-// 		RESERVE_DWORD16,
-// 		RESERVE_DWORD16,
-// 		0,
-// 		NULL,
-// 		NULL,
-// 		NULL,
-// 		&menuSweepSetup,
-// 		0,
-// 		NULL,
-// 		RESERVE_DWORD4,
-// 		{ 0, 1026, 0, 0 }
-// 	}
-// 	,
-// 	{
-// 		SIF_ISMENU,
-// 		SIA_FULLLINE,
-// 		SIS_ButtonEx,
-// 		0,
-// 		L"Calibration\0校准\0校準\0\0",
-// 		NULL,
-// 		BtnWidth_W,
-// 		BtnHeith_Root,
-// 		NULL,
-// 		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Calibration/Calibration.htm" },
-// 		RESERVE_DWORD16,
-// 		0,
-// 		NULL,
-// 		NULL,
-// 		NULL,
-// 		&menuCalibration,
-// 		0,
-// 		NULL,
-// 		RESERVE_DWORD4,
-// 		{ 0, 1031, 0, 0 }
-// 	}
+	,
+	{
+		SIF_ISMENU,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Average\0平均\0平均\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_Root,
+		NULL,
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm#Parameter_setting_for_each_setup_item__analyzer__channel__trace_" },
+		RESERVE_DWORD16,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		&menuAverage,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		{ 0, 1024, 0, 0 }
+	}
+	,
+	{
+		SIF_ISMENU,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Sweep Setup\0扫描设置\0掃描設置\0\0",
+			NULL,
+		BtnWidth_W,
+		BtnHeith_Root,
+		NULL,
+		RESERVE_DWORD16,
+		RESERVE_DWORD16,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		0,//&menuSweepSetup,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		{ 0, 1026, 0, 0 }
+	}
+	,
+	{
+		SIF_ISMENU,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Calibration\0校准\0校準\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_Root,
+		NULL,
+		{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, L"::/Measurement/Calibration/Calibration.htm" },
+		RESERVE_DWORD16,
+		0,
+		NULL,
+		NULL,
+		NULL,
+		0,//&menuCalibration,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		{ 0, 1031, 0, 0 }
+	}
 
 };
 
@@ -335,7 +335,7 @@ SOFT_SUB_ITEM subitemStimulus[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuFrequency*/0,
+		&menuFrequency,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -358,7 +358,7 @@ SOFT_SUB_ITEM subitemStimulus[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuPower*/0,
+		&menuPower,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -385,7 +385,7 @@ SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuDisplay,*/0,
+		&menuDisplay,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -540,7 +540,6 @@ SOFT_TAG_PAGE submenuMain[] =
 		NULL,
 		NULL,
 		0,
-		//RESERVE_DWORD4
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm", 0, 0, 0 }
 	}
 	,
@@ -555,7 +554,6 @@ SOFT_TAG_PAGE submenuMain[] =
 		NULL,
 		NULL,
 		0,
-		//RESERVE_DWORD4
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm", 0, 0, 0 }
 	}
 	,
@@ -570,7 +568,6 @@ SOFT_TAG_PAGE submenuMain[] =
 		NULL,
 		NULL,
 		0,
-		//RESERVE_DWORD4
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_Stimulus_Conditions.htm", 0, 0, 0 }
 	}
 	,
@@ -591,7 +588,7 @@ SOFT_TAG_PAGE submenuMain[] =
 
 static int WINAPI fnSoftMenuEnter_Root(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_MENU *lpSoftMenu)
 {
-	DirectCall(CA_ROOT, GetOffsetPointer(TA_ROOT, 0x08));
+	DirectCall((void*)(BASE + 0x163AC88), GetOffsetPointer((void*)(BASE + 0xD7CD4C), 0x08));
 	return 0;
 }
 

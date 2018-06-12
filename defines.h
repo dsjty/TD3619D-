@@ -33,19 +33,30 @@ extern HFONT hFont_cfg1, hFont_cfg2;      //字体配置1
 
 //曲线配置位图在原程序的资源Id
 #define IDB_BMP_X1                      156
+
 #define IDB_BMP_X2_1                    163
 #define IDB_BMP_X2_2                    158
 #define IDB_BMP_X2_3                    162
 #define IDB_BMP_X2_4                    157
+
 #define IDB_BMP_X3_1                    168
 #define IDB_BMP_X3_2                    159
 #define IDB_BMP_X3_3                    175
 #define IDB_BMP_X3_4                    176
 #define IDB_BMP_X3_5                    173
 #define IDB_BMP_X3_6                    164
+
 #define IDB_BMP_X4_1                    171
 #define IDB_BMP_X4_2                    160
 #define IDB_BMP_X4_3                    166
+
+#define IDB_BMP_X6_1                    169
+#define IDB_BMP_X6_2                    167
+
+#define IDB_BMP_X8_1                    172
+#define IDB_BMP_X8_2                    174
+
+#define IDB_BMP_X9_1                    170
 
 
 #define GET_BYTE_0(n)           ((BYTE)(((DWORD_PTR)(n)) & 0xff))
@@ -79,553 +90,614 @@ extern DWORD dwBaseAdd;
 
 #define BASE										dwBaseAdd
 
-#define TA_ROOT										(void *)(BASE+0xD7CD4C)
-#define CA_ROOT										(void *)(BASE+0x163AC88)
+#define TA_ROOT										(void *)(0xD7CD4C)
+#define CA_ROOT										(void *)(0x163AC88)
+
+
+
 
 //Preset
-#define TA_PRESET									(void *)(BASE+0xD820F4)
-#define CA_PRESET									(void *)(BASE+0x163CA68)
+#define TA_PRESET									(void *)(0xD820F4)
+#define CA_PRESET									(void *)(0x163CA68)
+
+
 
 
 //Analysis
-#define TA_ANALYSIS									(void *)(BASE+0xD74D44)
-#define CA_ANALYSIS									(void *)(BASE+0x1636DC0)
+#define TA_ANALYSIS									(void *)(0xD74D44)
+#define CA_ANALYSIS									(void *)(0x1636DC0)
 
 //Analysis::Fixtre SiMulator
-#define TA_ANALY_FIXSIM								(void)(BASE+0xD74D74)
-#define CA_ANALY_FIXSIM								(void)(BASE+0x16366E0)
+#define TA_ANALY_FIXSIM								(void *)(0xD74D74)
+#define CA_ANALY_FIXSIM								(void *)(0x16366E0)
 
 //Analysis::Fixtre SiMulator::Topology
-#define TA_ANALY_FIXSIM_TOPO						(void)(BASE+0xD74EE0)
-#define CA_ANALY_FIXSIM_TOPO						(void)(BASE+0x1636488)
+#define TA_ANALY_FIXSIM_TOPO						(void *)(0xD74EE0)
+#define CA_ANALY_FIXSIM_TOPO						(void *)(0x1636488)
 
 //Analysis::Fixtre SiMulator::Topology::Device
-#define TA_ANALY_FIXSIM_TOPO_DEV					(void)(BASE+0xD7507C)
-#define CA_ANALY_FIXSIM_TOPO_DEV					(void)(BASE+0x1636420)
+#define TA_ANALY_FIXSIM_TOPO_DEV					(void *)(0xD7507C)
+#define CA_ANALY_FIXSIM_TOPO_DEV					(void *)(0x1636420)
 
 //Analysis::Fixtre SiMulator::Topology::Port1
-#define TA_ANALY_FIXSIM_TOPO_P1						(void)(BASE+0xD75004)
-#define CA_ANALY_FIXSIM_TOPO_p1						(void)(BASE+0x16363C0)
+#define TA_ANALY_FIXSIM_TOPO_P1						(void *)(0xD75004)
+#define CA_ANALY_FIXSIM_TOPO_p1						(void *)(0x16363C0)
 
 //Analysis::Fixtre SiMulator::Topology::Port2
-#define TA_ANALY_FIXSIM_TOPO_P2						(void)(BASE+0xD74F8C)
-#define CA_ANALY_FIXSIM_TOPO_p2						(void)(BASE+0x1636300)
+#define TA_ANALY_FIXSIM_TOPO_P2						(void *)(0xD74F8C)
+#define CA_ANALY_FIXSIM_TOPO_p2						(void *)(0x1636300)
 
 //Analysis::Fixtre SiMulator::Topology::Port3
-#define TA_ANALY_FIXSIM_TOPO_P3						(void)(BASE+0xD74FC8)	 
+#define TA_ANALY_FIXSIM_TOPO_P3						(void *)(0xD74FC8)	 
 #define CA_ANALY_FIXSIM_TOPO_p3							//未找到，需要4端口仪器配合
 
 //Analysis::Fixtre SiMulator::Port Matching
-#define TA_ANALY_FIXSIM_PMATCH						(void)(BASE+0xD74DA4)
-#define CA_ANALY_FIXSIM_PMATCH						(void)(BASE+0x1636120)
+#define TA_ANALY_FIXSIM_PMATCH						(void *)(0xD74DA4)
+#define CA_ANALY_FIXSIM_PMATCH						(void *)(0x1636120)
 
 //Analysis::Fixtre SiMulator::Port Matching::Select Port
-#define TA_ANALY_FIXSIM_SELPORT						(void)(BASE+0xD74DD4)
-#define CA_ANALY_FIXSIM_SELPORT						(void)(BASE+0x16360C0)
+#define TA_ANALY_FIXSIM_SELPORT						(void *)(0xD74DD4)
+#define CA_ANALY_FIXSIM_SELPORT						(void *)(0x16360C0)
 
 //Analysis::Fixtre SiMulator::Port Matching::Select Circuit
-#define TA_ANALY_FIXSIM_SELCIR						(void)(BASE+0xD769E0)
-#define CA_ANALY_FIXSIM_SELCIR						(void)(BASE+0x1637000)
+#define TA_ANALY_FIXSIM_SELCIR						(void *)(0xD769E0)
+#define CA_ANALY_FIXSIM_SELCIR						(void *)(0x1637000)
 
 //Analysis::Fixtre SiMulator::Port ZConversion
-#define TA_ANALY_FIXSIM_PZCON						(void)(BASE+0xD750BC)
-#define CA_ANALY_FIXSIM_PZCON						(void)(BASE+0x16364F0)
+#define TA_ANALY_FIXSIM_PZCON						(void *)(0xD750BC)
+#define CA_ANALY_FIXSIM_PZCON						(void *)(0x16364F0)
 
 //Analysis::Fixtre SiMulator::De-Embedding
-#define TA_ANALY_FIXSIM_DeEMBED						(void)(BASE+0xD74E14)
-#define CA_ANALY_FIXSIM_DeEMBED						(void)(BASE+0x1636180)
+#define TA_ANALY_FIXSIM_DeEMBED						(void *)(0xD74E14)
+#define CA_ANALY_FIXSIM_DeEMBED						(void *)(0x1636180)
 
 //Analysis::Fixtre SiMulator::De-Embedding::SelectPort
-#define TA_ANALY_FIXSIM_DeEMBED_SELPORT				(void)(BASE+0xD74DD4)
-#define CA_ANALY_FIXSIM_DeEMBED_SELPORT				(void)(BASE+0x16360C0)
+#define TA_ANALY_FIXSIM_DeEMBED_SELPORT				(void *)(0xD74DD4)
+#define CA_ANALY_FIXSIM_DeEMBED_SELPORT				(void *)(0x16360C0)
 
 //Analysis::Fixtre SiMulator::De-Embedding::SelectType
-#define TA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void)(BASE+0xD76AAC)
-#define CA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void)(BASE+0x1637110)
+#define TA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void *)(0xD76AAC)
+#define CA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void *)(0x1637110)
 
 //Analysis::Fixtre SiMulator::Diff Matching
-#define TA_ANALY_FIXSIM_DIFFMAT						(void)(BASE+0xD750EC)
-#define CA_ANALY_FIXSIM_DIFFMAT						(void)(BASE+0x16365B0)
+#define TA_ANALY_FIXSIM_DIFFMAT						(void *)(0xD750EC)
+#define CA_ANALY_FIXSIM_DIFFMAT						(void *)(0x16365B0)
 
-//Analysis::Fixtre SiMulator::Diff Matching::Select Bal Port
-#define TA_ANALY_FIXSIM_DIFFMAT_SBP					(void)(BASE+0xD7511C)
-#define CA_ANALY_FIXSIM_DIFFMAT_SBP					(void)(BASE+0x1636550)
+//Analysis::Fixtre SiMulator::Diff Matching::Select Bal Por
+#define TA_ANALY_FIXSIM_DIFFMAT_SBP					(void *)(0xD7511C)
+#define CA_ANALY_FIXSIM_DIFFMAT_SBP					(void *)(0x1636550)
 
 //Analysis::Fixtre SiMulator::Diff Matching::Select Circuit
-#define TA_ANALY_FIXSIM_DIFFMAT_SC					(void)(BASE+0xD76A3C)
-#define CA_ANALY_FIXSIM_DIFFMAT_SC					(void)(BASE+0x1637088)
+#define TA_ANALY_FIXSIM_DIFFMAT_SC					(void *)(0xD76A3C)
+#define CA_ANALY_FIXSIM_DIFFMAT_SC					(void *)(0x1637088)
 
 //Analysis::Fixtre SiMulator::Diff ZConversion
-#define TA_ANALY_FIXSIM_DIFFZCON					(void)(BASE+0xD7515C)
-#define CA_ANALY_FIXSIM_DIFFZCON					(void)(BASE+0x1636610)
+#define TA_ANALY_FIXSIM_DIFFZCON					(void *)(0xD7515C)
+#define CA_ANALY_FIXSIM_DIFFZCON					(void *)(0x1636610)
 
 //Analysis::Fixtre SiMulator::Cmn ZConversion
-#define TA_ANALY_FIXSIM_CMNZCON						(void)(BASE+0xD7519C)
-#define CA_ANALY_FIXSIM_CMNZCON						(void)(BASE+0x1636678)
+#define TA_ANALY_FIXSIM_CMNZCON						(void *)(0xD7519C)
+#define CA_ANALY_FIXSIM_CMNZCON						(void *)(0x1636678)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP
-#define TA_ANALY_FIXSIM_DeEmSNP						(void)(BASE+0xD74E44)
-#define CA_ANALY_FIXSIM_DeEmSNP						(void)(BASE+0x1636240)
+#define TA_ANALY_FIXSIM_DeEmSNP						(void *)(0xD74E44)
+#define CA_ANALY_FIXSIM_DeEmSNP						(void *)(0x1636240)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG				(void)(BASE+0xD74E74)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG				(void)(BASE+0x16361E0)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG				(void *)( 0xD74E74)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG				(void *)( 0x16361E0)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Select Topology
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void)(BASE+0xD76B10)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void)(BASE+0x1637198)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void *)( 0xD76B10)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void *)( 0x1637198)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Ports
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS			(void)(BASE+0xD757E4)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS 			(void)(BASE+0x1636E20)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS			(void *)( 0xD757E4)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS 			(void *)( 0x1636E20)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk1)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1			(void)(BASE+0xD76B68)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1 			(void)(BASE+0x1637218)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1			(void *)( 0xD76B68)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1 			(void *)( 0x1637218)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk2)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2			(void)(BASE+0xD76BD0)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2 			(void)(BASE+0x1637288)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2			(void *)( 0xD76BD0)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2 			(void *)( 0x1637288)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk3)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3			(void)(BASE+0xD76C38)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3 			(void)(BASE+0x16372F8)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3			(void *)( 0xD76C38)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3 			(void *)( 0x16372F8)
 
 //Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk4)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4			(void)(BASE+0xD76CA0)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4 			(void)(BASE+0x1637368)
+#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4			(void *)( 0xD76CA0)
+#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4 			(void *)( 0x1637368)
 
 //Analysis::Gating
-#define TA_ANALY_GATING								(void)(BASE+0xD751E0)
-#define CA_ANALY_GATING 							(void)(BASE+0x16367A0)
-
-//Analysis::Gating::Shape
-#define TA_ANALY_GATING_SHAPE						(void)(BASE+0xD76D40)
-#define CA_ANALY_GATING_SHAPE 						(void)(BASE+0x16373D8)
-
-//Analysis::Transform
-#define TA_ANALY_TRANSFORM							(void)(BASE+0xD75218)
-#define CA_ANALY_TRANSFORM 							(void)(BASE+0x1636808)
-
-//Analysis::Transform::Type
-#define TA_ANALY_TRANSFORM_TYPE						(void)(BASE+0xD76DB8)
-#define CA_ANALY_TRANSFORM_TYPE	 					(void)(BASE+0x1637458)
-
-//Analysis::Transform::Windows
-#define TA_ANALY_TRANSFORM_WINDOWS					(void)(BASE+0xD75248)
-#define CA_ANALY_TRANSFORM_WINDOWS	 				(void)(BASE+0x1636740)
-
-//Analysis::Conversion
-#define TA_ANALY_CONVER								(void)(BASE+0xD755BC)
-#define CA_ANALY_CONVER				 				(void)(BASE+0x1636740)
+#define TA_ANALY_GATING								(void *)( 0xD751E0)
+#define CA_ANALY_GATING 							(void *)( 0x16367A0)
+														    
+//Analysis::Gating::Shape								    
+#define TA_ANALY_GATING_SHAPE						(void *)( 0xD76D40)
+#define CA_ANALY_GATING_SHAPE 						(void *)( 0x16373D8)
+														    
+//Analysis::Transform									    
+#define TA_ANALY_TRANSFORM							(void *)( 0xD75218)
+#define CA_ANALY_TRANSFORM 							(void *)( 0x1636808)
+														    
+//Analysis::Transform::Type								    
+#define TA_ANALY_TRANSFORM_TYPE						(void *)( 0xD76DB8)
+#define CA_ANALY_TRANSFORM_TYPE	 					(void *)( 0x1637458)
+														    
+//Analysis::Transform::Windows							    
+#define TA_ANALY_TRANSFORM_WINDOWS					(void *)( 0xD75248)
+#define CA_ANALY_TRANSFORM_WINDOWS	 				(void *)( 0x1636740)
+														    
+//Analysis::Conversion									    
+#define TA_ANALY_CONVER								(void *)( 0xD755BC)
+#define CA_ANALY_CONVER				 				(void *)( 0x1636740)
 
 //Analysis::Conversion::Function
-#define TA_ANALY_CONVER_FUN							(void)(BASE+0xD755EC)
-#define CA_ANALY_CONVER_FUN				 			(void)(BASE+0x1636D00)
+#define TA_ANALY_CONVER_FUN							(void *)( 0xD755EC)
+#define CA_ANALY_CONVER_FUN				 			(void *)( 0x1636D00)
 
 //Analysis::Limit Test
-#define TA_LIMITTEST								(void *)(BASE+0xD7528C)
-#define CA_LIMITTEST								(void *)(BASE+0x1636990)
+#define TA_LIMITTEST								(void *)( 0xD7528C)
+#define CA_LIMITTEST								(void *)( 0x1636990)
+															  
+//Analysis::Limit Test::Edit Limit Line						  
+#define TA_LT_ELL									(void *)( 0xD75300)
+#define CA_LT_ELL									(void *)( 0x1636930)
+															  
+//Analysis::Limit Test::Edit Limit Line::Clear Limit Table	  
+#define TA_LT_ELL_CLT								(void *)( 0xD75330)
+#define CA_LT_ELL_CLT								(void *)( 0x1636868)
+															  
+//Analysis::Limit Test::Limit Line Offsets					  
+#define TA_LT_LLO									(void *)( 0xD752BC)
+#define CA_LT_LLO									(void *)( 0x16368D0)
 
-//Analysis::Limit Test::Edit Limit Line
-#define TA_LT_ELL									(void *)(BASE+0xD75300)
-#define CA_LT_ELL									(void *)(BASE+0x1636930)
+//Analysis::Limit Test::Limit Line Offsets::Marker->Amplitude Offset					  
+#define TA_LT_LLO_MAO								(void *)( 0xD75CB4)
+#define CA_LT_LLO_MAO								(void *)( 0x10B34B8)
+															  
+//Analysis::Ripple Limit									  
+#define TA_RIPPLELIMIT								(void *)( 0xD75394)
+#define CA_RIPPLELIMIT								(void *)( 0x1636B78)
 
-//Analysis::Limit Test::Edit Limit Line::Clear Limit Table
-#define TA_LT_ELL_CLT								(void *)(BASE+0xD75330)
-#define CA_LT_ELL_CLT								(void *)(BASE+0x1636868)
+//Analysis::Ripple Limit::Ripple Value						  
+#define TA_RL_RV									(void *)( 0xD75454)
+#define CA_RL_RV									(void *)( 0x1636AB8)
 
-//Analysis::Limit Test::Limit Line Offsets
-#define TA_LT_LLO									(void *)(BASE+0xD752BC)
-#define CA_LT_LLO									(void *)(BASE+0x16368D0)
+//Analysis::Ripple Limit::Ripple Band						  
+#define TA_RL_RBW									(void *)( 0xD754A8)
+#define CA_RL_RBW									(void *)( 0x1636B18)
 
-//Analysis::Ripple Limit
-#define TA_RIPPLELIMIT								(void *)(BASE+0xD75394)
-#define CA_RIPPLELIMIT								(void *)(BASE+0x1636B78)
+//Analysis::Ripple Limit::Edit Ripple Limit					  
+#define TA_RL_ERL									(void *)( 0xD753C4)
+#define CA_RL_ERL									(void *)( 0x1636A58)
 
-//Analysis::Ripple Limit::Ripple Value
-#define TA_RL_RV									(void *)(BASE+0xD75454)
-#define CA_RL_RV									(void *)(BASE+0x1636AB8)
+//Analysis::Ripple Limit::Clear Ripple Limit Table			  
+#define TA_RL_ERL_CRLT								(void *)( 0xD753F4)
+#define CA_RL_ERL_CRLT								(void *)( 0x16369F0)
 
-//Analysis::Ripple Limit::Ripple Band
-#define TA_RL_RBW									(void *)(BASE+0xD754A8)
-#define CA_RL_RBW									(void *)(BASE+0x1636B18)
+//Analysis::Bandwidth Limit									  
+#define TA_BWLIMIT									(void *)( 0xD75D84)
+#define CA_BWLIMIT									(void *)( 0x1636E80)
 
-//Analysis::Ripple Limit::Edit Ripple Limit					 
-#define TA_RL_ERL									(void *)(BASE+0xD753C4)
-#define CA_RL_ERL									(void *)(BASE+0x1636A58)
+//Analysis::Point Limit										  
+#define TA_POINTLIMIT								(void *)( 0xD754F4)
+#define CA_POINTLIMIT								(void *)( 0x1636CA0)
 
-//Analysis::Ripple Limit::Clear Ripple Limit Table			 
-#define TA_RL_ERL_CRLT								(void *)(BASE+0xD753F4)
-#define CA_RL_ERL_CRLT								(void *)(BASE+0x16369F0)
+//Analysis::Point Limit::Edit Point Limit					  
+#define TA_POINTLIMIT_EPL							(void *)( 0xD75524)
+#define CA_POINTLIMIT_EPL							(void *)( 0x1636C40)
 
-//Analysis::Bandwidth Limit									 
-#define TA_BWLIMIT									(void *)(BASE+0xD75D84)
-#define CA_BWLIMIT									(void *)(BASE+0x1636E80)
+//Analysis::Point Limit::Clear Point Limit Table			  
+#define TA_POINTLIMIT_CPLT							(void *)( 0xD75554)
+#define CA_POINTLIMIT_CPLT							(void *)( 0x1636BD8)
 
-//Analysis::Point Limit										 
-#define TA_POINTLIMIT								(void *)(BASE+0xD754F4)
-#define CA_POINTLIMIT								(void *)(BASE+0x1636CA0)
+//Analysis::Conversion
+#define CA_CONV										(void *)0x01636D60
+#define TA_CONV										(void *)0x00D755BC
 
-//Analysis::Point Limit::Edit Point Limit					 
-#define TA_POINTLIMIT_EPL							(void *)(BASE+0xD75524)
-#define CA_POINTLIMIT_EPL							(void *)(BASE+0x1636C40)
-
-//Analysis::Point Limit::Clear Point Limit Table			 
-#define TA_POINTLIMIT_CPLT							(void *)(BASE+0xD75554)
-#define CA_POINTLIMIT_CPLT							(void *)(BASE+0x1636BD8)
-
-
-
-////Fault Location
-#define CA_FAULTLOC							(void *)0x00A097C4
-#define TA_FAULTLOC							(void *)0x00BC84E0
-
-//Fault Location :: Type
-#define CA_FL_TYPE							(void *)0x00A09824
-#define TA_FL_TYPE							(void *)0x00BC8400
-
-//Fault Location :: Unit
-#define CA_FL_UNIT							(void *)0x00A09854
-#define TA_FL_UNIT							(void *)0x00BC83A0
-
-//Fault Location :: Window
-#define CA_FL_WIND							(void *)0x00A097F4
-#define TA_FL_WIND							(void *)0x00BC8480
-
-//SRL
-#define CA_SRL								(void *)0x00A098AC
-#define TA_SRL								(void *)0x00BC8540
-
-//FSRL :: Port X Connector
-#define CA_SRL_PXC							(void *)0x00A098DC
-
-//Conversion
-#define CA_CONV								(void *)0x00A09BA4
-#define TA_CONV								(void *)0x00BC85A0
-
-//Conversion :: Function
-#define CA_CONV_FN							(void *)0x00A09BD4
-#define TA_CONV_FN							(void *)0x00BC8080
+//Analysis::Conversion :: Function
+#define CA_CONV_FN									(void *)0x01636D00
+#define TA_CONV_FN									(void *)0x00D755EC
 
 
 //Display
-#define CA_DISPLAY									(void *)(BASE+0x16397D8)
-#define TA_DISPLAY									(void *)(BASE+0xD798B4)
+#define CA_DISPLAY									(void *)(0x16397D8)
+#define TA_DISPLAY									(void *)(0xD798B4)
 
 //Display :: Diaplay
-#define CA_DISPLAY_DP								(void *)(BASE+0x16396B8)
-#define TA_DISPLAY_DP								(void *)(BASE+0xD79924 )
+#define CA_DISPLAY_DP								(void *)(0x16396B8)
+#define TA_DISPLAY_DP								(void *)(0xD79924 )
 
 //Display :: Data Math
-#define CA_DISPLAY_DM								(void *)(BASE+0x1639718	)
-#define TA_DISPLAY_DM								(void *)(BASE+0xD79974	)
+#define CA_DISPLAY_DM								(void *)(0x1639718)
+#define TA_DISPLAY_DM								(void *)(0xD79974)
 
 //Display ::Alloc Channels
-//#define FAI_TRACESCFG								  (void *)0x00536BE0
-#define FA_TRACESCFG								(void *)(BASE+0x0040C460)       //retn
-#define CA_ALLOCTRACES								(void *)(BASE+0x1639838)      //0x00536F80
-#define TA_ALLOCTRACES								(void *)(BASE+0xD79C88)
+#define CA_ALLOCTRACES								(void *)(0x1639838)      //0x00536F80
+#define TA_ALLOCTRACES								(void *)(0xD79C88)
 
 //Display ::Num of Traces
-#define FA_TRACESNUM								(void *)(BASE+0x0040C460)        //retn
-#define CA_TRACESNUM								(void *)(BASE+0x1639658)        //0x00538C50
-#define TA_TRACESNUM								(void *)(BASE+0xD798E4)
+#define CA_TRACESNUM								(void *)(0x1639658)        //0x00538C50
+#define TA_TRACESNUM								(void *)(0xD798E4)
 
 //Display ::Alloc Channels
-#define CA_ALLOCCHAN								(void *)(BASE+0x16398A8)
-#define TA_ALLOCCHAN								(void *)(BASE+0xD79D18)
+#define CA_ALLOCCHAN								(void *)(0x16398A8)
+#define TA_ALLOCCHAN								(void *)(0xD79D18)
 
 //Display ::Data Hold
-#define CA_DISPLAY_DH								(void *)(BASE+0x1639778)
-#define TA_DISPLAY_DH								(void *)(BASE+0xD799E0)
+#define CA_DISPLAY_DH								(void *)(0x1639778)
+#define TA_DISPLAY_DH								(void *)(0xD799E0)
 
 
 
 //Trigger 
-#define CA_TRIGGER									(void *)(BASE+0x163D298)
-#define TA_TRIGGER									(void *)(BASE+0xD834C4)
+#define CA_TRIGGER									(void *)(0x163D298)
+#define TA_TRIGGER									(void *)(0xD834C4)
 
 //Trigger :: Trigger Source
-#define CA_TRIGGER_TS								(void *)(BASE+0x163D238)
-#define TA_TRIGGER_TS								(void *)(BASE+0xD834F4)
+#define CA_TRIGGER_TS								(void *)(0x163D238)
+#define TA_TRIGGER_TS								(void *)(0xD834F4)
 
 
-extern DWORD dwBaseAdd;
 
-#define BASE										dwBaseAdd
+//Average
+#define CA_AVERAGE									(void *)(0x1637BA8)
+#define TA_AVERAGE									(void *)(0xD76FD4)
 
-#define TA_ROOT										(void *)(BASE+0xD7CD4C)
-#define CA_ROOT										(void *)(BASE+0x163AC88)
 
-//Preset
-#define TA_PRESET									(void *)(BASE+0xD820F4)
-#define CA_PRESET									(void *)(BASE+0x163CA68)
 
 
-//Analysis
-#define TA_ANALYSIS									(void *)(BASE+0xD74D44)
-#define CA_ANALYSIS									(void *)(BASE+0x1636DC0)
+//Stimulus
+#define CA_STIMULUS									(void *)(0x163C098)
+#define TA_STIMULUS									(void *)(0xD816CC)
 
-//Analysis::Fixtre SiMulator
-#define TA_ANALY_FIXSIM								(void)(BASE+0xD74D74)
-#define CA_ANALY_FIXSIM								(void)(BASE+0x16366E0)
 
-//Analysis::Fixtre SiMulator::Topology
-#define TA_ANALY_FIXSIM_TOPO						(void)(BASE+0xD74EE0)
-#define CA_ANALY_FIXSIM_TOPO						(void)(BASE+0x1636488)
 
-//Analysis::Fixtre SiMulator::Topology::Device
-#define TA_ANALY_FIXSIM_TOPO_DEV					(void)(BASE+0xD7507C)
-#define CA_ANALY_FIXSIM_TOPO_DEV					(void)(BASE+0x1636420)
 
-//Analysis::Fixtre SiMulator::Topology::Port1
-#define TA_ANALY_FIXSIM_TOPO_P1						(void)(BASE+0xD75004)
-#define CA_ANALY_FIXSIM_TOPO_p1						(void)(BASE+0x16363C0)
+//Sweep Setup
+#define CA_SWEEPSET									(void *)(0x163C860)
+#define TA_SWEEPSET									(void *)(0xD81A44)
 
-//Analysis::Fixtre SiMulator::Topology::Port2
-#define TA_ANALY_FIXSIM_TOPO_P2						(void)(BASE+0xD74F8C)
-#define CA_ANALY_FIXSIM_TOPO_p2						(void)(BASE+0x1636300)
+//Sweep Setup :: Power
+#define CA_SS_PWR									(void *)(0x163C798)
+#define TA_SS_PWR									(void *)(0xD81B8C)
 
-//Analysis::Fixtre SiMulator::Topology::Port3
-#define TA_ANALY_FIXSIM_TOPO_P3						(void)(BASE+0xD74FC8)	 
-#define CA_ANALY_FIXSIM_TOPO_p3							//未找到，需要4端口仪器配合
+//Sweep Setup :: Power :: Port Power
+#define CA_SS_PWR_PP								(void *)(0x163C738)
+#define TA_SS_PWR_PP								(void *)(0xD81BBC)
 
-//Analysis::Fixtre SiMulator::Port Matching
-#define TA_ANALY_FIXSIM_PMATCH						(void)(BASE+0xD74DA4)
-#define CA_ANALY_FIXSIM_PMATCH						(void)(BASE+0x1636120)
+//Sweep Setup :: Sweep Type
+#define CA_SS_ST									(void *)(0x163C6D8)
+#define TA_SS_ST									(void *)(0xD81B24)
 
-//Analysis::Fixtre SiMulator::Port Matching::Select Port
-#define TA_ANALY_FIXSIM_SELPORT						(void)(BASE+0xD74DD4)
-#define CA_ANALY_FIXSIM_SELPORT						(void)(BASE+0x16360C0)
+//Sweep Setup :: Edit Segment Table
+#define CA_SS_EST									(void *)(0x163B2E0)
+#define TA_SS_EST									(void *)(0xD7D7D4)
 
-//Analysis::Fixtre SiMulator::Port Matching::Select Circuit
-#define TA_ANALY_FIXSIM_SELCIR						(void)(BASE+0xD769E0)
-#define CA_ANALY_FIXSIM_SELCIR						(void)(BASE+0x1637000)
+//Sweep Setup :: Edit Segment Table ::  Clear Segment Table
+#define CA_SS_EST_CST								(void *)(0x163B278)
+#define TA_SS_EST_CST								(void *)(0xD7D804)
 
-//Analysis::Fixtre SiMulator::Port ZConversion
-#define TA_ANALY_FIXSIM_PZCON						(void)(BASE+0xD750BC)
-#define CA_ANALY_FIXSIM_PZCON						(void)(BASE+0x16364F0)
 
-//Analysis::Fixtre SiMulator::De-Embedding
-#define TA_ANALY_FIXSIM_DeEMBED						(void)(BASE+0xD74E14)
-#define CA_ANALY_FIXSIM_DeEMBED						(void)(BASE+0x1636180)
 
-//Analysis::Fixtre SiMulator::De-Embedding::SelectPort
-#define TA_ANALY_FIXSIM_DeEMBED_SELPORT				(void)(BASE+0xD74DD4)
-#define CA_ANALY_FIXSIM_DeEMBED_SELPORT				(void)(BASE+0x16360C0)
 
-//Analysis::Fixtre SiMulator::De-Embedding::SelectType
-#define TA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void)(BASE+0xD76AAC)
-#define CA_ANALY_FIXSIM_DeEMBED_SELTYPE				(void)(BASE+0x1637110)
 
-//Analysis::Fixtre SiMulator::Diff Matching
-#define TA_ANALY_FIXSIM_DIFFMAT						(void)(BASE+0xD750EC)
-#define CA_ANALY_FIXSIM_DIFFMAT						(void)(BASE+0x16365B0)
+//Marker
+#define CA_MARKER									(void *)(0x1639FA8)         //0x005418F0
+#define TA_MARKER									(void *)(0xD7AE4C)
 
-//Analysis::Fixtre SiMulator::Diff Matching::Select Bal Port
-#define TA_ANALY_FIXSIM_DIFFMAT_SBP					(void)(BASE+0xD7511C)
-#define CA_ANALY_FIXSIM_DIFFMAT_SBP					(void)(BASE+0x1636550)
+//Clear Marker
+#define FAI_CLRMARKER								(void *)(0x36EB50)
+#define CA_CLRMARKER								(void *)(0x1639EE8)         //0x005413F0
+#define TA_CLRMARKER								(void *)(0xD7AE7C)
 
-//Analysis::Fixtre SiMulator::Diff Matching::Select Circuit
-#define TA_ANALY_FIXSIM_DIFFMAT_SC					(void)(BASE+0xD76A3C)
-#define CA_ANALY_FIXSIM_DIFFMAT_SC					(void)(BASE+0x1637088)
+//More Marker
+#define CA_MREMARKER								(void *)(0x1639F48)         //0x00541820
+#define TA_MREMARKER								(void *)(0xD7AEE0)
 
-//Analysis::Fixtre SiMulator::Diff ZConversion
-#define TA_ANALY_FIXSIM_DIFFZCON					(void)(BASE+0xD7515C)
-#define CA_ANALY_FIXSIM_DIFFZCON					(void)(BASE+0x1636610)
+//Marker Search
+#define FAI_MARKERSEA								(void *)(0x37D380)
+#define CA_MARKERSEA								(void *)(0x163A6C8)	       //0x005553E0
+#define TA_MARKERSEA								(void *)(0xD7B454)
 
-//Analysis::Fixtre SiMulator::Cmn ZConversion
-#define TA_ANALY_FIXSIM_CMNZCON						(void)(BASE+0xD7519C)
-#define CA_ANALY_FIXSIM_CMNZCON						(void)(BASE+0x1636678)
+//Marker Search::Search Range
+#define FAI_SEARCHRANGE								(void *)(0x37CEA0)
+#define CA_SEARCHRANGE								(void *)(0x163A668)
+#define TA_SEARCHRANGE								(void *)(0xD7B674)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP
-#define TA_ANALY_FIXSIM_DeEmSNP						(void)(BASE+0xD74E44)
-#define CA_ANALY_FIXSIM_DeEmSNP						(void)(BASE+0x1636240)
+//Marker Search::Peak 
+#define CA_PEAKSEA									(void *)(0x163A3C8)
+#define TA_PEAKSEA									(void *)(0xD7B520)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG				(void)(BASE+0xD74E74)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG				(void)(BASE+0x16361E0)
+//Marker Search::Peak  -> Peak Polarity
+#define CA_PEAKSEA_PP								(void *)(0x163A368) 
+#define TA_PEAKSEA_PP								(void *)(0xD7B550)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Select Topology
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void)(BASE+0xD76B10)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_SELTOP			(void)(BASE+0x1637198)
-
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Ports
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS			(void)(BASE+0xD757E4)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_PORTS 			(void)(BASE+0x1636E20)
+//Marker Search::Target
+#define CA_TARGSEA									(void *)(0x163A308)
+#define TA_TARGSEA									(void *)(0xD7B484)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk1)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1			(void)(BASE+0xD76B68)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE1 			(void)(BASE+0x1637218)
+//Marker Search::Target -> Target Transition		
+#define CA_TARGSEA_TT								(void *)(0x163A2A8)
+#define TA_TARGSEA_TT								(void *)(0xD7B4B4)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk2)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2			(void)(BASE+0xD76BD0)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE2 			(void)(BASE+0x1637288)
+//Marker Search::Multi Peak							
+#define CA_MULPEAKSEA								(void *)(0x163A548)
+#define TA_MULPEAKSEA								(void *)(0xD7B608)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk3)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3			(void)(BASE+0xD76C38)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE3 			(void)(BASE+0x16372F8)
+//Marker Search::Multi Peak -> Peak Polarity		
+#define CA_MULPEAKSEA_PP							(void *)(0x163A4E8)
+#define TA_MULPEAKSEA_PP							(void *)(0xD7B638)
 
-//Analysis::Fixtre SiMulator::De-Embedding SnP::Topology::Type(nwk4)
-#define TA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4			(void)(BASE+0xD76CA0)
-#define CA_ANALY_FIXSIM_DeEmSNP_TOPG_TYPE4 			(void)(BASE+0x1637368)
+//Marker Search::Multi Target
+#define CA_MULTARGSEA								(void *)(0x163A488)
+#define TA_MULTARGSEA								(void *)(0xD7B598)
 
-//Analysis::Gating
-#define TA_ANALY_GATING								(void)(BASE+0xD751E0)
-#define CA_ANALY_GATING 							(void)(BASE+0x16367A0)
 
-//Analysis::Gating::Shape
-#define TA_ANALY_GATING_SHAPE						(void)(BASE+0xD76D40)
-#define CA_ANALY_GATING_SHAPE 						(void)(BASE+0x16373D8)
+//Marker Search::Multi Target -> Target Transition
+#define CA_MULTARGSEA_TT							(void *)(0x163A428)
+#define TA_MULTARGSEA_TT							(void *)(0xD7B5C8)
 
-//Analysis::Transform
-#define TA_ANALY_TRANSFORM							(void)(BASE+0xD75218)
-#define CA_ANALY_TRANSFORM 							(void)(BASE+0x1636808)
+//Marker Function
+#define CA_MARKERFUNC								(void *)(0x163A1D8)
+#define TA_MARKERFUNC								(void *)(0xD7B18C)
 
-//Analysis::Transform::Type
-#define TA_ANALY_TRANSFORM_TYPE						(void)(BASE+0xD76DB8)
-#define CA_ANALY_TRANSFORM_TYPE	 					(void)(BASE+0x1637458)
+//Annotation Options
+#define CA_MFAO										(void *)(0x163A178)
+#define TA_MFAO										(void *)(0xD7B1BC)
 
-//Analysis::Transform::Windows
-#define TA_ANALY_TRANSFORM_WINDOWS					(void)(BASE+0xD75248)
-#define CA_ANALY_TRANSFORM_WINDOWS	 				(void)(BASE+0x1636740)
 
-//Analysis::Conversion
-#define TA_ANALY_CONVER								(void)(BASE+0xD755BC)
-#define CA_ANALY_CONVER				 				(void)(BASE+0x1636740)
 
-//Analysis::Conversion::Function
-#define TA_ANALY_CONVER_FUN							(void)(BASE+0xD755EC)
-#define CA_ANALY_CONVER_FUN				 			(void)(BASE+0x1636D00)
 
-//Analysis::Limit Test
-#define TA_LIMITTEST								(void *)(BASE+0xD7528C)
-#define CA_LIMITTEST								(void *)(BASE+0x1636990)
+//Measurement
+#define TA_SPARAM									(void *)(0xD7B024)
+#define CA_SPARAM									(void *)(0x163A0E8) 
 
-//Analysis::Limit Test::Edit Limit Line
-#define TA_LT_ELL									(void *)(BASE+0xD75300)
-#define CA_LT_ELL									(void *)(BASE+0x1636930)
+//Measurement::Absolute										
+#define TA_SPARAM_ABSOLUTE							(void *)(0xDA97D8)
+#define CA_SPARAM_ABSOLUTE							(void *)(0x163A020)
 
-//Analysis::Limit Test::Edit Limit Line::Clear Limit Table
-#define TA_LT_ELL_CLT								(void *)(BASE+0xD75330)
-#define CA_LT_ELL_CLT								(void *)(BASE+0x1636868)
+//Measurement::Aux Input									
+#define TA_SPARAM_AUXINPUT							(void *)(0xD7B084)
+#define CA_SPARAM_AUXINPUT							(void *)(0x163A020)
 
-//Analysis::Limit Test::Limit Line Offsets
-#define TA_LT_LLO									(void *)(BASE+0xD752BC)
-#define CA_LT_LLO									(void *)(BASE+0x16368D0)
+//Measurement::Aux Input::Sweep Port						
+#define TA_SPARAM_AUXINPUT_SP						(void *)(0xD7B0B4)
+#define CA_SPARAM_AUXINPUT_SP						(void *)(0x163A088)
 
-//Analysis::Ripple Limit
-#define TA_RIPPLELIMIT								(void *)(BASE+0xD75394)
-#define CA_RIPPLELIMIT								(void *)(BASE+0x1636B78)
 
-//Analysis::Ripple Limit::Ripple Value
-#define TA_RL_RV									(void *)(BASE+0xD75454)
-#define CA_RL_RV									(void *)(BASE+0x1636AB8)
 
-//Analysis::Ripple Limit::Ripple Band
-#define TA_RL_RBW									(void *)(BASE+0xD754A8)
-#define CA_RL_RBW									(void *)(BASE+0x1636B18)
 
-//Analysis::Ripple Limit::Edit Ripple Limit					 
-#define TA_RL_ERL									(void *)(BASE+0xD753C4)
-#define CA_RL_ERL									(void *)(BASE+0x1636A58)
+//FORMAT
+#define TA_FORMAT									(void *)(0xD7A30C)
+#define CA_FORMAT									(void *)(0x1639B88)
 
-//Analysis::Ripple Limit::Clear Ripple Limit Table			 
-#define TA_RL_ERL_CRLT								(void *)(BASE+0xD753F4)
-#define CA_RL_ERL_CRLT								(void *)(BASE+0x16369F0)
+//FORMAT::SIMTH
+#define TA_SIMTH									(void *)(0xD7A348)
+#define CA_SIMTH									(void *)(0x1639A88)
 
-//Analysis::Bandwidth Limit									 
-#define TA_BWLIMIT									(void *)(BASE+0xD75D84)
-#define CA_BWLIMIT									(void *)(BASE+0x1636E80)
+//FORMAT::Polar
+#define TA_POLAR									(void *)(0xD7A378)
+#define CA_POLAR									(void *)(0x1639B08)
 
-//Analysis::Point Limit										 
-#define TA_POINTLIMIT								(void *)(BASE+0xD754F4)
-#define CA_POINTLIMIT								(void *)(BASE+0x1636CA0)
 
-//Analysis::Point Limit::Edit Point Limit					 
-#define TA_POINTLIMIT_EPL							(void *)(BASE+0xD75524)
-#define CA_POINTLIMIT_EPL							(void *)(BASE+0x1636C40)
 
-//Analysis::Point Limit::Clear Point Limit Table			 
-#define TA_POINTLIMIT_CPLT							(void *)(BASE+0xD75554)
-#define CA_POINTLIMIT_CPLT							(void *)(BASE+0x1636BD8)
 
 
+//SCALE
+#define TA_SCALE									(void *)(0xD7D384)
+#define CA_SCALE									(void *)(0x163B1E8)
 
-////Fault Location
-#define CA_FAULTLOC							(void *)0x00A097C4
-#define TA_FAULTLOC							(void *)0x00BC84E0
+//SCALE::ELECTRICAL DELAY
+#define TA_ELECTDELAY								(void *)(0xD7D3B4)
+#define CA_ELECTDELAY								(void *)(0x163B188)  
 
-//Fault Location :: Type
-#define CA_FL_TYPE							(void *)0x00A09824
-#define TA_FL_TYPE							(void *)0x00BC8400
 
-//Fault Location :: Unit
-#define CA_FL_UNIT							(void *)0x00A09854
-#define TA_FL_UNIT							(void *)0x00BC83A0
 
-//Fault Location :: Window
-#define CA_FL_WIND							(void *)0x00A097F4
-#define TA_FL_WIND							(void *)0x00BC8480
 
-//SRL
-#define CA_SRL								(void *)0x00A098AC
-#define TA_SRL								(void *)0x00BC8540
 
-//FSRL :: Port X Connector
-#define CA_SRL_PXC							(void *)0x00A098DC
+//Macro Setup
+#define CA_MACRO            (void *)(0x1639DF0)
+#define TA_MACRO            (void *)(0xD7ABC4)
 
-//Conversion
-#define CA_CONV								(void *)0x00A09BA4
-#define TA_CONV								(void *)0x00BC85A0
+//Macro Setup :: Select Macro		 
+#define CA_MACRO_SM         (void *)(0x1639D30)
+#define TA_MACRO_SM         (void *)(0xD7AC80)
 
-//Conversion :: Function
-#define CA_CONV_FN							(void *)0x00A09BD4
-#define TA_CONV_FN							(void *)0x00BC8080
+//Macro Setup :: User Menu			 
+#define CA_MACRO_UM         (void *)(0x1639D90)
+#define TA_MACRO_UM         (void *)(0xD7AB74)
 
+//Macro Setup :: Load & Run			 
+#define CA_MACRO_LR         (void *)(0x1639E50)
+#define TA_MACRO_LR         (void *)(0xD7ACE4)
 
-//Display
-#define CA_DISPLAY									(void *)(BASE+0x16397D8)
-#define TA_DISPLAY									(void *)(BASE+0xD798B4)
 
-//Display :: Diaplay
-#define CA_DISPLAY_DP								(void *)(BASE+0x16396B8)
-#define TA_DISPLAY_DP								(void *)(BASE+0xD79924 )
 
-//Display :: Data Math
-#define CA_DISPLAY_DM								(void *)(BASE+0x1639718	)
-#define TA_DISPLAY_DM								(void *)(BASE+0xD79974	)
+//Save/Recall
+#define CA_SR               (void *)(0x163B060)
+#define TA_SR               (void *)(0xD7CE1C)
 
-//Display ::Alloc Channels
-//#define FAI_TRACESCFG								  (void *)0x00536BE0
-#define FA_TRACESCFG								(void *)(BASE+0x0040C460)       //retn
-#define CA_ALLOCTRACES								(void *)(BASE+0x1639838)      //0x00536F80
-#define TA_ALLOCTRACES								(void *)(BASE+0xD79C88)
+//Save/Recall :: Save State			 
+#define CA_SR_SS            (void *)(0x163AD60)
+#define TA_SR_SS            (void *)(0xD7CE4C)
 
-//Display ::Num of Traces
-#define FA_TRACESNUM								(void *)(BASE+0x0040C460)        //retn
-#define CA_TRACESNUM								(void *)(BASE+0x1639658)        //0x00538C50
-#define TA_TRACESNUM								(void *)(BASE+0xD798E4)
+//Save/Recall :: Recall State		 
+#define CA_SR_RS            (void *)(0x163ADC0)
+#define TA_SR_RS            (void *)(0xD7CE88)
 
-//Display ::Alloc Channels
-#define CA_ALLOCCHAN								(void *)(BASE+0x16398A8)
-#define TA_ALLOCCHAN								(void *)(BASE+0xD79D18)
+//Save/Recall :: Recall By File Name 
+#define CA_SR_RBFN          (void *)(0x163B0C0)
+#define TA_SR_RBFN          (void *)(0xD7D124)
 
-//Display ::Data Hold
-#define CA_DISPLAY_DH								(void *)(BASE+0x1639778)
-#define TA_DISPLAY_DH								(void *)(BASE+0xD799E0)
+//Save/Recall :: Save Channel		 
+#define CA_SR_SC            (void *)(0x163AE80)
+#define TA_SR_SC            (void *)(0xD7CEC8)
 
+//Save/Recall :: Save Channel :: Clear States
+#define CA_SR_SC_CS         (void *)(0x163AE20)
+#define TA_SR_SC_CS         (void *)(0xD7CEF8)
 
+//Save/Recall :: Recall Channel
+#define CA_SR_RC            (void *)(0x163AEE0)
+#define TA_SR_RC            (void *)(0xD7CF48)
 
-//Trigger 
-#define CA_TRIGGER									(void *)(BASE+0x163D298)
-#define TA_TRIGGER									(void *)(BASE+0xD834C4)
+//Save/Recall :: Save Type			 
+#define CA_SR_ST            (void *)(0x163AF40)
+#define TA_SR_ST            (void *)(0xD7CF94)
 
-//Trigger :: Trigger Source
-#define CA_TRIGGER_TS								(void *)(BASE+0x163D238)
-#define TA_TRIGGER_TS								(void *)(BASE+0xD834F4)
+//Save/Recall :: Save Snp			 
+#define CA_SR_SSNP          (void *)(0x163B000)
+#define TA_SR_SSNP          (void *)(0xD7CFF8)
 
+//Save/Recall :: Save Snp::Snp Format
+#define CA_SR_SSNP_SF       (void *)(0x163AFA0)
+#define TA_SR_SSNP_SF       (void *)(0xD7D028)
 
+//Save/Recall :: Save Snp::S%nP	 
+#define CA_SR_SSNP_S1P      (void *)(0x8E8F878)			//目测不准，需要重定位。
+#define TA_SR_SSNP_S1P      (void *)(0xD7D094)
 
+
+
+
+//System
+#define CA_SYSTEM           (void *)(0x163D070)
+#define TA_SYSTEM           (void *)(0xD82130)
+
+//System::Multiport Test Set Setup	 
+#define CA_SYSTEM_MTSS		(void *)(0x16399B0)
+#define TA_SYSTEM_MTSS		(void *)(0xD79ECC)
+
+//System::Multiport Test Set Setup::Test Set %d			//根据值确定
+#define CA_SYSTEM_MTSS_TS		(void *)(0xBB1BAF0)			//目测不准，需要重定位。
+#define TA_SYSTEM_MTSS_TS		(void *)(0xD79EFC)
+
+//System::Multiport Test Set Setup::Test Set %d	::Port %d
+#define CA_SYSTEM_MTSS_TS_P		(void *)0x0
+#define TA_SYSTEM_MTSS_TS_P		(void *)(0xD79F6C)
+
+//System::Multiport Test Set Setup::Test Set %d	::Select Test Set
+#define CA_SYSTEM_MTSS_TS_STS	(void *)0x0
+#define TA_SYSTEM_MTSS_TS_STS   (void *)(0xD7A1AC)
+
+//System::Multiport Test Set Setup::Test Set %d	::Control Lines
+#define CA_SYSTEM_MTSS_TS_CL	(void *)0x0
+#define TA_SYSTEM_MTSS_TS_CL	(void *)(0xD79F2C )       
+
+
+//System :: Misc Setup
+#define CA_SYS_MISC         (void *)(0x163D010)
+#define TA_SYS_MISC         (void *)(0xD82160)
+
+//System :: Misc Setup :: GPIB Setup
+#define CA_SYS_MISC_GPIB    (void *)(0x163CB88)
+#define TA_SYS_MISC_GPIB    (void *)(0xD821C8)
+
+//System :: Misc Setup :: GPIB Setup::Signal Generator Address
+#define CA_SYS_MISC_GPIB_SGA    (void *)0x0
+#define TA_SYS_MISC_GPIB_SGA    (void *)(0xD821F8)
+
+//System :: Misc Setup :: Network Setup
+#define CA_SYS_MISC_NET     (void *)(0x163CD10)
+#define TA_SYS_MISC_NET     (void *)(0xD82358)
+
+//System :: Misc Setup :: Power Meter Setup
+#define CA_SYS_MISC_PMS     (void *)(0x163CCB0)
+#define TA_SYS_MISC_PMS     (void *)(0xD82288)
+
+//System :: Misc Setup :: Power Meter Setup :: Select Type
+#define CA_SYS_MISC_ST     (void *)(0x163CBF0)
+#define TA_SYS_MISC_ST     (void *)(0xD822B8)
+
+//System :: Misc Setup :: Power Meter Setup :: USB
+#define CA_SYS_MISC_USB     (void *)(0x163CC50)
+#define TA_SYS_MISC_USB     (void *)(0xD822F4)
+
+//System :: Misc Setup :: Beeper
+#define CA_SYS_MISC_BEEP    (void *)(0x163CAC8)
+#define TA_SYS_MISC_BEEP    (void *)(0xD82190)
+
+//System :: Misc Setup :: Clock Setup
+#define CA_SYS_MISC_CLOCK   (void *)(0x163CD70)
+#define TA_SYS_MISC_CLOCK   (void *)(0xD82398)
+
+//System :: Misc Setup :: Key Lock
+#define CA_SYS_MISC_KL      (void *)(0x163CDD0)
+#define TA_SYS_MISC_KL      (void *)(0xD823D4)
+
+//System :: Misc Setup :: Channel/Trace Setup
+#define CA_SYS_MISC_CTS     (void *)(0x163D0D8)
+#define TA_SYS_MISC_CTS     (void *)(0xD82C50)
+
+//System :: Misc Setup :: Preset
+#define CA_SYS_MISC_PR      (void *)(0x163CFB0)
+#define TA_SYS_MISC_PR      (void *)(0xD82578)
+
+//System :: Misc Setup :: Preset :: State
+#define CA_SYS_MISC_PR_S    (void *)(0x163CF50)
+#define TA_SYS_MISC_PR_S    (void *)(0xD825A8)
+
+
+
+//System :: Misc Setup :: Color Setup
+#define CA_CLR              (void *)0x00A0C920
+#define TA_CLR              (void *)0x00BC5240
+
+//System :: Misc Setup :: Color Setup :: (Normal / Invert)
+#define CA_CLR_XX           (void *)0x00A0C950
+
+//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: Reset Color
+#define CA_CLR_XX_RC        (void *)0x00A0C9E0
+
+//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: RGB
+#define CA_CLR_XX_RGB       (void *)0x00A0C980
+#define TA_CLR_XX_RGB       (void *)0x00BC4FE0
+
+//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: RGB :: (R /G /B)
+#define CA_CLR_XX_RGB_X     (void *)0x00A0C9B0
+
+
+//System :: Service Menu
+#define CA_SYS_SERMEU			(void *)(0x163BC90)
+#define TA_SYS_SERMEU			(void *)(0xD7E0E0)
+
+//System :: Service Menu ::Test Menu
+#define CA_SYS_SERMEU_TEST		(void *)(0x163BB10)
+#define TA_SYS_SERMEU_TEST		(void *)(0xD7E748)
+
+//System :: Service Menu ::External Test Set
+#define CA_SYS_SERMEU_ETS		(void *)(0x163BB70)
+#define TA_SYS_SERMEU_ETS		(void *)(0xD7E784)
+
+//System :: Service Menu ::Channel/Trace Setup
+#define CA_SYS_SERMEU_CTS		(void *)(0xE8ECEB0	)		//目测不准，需要重定位。
+#define TA_SYS_SERMEU_CTS		(void *)(0xD7F4A0)
+
+//System :: Service Menu ::Init Src Port
+#define CA_SYS_SERMEU_ISP		(void *)(0x163BBD0)
+#define TA_SYS_SERMEU_ISP		(void *)(0xD7E7D8)
+
+//System :: Service Menu ::Security Level
+#define CA_SYS_SERMEU_SECLEV	(void *)(0x163BC30)
+#define TA_SYS_SERMEU_SECLEV	(void *)(0xD7E818)
+
+
+
+
+//Calibration
+#define CA_CALIBRAT							(void *)0x1637BA8
+#define TA_CALIBRAT							(void *)0xD76FD4
+
+//Calibration :: Calibrate
+#define CA_CALCAL							(void *)0x1638AB8
+#define TA_CALCAL							(void *)0xD7756C
+
+//Calibration :: ECal
+#define CA_ECAL								(void *)0x1638E20
+#define TA_ECAL								(void *)0xD778BC
 

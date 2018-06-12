@@ -257,7 +257,7 @@ static SOFT_SUB_ITEM subitemMacro[] =
 		BtnWidth_W,
 		48,
 		NULL,
-		{ (void *)0x000C0B00, 0, (void *)0x00B5E65C, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x000C0B00, 0, (void *)0x00D64C78, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
@@ -366,7 +366,6 @@ static int WINAPI fnTagPageEnter_LoadRun(DWORD dwFlags, WPARAM wParam, LPARAM lP
 	OrigSoftMenu_Enter(CA_MACRO);
 	OrigSoftMenu_UpdateItems(CA_MACRO);
 
-	//OrigSoftMenu_ClearItem(CA_MACRO_LR);
 	OrigSoftMenu_UpdateItems(CA_MACRO_LR);
 
 	int nMax = GetSubMenuItemCount(CA_MACRO_LR);

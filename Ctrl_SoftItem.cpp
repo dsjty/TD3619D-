@@ -1057,7 +1057,7 @@ static LRESULT OnCommand_Button(PSOFT_SUB_ITEM lpSubItem, int nItemIndex, int nC
 	{
 	case BN_CLICKED:
 	{
-		PopWnd_Destroy(0, TRUE);
+		//PopWnd_Destroy(0, TRUE);
 
 		PSTMSG_432_2();
 
@@ -1511,8 +1511,11 @@ int SoftItem_Finetune(PSOFT_SUB_ITEM lpSubItem, int nDelta, int nCount)
 		return -1;
 
 	double dblOutput;
-	fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpSubItem->lpOpt[1]);
-	fn_SetDouble fnSetDbl = GetAddr_SetDbl(lpSubItem->lpOpt[1]);
+
+	DWORD dwTemp = BASE + (DWORD)lpSubItem->lpOpt[1];
+
+	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)dwTemp);
+	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)dwTemp);
 	BOOL blRet;
 	char szText[MAX_PATH];
 	WCHAR wcsText[MAX_PATH];
@@ -1524,16 +1527,16 @@ int SoftItem_Finetune(PSOFT_SUB_ITEM lpSubItem, int nDelta, int nCount)
 
 	for (int nIndex = 0; nIndex < nCount; nIndex++)
 	{
-		blRet = InputFineTune(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl(lpSubItem->lpOpt[1]), nDelta);
+		blRet = InputFineTune(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl((void*)dwTemp), nDelta);
 	}
 
 	if (blRet) 
-		fnSetDbl(lpSubItem->lpOpt[1], dblOutput);
+		fnSetDbl((void*)dwTemp, &dblOutput);
 
 	if (lpSubItem->lpOpt[4] == NULL) 
 		return TRUE;
 
-	FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl(lpSubItem->lpOpt[1]));
+	FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl((void*)dwTemp));
 	MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
 
 	SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
@@ -1557,9 +1560,11 @@ int SoftItem_Finetune2(PSOFT_SUB_ITEM lpSubItem, int nDelta)
 	if (lpSubItem == NULL || lpSubItem->lpOpt[1] == NULL) 
 		return -1;
 
+	DWORD dwTemp = BASE + (DWORD)lpSubItem->lpOpt[1];
+
 	double dblOutput;
-	fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpSubItem->lpOpt[1]);
-	fn_SetDouble fnSetDbl = GetAddr_SetDbl(lpSubItem->lpOpt[1]);
+	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)dwTemp);
+	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)dwTemp);
 	char szText[MAX_PATH];
 	WCHAR wcsText[MAX_PATH];
 
@@ -1568,14 +1573,14 @@ int SoftItem_Finetune2(PSOFT_SUB_ITEM lpSubItem, int nDelta)
 		OrigSoftMenu_ItemClicked2(lpSubItem->lpThis, lpSubItem->lpVTable, lpSubItem->dwFunctionId);
 	}
 
-	if (InputFineTune2(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl(lpSubItem->lpOpt[1]), nDelta))
+	if (InputFineTune2(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl((void*)dwTemp), nDelta))
 	{
-		fnSetDbl(lpSubItem->lpOpt[1], dblOutput);
+		fnSetDbl((void*)dwTemp, &dblOutput);
 
 		if (lpSubItem->lpOpt[4] == NULL) 
 			return 1;
 
-		FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl(lpSubItem->lpOpt[1]));
+		FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl((void*)dwTemp));
 		MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
 
 		SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);

@@ -34,6 +34,11 @@ int SubCtrl_CheckButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 		{
 			int nOnOff = 0;
 
+			if (lpMe->lpOpt[12])
+			{
+				lpMe->lpOpt[2] = (void*)((DWORD)lpMe->lpOpt[2] - BASE);
+				lpMe->lpOpt[12] = 0;
+			}
 			GetButtonStateIndex((char *)lpMe->lpOpt[2], lpMe->lpOpt[3], &nOnOff, (int)lpMe->lpOpt[0]);
 
 			if (GET_BYTE_0(nOnOff) != 0)

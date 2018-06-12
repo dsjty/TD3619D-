@@ -1,9 +1,9 @@
 ﻿#include "stdafx.h"
 
-/*
+
 extern SOFT_MENU menuSimth;
 extern SOFT_MENU menuPolar;
-*/
+
 
 const LPCWSTR wcsListSimth[] =
 {
@@ -602,69 +602,9 @@ SOFT_SUB_ITEM subitemAutoScale[] =
 };
 
 
-//基准跟踪子条目
-SOFT_SUB_ITEM subitemRefTrack[] =
-{
-	{
-		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ComboButtonEx,
-		0,
-		L"Tracking\0跟踪类型\0跟蹤類型\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ (void *)0x000B0900, 0, (void *)0x00B5FD38, (void *)0x0B, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_TrackMode, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_TRACKING,
-		CA_TRACKING,
-		sizeof(wcsListTrackMode) / sizeof(LPCWSTR),
-		wcsListTrackMode,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
-		SIS_InputButtonEx,
-		1,
-		L"Track Frequency\0跟踪频率\0跟蹤頻率\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H2,
-		NULL,
-		{ 0, (void *)0x00BB9220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_REFTRACK,
-		CA_REFTRACK,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-};
-
 int WINAPI fnTagPageEnter_Format(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
 {
 	OrigSoftMenu_UpdateItems(CA_FORMAT);
-
-	/*
-	if (CHK_FLAGS(subitemFormat[0].dwFlags, SIF_FN_UPDATEDATA) &&
-	(subitemFormat[0].lpEvent[FNID_UPDATE_DATA]))
-	{
-	func_ItemEvent_UpdateData fnUpdateData = (func_ItemEvent_UpdateData)subitemFormat[0].lpEvent[FNID_UPDATE_DATA];
-	fnUpdateData(0, 0, 0, &(subitemFormat[0]));
-	}
-	*/
-
 	return 0;
 }
 
@@ -690,12 +630,6 @@ int WINAPI fnTagPageEnter_SParam(DWORD dwFlags, WPARAM wParam, LPARAM lParam, st
 	return 0;
 }
 
-int WINAPI fnTagPageEnter_RefTrack(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_UpdateItems(CA_SCALE);
-	OrigSoftMenu_UpdateItems(CA_REFTRACK);
-	return 0;
-}
 
 
 //测量子菜单
@@ -756,20 +690,6 @@ SOFT_TAG_PAGE submenuMeasurement[] =
 		0,
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_the_Scales.htm", (void*)1029, 0, 0 }
 	}
-	,
-	{
-		TPF_FN_ENTER,
-		0,
-		L"Reference Tracking\0基准跟踪\0基準跟蹤\0\0",
-		NULL,
-		sizeof(subitemRefTrack) / sizeof(SOFT_SUB_ITEM),
-		subitemRefTrack,
-		RESERVE_DWORD4,
-		&fnTagPageEnter_RefTrack,
-		NULL,
-		0,
-		{ L"::/Measurement/Measurement.htm", (void*)1021, 0, 0 }
-	}
 };
 
 //测量主菜单
@@ -817,7 +737,8 @@ int WINAPI fnUpdateData_Format(DWORD dwFlags, WPARAM wParam, LPARAM lParam, stru
 {
 	int nIndex = 0;
 
-	if (lpSubItem->lpOpt[2] == NULL) return -1;
+	if (lpSubItem->lpOpt[2] == NULL)
+		return -1;
 
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 
@@ -847,9 +768,6 @@ int WINAPI fnUpdateData_Format(DWORD dwFlags, WPARAM wParam, LPARAM lParam, stru
 		{
 			if (subitemFormat[3].dwStyle == SIS_ComboButtonEx || subitemFormat[3].dwStyle == SIS_ComboRadioButtonEx)
 				ComboBox_SetCurSel((HWND)subitemFormat[3].lpOpt[4], nIndex - 3);
-			//else if (subitemFormat[3].dwStyle == SIS_ComboBox)
-			//  ComboBox_SetCurSel(subitemFormat[3]._hWnd, nIndex - 3);
-
 			SoftItem_ActivationItemByOffsetIndex(lpSubItem, 3);
 		}
 
@@ -863,9 +781,6 @@ int WINAPI fnUpdateData_Format(DWORD dwFlags, WPARAM wParam, LPARAM lParam, stru
 		{
 			if (subitemFormat[4].dwStyle == SIS_ComboButtonEx || subitemFormat[4].dwStyle == SIS_ComboRadioButtonEx)
 				ComboBox_SetCurSel((HWND)subitemFormat[4].lpOpt[4], nIndex - 8);
-			//else if (subitemFormat[4].dwStyle == SIS_ComboBox)
-			//  ComboBox_SetCurSel(subitemFormat[4]._hWnd, nIndex - 8);
-
 			SoftItem_ActivationItemByOffsetIndex(lpSubItem, 4);
 		}
 
@@ -884,7 +799,8 @@ int WINAPI fnUpdateData_TrackMode(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 {
 	int nIndex = 0;
 
-	if (lpSubItem->lpOpt[2] == NULL) return -1;
+	if (lpSubItem->lpOpt[2] == NULL) 
+		return -1;
 
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 	ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex);

@@ -17,20 +17,23 @@ HWND hwMainWnd = NULL;
 
 void UpdateSize_UI();
 
-void *GetSubMenuPointer(void *lpThis, int nIndex)
+void *GetSubMenuPointer(void *ulpThis, int nIndex)
 {
 	void *lpResult = NULL;
 	void *lpVar1, *lpVar2;
 	int nMaxItem;
 
-	if (lpThis == NULL) 
+	if (ulpThis == NULL) 
 		return lpResult;
 
-	lpVar1 = GetOffsetPointer(lpThis, 0x24);
+	DWORD lpThis = BASE + (DWORD)ulpThis;
+
+
+	lpVar1 = GetOffsetPointer((void*)lpThis, 0x24);
 
 	if (lpVar1)
 	{
-		lpVar2 = GetOffsetPointer(lpThis, 0x28);
+		lpVar2 = GetOffsetPointer((void*)lpThis, 0x28);
 		nMaxItem = ((int)lpVar2 - (int)lpVar1) >> 2; // ((int)lpVar2 - (int)lpVar1) ÷ 4
 	}
 	else
@@ -42,7 +45,7 @@ void *GetSubMenuPointer(void *lpThis, int nIndex)
 	return lpResult;
 }
 
-bool GetButtonCheckState(void * lpBtnState, int nIndex)
+bool GetButtonCheckState(void * ulpBtnState, int nIndex)
 {
 	typedef void * (__thiscall * fn_priFn1)(void * lpBtnState, int nVar);
 	typedef void * (__thiscall * fn_priFn2)(void * lpVar1, int nVar);
@@ -52,16 +55,18 @@ bool GetButtonCheckState(void * lpBtnState, int nIndex)
 	fn_priFn2 priFn2;
 	bool *lpBool;
 
-	lpTmp = *(void **)lpBtnState;
-	priFn1 = (fn_priFn1)(*(void **)((int)lpTmp + 4));
+	DWORD lpBtnState = BASE + (DWORD)ulpBtnState;
 
-	lpTmp2 = priFn1(lpBtnState, -1);
+	lpTmp = *(void **)lpBtnState;
+	priFn1 = (fn_priFn1)(BASE+0x97FF00);
+
+	lpTmp2 = priFn1((void *)lpBtnState, -1);
 	lpTmp = *(void **)lpTmp2;
 	priFn2 = (fn_priFn2)(*(void **)((int)lpTmp + 0x14));
 
 	lpTmp2 = priFn2(lpTmp2, -1);
 	lpTmp2 = *(void **)((int)lpTmp2 + 0x8);
-	lpTmp3 = *(void **)((int)lpTmp2 + 0x8);
+	lpTmp3 = *(void **)((int)lpTmp2 + 0x4);
 	lpBool = (bool *)((int)lpTmp3 + (nIndex * 16) + 0x08);
 
 	return *lpBool;
@@ -70,17 +75,17 @@ bool GetButtonCheckState(void * lpBtnState, int nIndex)
 NAKED int WINAPI DirectCall(void *lpThis, void *lpFunction)
 {
 	__asm mov ecx, dword ptr[esp + 0x04]
-		__asm call dword ptr[esp + 0x08]
-		__asm retn 0x08
+	__asm call dword ptr[esp + 0x08]
+	__asm retn 0x08
 }
 
 NAKED int WINAPI DirectCall_2(void *lpThis, void *lpFunction, int nIndex)
 {
 	__asm push ebp
 	__asm mov ecx, dword ptr[esp + 0x08]
-		__asm mov eax, dword ptr[esp + 0x0C]
-		__asm mov ebp, dword ptr[esp + 0x10]
-		__asm push ebp
+	__asm mov eax, dword ptr[esp + 0x0C]
+	__asm mov ebp, dword ptr[esp + 0x10]
+	__asm push ebp
 	__asm call eax
 	__asm pop ebp
 	__asm retn 0x0C
@@ -152,22 +157,24 @@ LPCWSTR GetStringByIndex(LPCWSTR lpWStr, int nIndex, int lParam)
 	return lpWStr;
 }
 
-int GetButtonStateIndex(const char *lpszCmd, void *lpUnk, int *lpIndex, int nVars)
+int GetButtonStateIndex(const char *ulpszCmd, void *lpUnk, int *lpIndex, int nVars)
 {
-	if (!lpszCmd || !lpIndex)
+	if (!ulpszCmd || !lpIndex)
 		return -1;
 
-	typedef void *(__cdecl *fn_00023650)(void *lpOutput, PBAS_STR pbsInput, int nNum);
-	typedef void *(__cdecl *fn_00A33D80)(PBAS_STR pbsVar, void *lpMemAddr2);
+	DWORD lpszCmd = BASE + (DWORD)ulpszCmd;
+
+	typedef void *(__cdecl *fn_00023650)(void *lpOutput, PAVG_STRA pbsInput, int nNum);
+	typedef void *(__cdecl *fn_00A33D80)(PAVG_STRA pbsVar, void *lpMemAddr2);
 	typedef void *(__thiscall *fn_00484060)(void *lpMemAddr);
 
-	fn_00023650 fn00023650 = (fn_00023650)(BASE + 0x23650);
-	fn_00A33D80 fn00A33D80 = (fn_00A33D80)(BASE + 0xA33D80);
+	fn_00023650 fn00023650 = (fn_00023650)(BASE + 0x00023650);
+	fn_00A33D80 fn00A33D80 = (fn_00A33D80)(BASE + 0x00A33D80);
 
 	void *lpAlloc, *lpTmp;
-	int nLen = strlen(lpszCmd);
-	BAS_STR bsVar;
-	BYTE btUnkObj[96];
+	int nLen = strlen((char*)lpszCmd);
+	AVG_STRA bsVar;
+	BYTE btUnkObj[0x50] = { 0 };
 
 	if (nLen == 0)
 		return -2;
@@ -175,9 +182,6 @@ int GetButtonStateIndex(const char *lpszCmd, void *lpUnk, int *lpIndex, int nVar
 	lpAlloc = malloc(nLen + 0xF);
 
 	bsVar.lpszText = (char *)lpAlloc;
-	bsVar.lpUnkObj1 = lpUnk;
-	bsVar.lpUnkObj2 = 0;
-	bsVar.lpUnkObj3 = 0;
 	bsVar.dwStringLen = nLen;
 	bsVar.dwBufferMaxLen = nLen + 0xf;
 
@@ -186,14 +190,15 @@ int GetButtonStateIndex(const char *lpszCmd, void *lpUnk, int *lpIndex, int nVar
 
 	bsVar.lpszText[0] = GET_BYTE_0(nVars);
 	bsVar.lpszText++;
-	strcpy_s(bsVar.lpszText, bsVar.dwBufferMaxLen, lpszCmd);
 
-	*(int *)&btUnkObj[0] = 0;
-	*(int *)&btUnkObj[0x58] = GET_BYTE_1(nVars);
+	if (bsVar.dwStringLen >= 0x8)
+		strcpy_s(bsVar.lpszText, bsVar.dwBufferMaxLen, (char*)lpszCmd);
+	else
+		strcpy_s(bsVar.szText, bsVar.dwBufferMaxLen, (char*)lpszCmd);
 
 	lpTmp = fn00023650(btUnkObj, &bsVar, 0);
 
-	lpTmp = fn00A33D80((PBAS_STR)((int)lpTmp + 0x24), GetOffsetPointer(lpTmp, 0x20));
+	lpTmp = fn00A33D80((PAVG_STRA)((int)lpTmp + 0x24), GetOffsetPointer(lpTmp, 0x20));
 	*lpIndex = *(int *)((int)lpTmp + 0x1C);
 
 	free(lpAlloc);
@@ -207,7 +212,7 @@ int GetCommandVariant_Dbl(const char *lpszCmd, void *lpVTable, void *lpVTable2, 
 	typedef void *(__thiscall *fn_0040E390)(void *lpThis, void *lpVar);
 	typedef int(__thiscall *fn_004076C0)(void *lpThis);
 	typedef int(__thiscall *fn_004100B0)(void *lpThis, double *lpDbl);
-	typedef int(__thiscall *fn_00404760)(void *lpMemAddr); //VarClr
+	typedef int(__thiscall *fn_00404760)(void *lpMemAddr); 
 
 	typedef struct _X20_S
 	{
@@ -256,7 +261,6 @@ int GetCommandVariant_Dbl(const char *lpszCmd, void *lpVTable, void *lpVTable2, 
 
 	if (!lpRet[12])
 	{
-		//Exception
 		free(lpAlloc);
 		return -2;
 	}
@@ -272,7 +276,6 @@ int GetCommandVariant_Dbl(const char *lpszCmd, void *lpVTable, void *lpVTable2, 
 
 	if (hResult < 0)
 	{
-		//Exception
 		free(lpAlloc);
 		return 1;
 	}
@@ -284,214 +287,235 @@ int GetCommandVariant_Dbl(const char *lpszCmd, void *lpVTable, void *lpVTable2, 
 	return 0;
 }
 
-int FmtValueToString(void *lpInput, char *lpszBuffer, DWORD dwMaxLen, double *lpDblOut)
+int FmtValueToString(void *ulpInput, char *lpszBuffer, DWORD dwMaxLen, double *lpDblOut)
 {
-	if (!lpInput || !lpszBuffer || !dwMaxLen) 
+	if (!ulpInput || !lpszBuffer || !dwMaxLen) 
 		return -1;
 
-	fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpInput);
-	fn_FmtToString fnFmtStr = GetAddr_FmtStr(lpInput);
-	BAS_STR bsVar = { 0, 0, 0, 0 };
-	PBAS_STR lpbs = &bsVar;
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)lpInput);
+	fn_FmtToStringAvg fnFmtStr = GetAddr_FmtStrA((void*)lpInput);
+	AVG_STR bsVar = { 0, 0, 0 };
+	PAVG_STR lpbs = &bsVar;
 	int nRet = -2;
 
 	if (lpDblOut)
 	{
-		*lpDblOut = fnGetDbl(lpInput);
+		*lpDblOut = fnGetDbl((void*)lpInput);
 		lpbs = fnFmtStr((void *)(((DWORD)lpInput) + 4), lpbs, *lpDblOut);
 	}
 	else
-		lpbs = fnFmtStr((void *)(((DWORD)lpInput) + 4), lpbs, fnGetDbl(lpInput));
+		lpbs = fnFmtStr((void *)(((DWORD)lpInput) + 4), lpbs, fnGetDbl((void*)lpInput));
 
 	if (lpbs && (lpbs->lpszText))
 	{
-		char *lpText = lpbs->lpszText;
-
-		nRet = strcpy_s(lpszBuffer, dwMaxLen, lpText);
-
-		lpText--;
-
-		if ((*lpText != 0) && (*lpText != -1))
-			lpText[0]--;
-		else if (fnFree)
-			fnFree(lpText);
+		if (lpbs->dwBufferMaxLen >= 8)
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->lpszText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
 		else
-			free(lpText);
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->szText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
 	}
 
 	return nRet;
 }
 
-int FmtValueToStringEx(void *lpInput, char *lpszBuffer, DWORD dwMaxLen, double lpDblIn)
+int FmtValueToStringEx(void *ulpInput, char *lpszBuffer, DWORD dwMaxLen, double lpDblIn)
 {
-	if (!lpInput || !lpszBuffer || !dwMaxLen) 
+	if (!ulpInput || !lpszBuffer || !dwMaxLen) 
 		return -1;
 
-	fn_FmtToString fnFmtStr = GetAddr_FmtStr(lpInput);
-	BAS_STR bsVar = { 0, 0, 0, 0 };
-	PBAS_STR lpbs = &bsVar;
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+	
+	fn_FmtToString fnFmtStr = GetAddr_FmtStr((void*)lpInput);
+	AVG_STR bsVar = { 0, 0,  0 };
+	PAVG_STR lpbs = &bsVar;
 	int nRet = -2;
 
 	lpbs = fnFmtStr((void *)(((DWORD)lpInput) + 4), lpbs, lpDblIn);
 
 	if (lpbs && (lpbs->lpszText))
 	{
-		char *lpText = lpbs->lpszText;
-
-		nRet = strcpy_s(lpszBuffer, dwMaxLen, lpText);
-
-		lpText--;
-
-		if ((*lpText != 0) && (*lpText != -1))
-			lpText[0]--;
-		else if (fnFree)
-			fnFree(lpText);
+		if (lpbs->dwBufferMaxLen >= 8)
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->lpszText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
 		else
-			free(lpText);
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->szText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
 	}
 
 	return nRet;
 }
 
-int FmtValueToStringExW(void *lpInput, LPWSTR lpszBuffer, DWORD dwMaxLen, double lpDblIn)
+int FmtValueToStringExW(void *ulpInput, LPWSTR lpszBuffer, DWORD dwMaxLen, double lpDblIn)
 {
-	if (!lpInput || !lpszBuffer || !dwMaxLen) 
+	if (!ulpInput || !lpszBuffer || !dwMaxLen) 
 		return -1;
 
-	fn_FmtToString fnFmtStr = GetAddr_FmtStr(lpInput);
-	BAS_STR bsVar = { 0, 0, 0, 0 };
-	PBAS_STR lpbs = &bsVar;
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_FmtToString fnFmtStr = GetAddr_FmtStr((void*)lpInput);
+	AVG_STR bsVar = { 0, 0, 0, 0 };
+	PAVG_STR lpbs = &bsVar;
 	int nRet = -2;
 
 	lpbs = fnFmtStr((void *)(((DWORD)lpInput) + 4), lpbs, lpDblIn);
 
 	if (lpbs && (lpbs->lpszText))
 	{
-		char *lpText = lpbs->lpszText;
-
-		nRet = MultiByteToWideChar(1253, 0, lpText, -1, lpszBuffer, dwMaxLen);
-
-		lpText--;
-
-		if ((*lpText != 0) && (*lpText != -1))
-			lpText[0]--;
-		else if (fnFree)
-			fnFree(lpText);
+		if (lpbs->dwBufferMaxLen >= 8)
+			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen, lpbs->lpszText);
 		else
-			free(lpText);
+			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen, lpbs->szText);
 	}
 
 	return nRet;
 }
 
-BOOL ScanfStringToValue(void *lpInput, LPCSTR lpszText, double *lpDbl)
+BOOL ScanfStringToValue(void *ulpInput, LPCSTR lpszText, double *lpDbl)
 {
-	if (!lpInput || !lpszText)
+	if (!ulpInput || !lpszText)
 		return FALSE;
 
-	fn_SetDouble fnSetDbl = GetAddr_SetDbl(lpInput);
-	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl(lpInput);
-	BAS_STR bsVar = { NULL, NULL, 0,0, MAX_PATH - 1 };
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl((void*)lpInput);
+	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)lpInput);
+
+	AVG_STR bsVar = { NULL, NULL, MAX_PATH - 1 };
 	BOOL blRet = FALSE;
-	char szText[MAX_PATH];
+	WCHAR wszText[MAX_PATH] = {0};
 
-	szText[0] = 0;
-	szText[1] = 0;
-	bsVar.lpszText = &(szText[1]);
-
-	strcpy_s(bsVar.lpszText, bsVar.dwBufferMaxLen, lpszText);
-	bsVar.dwStringLen = strlen(bsVar.lpszText);
-
-	if (lpDbl)
+	wszText[0] = 0;
+	wszText[1] = 0;
+	
+	bsVar.dwStringLen = strlen(lpszText);
+	if (bsVar.dwStringLen >= 8)
 	{
-		*lpDbl = fnScfDbl(lpInput, &bsVar);
-		blRet = fnSetDbl(lpInput, *lpDbl);
+		bsVar.lpszText = wszText;
+		MultiByteToWideChar(1253, 0, lpszText, -1, wszText, MAX_PATH);
 	}
 	else
+		MultiByteToWideChar(1253, 0, lpszText, -1, bsVar.szText, 8);
+	
+	__asm
 	{
-		blRet = fnSetDbl(lpInput, fnScfDbl(lpInput, &bsVar));
+		push eax
+		push ecx
+		
+		mov ecx,lpInput
+		lea eax, bsVar
+		push eax
+		call fnScfDbl
+		mov ecx, lpInput
+		mov eax, [ecx]
+		sub esp,0x8
+		fstp qword ptr ss:[esp]
+		call fnSetDbl
+		mov blRet,eax
+
+		pop ecx
+		pop eax
 	}
 
 	return blRet;
 }
 
-BOOL ScanfStringToValueW(void *lpInput, LPCWSTR lpWcsText, double *lpDbl)
+BOOL ScanfStringToValueW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
 {
-	if (!lpInput || !lpWcsText)
+	if (!ulpInput || !lpWcsText)
 		return FALSE;
 
-	fn_SetDouble fnSetDbl = GetAddr_SetDbl(lpInput);
-	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl(lpInput);
-	BAS_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl((void*)lpInput);
+	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)lpInput);
+
+	AVG_STR bsVar = { NULL, NULL, MAX_PATH - 1 };
 	BOOL blRet = FALSE;
-	char szText[MAX_PATH];
+	WCHAR wszText[MAX_PATH] = { 0 };
 
-	szText[0] = 0;
-	szText[1] = 0;
-	bsVar.lpszText = &(szText[1]);
+	wszText[0] = 0;
+	wszText[1] = 0;
 
-	WideCharToMultiByte(1253, 0, lpWcsText, -1, bsVar.lpszText, bsVar.dwBufferMaxLen, NULL, NULL);
-	bsVar.dwStringLen = strlen(bsVar.lpszText);
-
-	if (lpDbl)
+	bsVar.dwStringLen = wcslen(lpWcsText);
+	if (bsVar.dwStringLen >= 8)
 	{
-		*lpDbl = fnScfDbl(lpInput, &bsVar);
-		blRet = fnSetDbl(lpInput, *lpDbl);
+		bsVar.lpszText = wszText;
+		wcscpy_s(bsVar.lpszText,bsVar.dwStringLen,lpWcsText);
 	}
 	else
+		wcscpy_s(bsVar.szText, bsVar.dwStringLen, lpWcsText);
+
+	__asm
 	{
-		blRet = fnSetDbl(lpInput, fnScfDbl(lpInput, &bsVar));
+		push eax
+		push ecx
+
+		mov ecx, lpInput
+		lea eax, bsVar
+		push eax
+		call fnScfDbl
+		fstp[lpDbl]
+
+		pop ecx
+		pop eax
 	}
+
+	blRet = fnSetDbl((void*)lpInput, lpDbl);
 
 	return blRet;
 }
 
-BOOL ScanfStringToValueEx(void *lpInput, LPCSTR lpText, double *lpDbl)
+BOOL ScanfStringToValueEx(void *ulpInput, LPCSTR lpText, double *lpDbl)
 {
-	if (!lpInput || !lpText || !lpDbl)
+	if (!ulpInput || !lpText || !lpDbl)
 		return FALSE;
 
-	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl(lpInput);
-	BAS_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
-	char szText[MAX_PATH];
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl((void*)lpInput);
+	AVG_STR bsVar = { NULL, NULL, MAX_PATH - 1 };
+	WCHAR szText[MAX_PATH] = { 0 };
 
 	szText[0] = 0;
 	szText[1] = 0;
 	bsVar.lpszText = &(szText[1]);
 
-	strcpy_s(bsVar.lpszText, bsVar.dwBufferMaxLen, lpText);
-	bsVar.dwStringLen = strlen(bsVar.lpszText);
+	MultiByteToWideChar(1253, 0, lpText, -1, szText, MAX_PATH);
+	bsVar.dwStringLen = wcslen(bsVar.lpszText);
 
-	*lpDbl = fnScfDbl(lpInput, &bsVar);
+	*lpDbl = fnScfDbl((void*)lpInput, &bsVar);
 
 	return TRUE;
 }
 
-BOOL ScanfStringToValueExW(void *lpInput, LPCWSTR lpWcsText, double *lpDbl)
+BOOL ScanfStringToValueExW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
 {
-	if (!lpInput || !lpWcsText || !lpDbl) 
+	if (!ulpInput || !lpWcsText || !lpDbl) 
 		return FALSE;
 
-	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl(lpInput);
-	BAS_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
-	char szText[MAX_PATH];
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl((void*)lpInput);
+	AVG_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
+	WCHAR szText[MAX_PATH];
 
 	szText[0] = 0;
 	szText[1] = 0;
 	bsVar.lpszText = &(szText[1]);
 
-	WideCharToMultiByte(1253, 0, lpWcsText, -1, bsVar.lpszText, bsVar.dwBufferMaxLen, NULL, NULL);
-	bsVar.dwStringLen = strlen(bsVar.lpszText);
+	bsVar.dwStringLen = wcslen(bsVar.lpszText);
+	wcscpy_s(bsVar.lpszText, bsVar.dwStringLen + 1, lpWcsText);
 
-	*lpDbl = fnScfDbl(lpInput, &bsVar);
+	*lpDbl = fnScfDbl((void*)lpInput, &bsVar);
 
 	return TRUE;
 }
 
-BOOL SetInputStringObjectW(void *lpInObj, LPCWSTR lpWcsText)
+BOOL SetInputStringObjectW(void *ulpInObj, LPCWSTR lpWcsText)
 {
-	if (lpInObj == NULL || lpWcsText == NULL)
+	if (ulpInObj == NULL || lpWcsText == NULL)
 		return FALSE;
+
+	DWORD lpInObj = BASE + (DWORD)ulpInObj;
 
 	typedef BOOL(__thiscall *func_SetInStrObj)(void *lpThis_lpInStrObj, PBAS_STR lpBasStr);
 
@@ -506,49 +530,43 @@ BOOL SetInputStringObjectW(void *lpInObj, LPCWSTR lpWcsText)
 	WideCharToMultiByte(CP_ACP, 0, lpWcsText, -1, bsVar.lpszText, bsVar.dwBufferMaxLen, NULL, NULL);
 	bsVar.dwStringLen = strlen(bsVar.lpszText);
 
-	return fnSISO(lpInObj, &bsVar);
+	return fnSISO((void*)lpInObj, &bsVar);
 }
 
-BOOL GetInputStringObjectW(void *lpInObj, LPWSTR lpWcsText, DWORD dwMaxLen, int *lpLimit)
+BOOL GetInputStringObjectW(void *ulpInObj, LPWSTR lpWcsText, DWORD dwMaxLen, int *lpLimit)
 {
-	if (lpInObj == NULL)
+	if (ulpInObj == NULL)
 		return FALSE;
+
+	DWORD lpInObj = BASE + (DWORD)ulpInObj;
 
 	if (lpLimit)
 	{
 		typedef int(__thiscall *func_GetInStrObjLimit)(void *lpThis_lpInStrObj);
 		func_GetInStrObjLimit fnGISOL = (func_GetInStrObjLimit)*(DWORD *)(*((DWORD *)lpInObj) + 0x0C);
 
-		*lpLimit = fnGISOL(lpInObj);
+		*lpLimit = fnGISOL((void*)lpInObj);
 	}
 
 	if (lpWcsText == NULL || dwMaxLen == 0)
 		return FALSE;
 
-	typedef PBAS_STR(__thiscall *func_GetInStrObj)(void *lpThis_lpInStrObj, PBAS_STR lpBasStr);
+	typedef PAVG_STR(__thiscall *func_GetInStrObj)(void *lpThis_lpInStrObj, PAVG_STR lpBasStr);
 
 	func_GetInStrObj fnGISO = (func_GetInStrObj)*(DWORD *)(*((DWORD *)lpInObj) + 0x08);
-	BAS_STR bsVar = { NULL, NULL, 0, 0 };
-	PBAS_STR lpbs = &bsVar;
+	AVG_STR bsVar = { NULL, 0, 0 };
+	PAVG_STR lpbs = &bsVar;
 
 	lpWcsText[0] = 0;
 
-	lpbs = fnGISO(lpInObj, lpbs);
+	lpbs = fnGISO((void*)lpInObj, lpbs);
 
 	if (lpbs && (lpbs->lpszText))
 	{
-		char *lpText = lpbs->lpszText;
-
-		MultiByteToWideChar(1253, 0, lpText, -1, lpWcsText, dwMaxLen);
-
-		lpText--;
-
-		if ((*lpText != 0) && (*lpText != -1))
-			lpText[0]--;
-		else if (fnFree)
-			fnFree(lpText);
+		if (lpbs->dwBufferMaxLen >= 8)
+			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen, lpbs->lpszText);
 		else
-			free(lpText);
+			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen, lpbs->szText);
 
 		return TRUE;
 	}
@@ -556,10 +574,12 @@ BOOL GetInputStringObjectW(void *lpInObj, LPWSTR lpWcsText, DWORD dwMaxLen, int 
 	return FALSE;
 }
 
-BOOL SetInputBtnStateIndex(void *lpBtnState, int nIndex)
+BOOL SetInputBtnStateIndex(void *ulpBtnState, int nIndex)
 {
-	if (!lpBtnState) 
+	if (!ulpBtnState) 
 		return FALSE;
+
+	DWORD lpBtnState = BASE + (DWORD)ulpBtnState;
 
 	typedef void *(__thiscall *fn_priCall1)(void *lpThis, int nVar);
 
@@ -569,7 +589,7 @@ BOOL SetInputBtnStateIndex(void *lpBtnState, int nIndex)
 	lpVar1 = *(void **)lpBtnState;
 	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar1, 0x04);
 
-	lpVar1 = fnCall1(lpBtnState, -1);
+	lpVar1 = fnCall1((void*)lpBtnState, -1);
 
 	lpVar2 = *(void **)lpVar1;
 	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar2, 0x14);
@@ -585,9 +605,9 @@ BOOL SetInputBtnStateIndex(void *lpBtnState, int nIndex)
 	return TRUE;
 }
 
-BOOL GetMarkerStateIndex(void *lpBtnState, int *lpIndex, bool *lpBool, bool *lpBool2)
+BOOL GetMarkerStateIndex(void *ulpBtnState, int *lpIndex, bool *lpBool, bool *lpBool2)
 {
-	if (!lpBtnState || !lpIndex) 
+	if (!ulpBtnState || !lpIndex) 
 		return FALSE;
 
 	typedef void *(__thiscall *fn_priCall1)(void *lpThis, int nVar);
@@ -598,10 +618,12 @@ BOOL GetMarkerStateIndex(void *lpBtnState, int *lpIndex, bool *lpBool, bool *lpB
 	fn_priCall2 fnCall2;
 	int nRet;
 
-	lpVar1 = *(void **)lpBtnState;
-	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar1, 0x04);
+	DWORD lpBtnState = BASE + (DWORD)ulpBtnState;
 
-	lpVar1 = fnCall1(lpBtnState, -1);
+	lpVar1 = *(void **)lpBtnState;
+	fnCall1 = (fn_priCall1)(BASE+0x097FF00);
+
+	lpVar1 = fnCall1((void *)lpBtnState, -1);
 
 	lpVar2 = *(void **)lpVar1;
 	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar2, 0x14);
@@ -637,11 +659,12 @@ BOOL GetMarkerStateIndex(void *lpBtnState, int *lpIndex, bool *lpBool, bool *lpB
 	return TRUE;
 }
 
-int GetSubMenuSelected(void *lpThis)
+int GetSubMenuSelected(void *ulpThis)
 {
-	if (lpThis == NULL)
+	if (ulpThis == NULL)
 		return -1;
 
+	DWORD lpThis = BASE + (DWORD)ulpThis;
 	typedef void * (__thiscall *func_InitVar)(void *lpThis);
 	typedef int(__thiscall * fnGetButtonState)(void *lpThis, int nIndex, DWORD dwState[4]);
 
@@ -650,14 +673,18 @@ int GetSubMenuSelected(void *lpThis)
 	fnGetButtonState fnGetItemState = (fnGetButtonState)GetOffsetPointer(lpStatic, 0x10);
 	DWORD nInVar[4];
 
-	int nMax = (int)GetOffsetPointer(lpThis, 0x04);
+	int nMax = (int)GetOffsetPointer((void*)lpThis, 0x04);
 	int nRet = -1;
 
-	fnInitVar(nInVar);
+	__asm
+	{
+		lea eax,[nInVar]
+		call fnInitVar
+	}
 
 	for (int nIndex = 0; nIndex < nMax; nIndex++)
 	{
-		fnGetItemState(lpThis, nIndex, nInVar);
+		fnGetItemState((void*)lpThis, nIndex, nInVar);
 
 		if (nInVar[1])
 		{
@@ -675,7 +702,7 @@ int GetSubMenuSelected_Radio(void *lpThis)
 		return -1;
 
 	BOOL blTmp = FALSE;
-	int nMax = (int)GetOffsetPointer(lpThis, 0x04);
+	int nMax = (int)GetOffsetPointer((void *)(BASE + (DWORD)lpThis), 0x04);
 
 	for (int nIndex = 0; nIndex < nMax; nIndex++)
 	{
@@ -688,17 +715,19 @@ int GetSubMenuSelected_Radio(void *lpThis)
 	return -1;
 }
 
-int GetSubMenuItemCount(void *lpThis)
+int GetSubMenuItemCount(void *ulpThis)
 {
-	if (lpThis == NULL) 
+	if (ulpThis == NULL) 
 		return 0;
 
-	return (int)GetOffsetPointer(lpThis, 0x04);
+	DWORD lpThis = BASE + (DWORD)ulpThis;
+
+	return (int)GetOffsetPointer((void*)lpThis, 0x04);
 }
 
 LPSTR GetSubMenuItemText(void *lpThis, int nIndex)
 {
-	LPSTR *lpList = (LPSTR *)GetOffsetPointer(lpThis, 0x14);
+	LPSTR *lpList = (LPSTR *)GetOffsetPointer((void*)(BASE + (DWORD)lpThis), 0x14);
 	int nMax = GetSubMenuItemCount(lpThis);
 
 	if (nIndex >= nMax || nIndex < 0) 
@@ -710,12 +739,14 @@ LPSTR GetSubMenuItemText(void *lpThis, int nIndex)
 	return (LPSTR)lpList[nIndex];
 }
 
-BOOL InputFineTune(void *lpInput, double *lpDblOut, double dblCurrent, int iDelta)
+BOOL InputFineTune(void *ulpInput, double *lpDblOut, double dblCurrent, int iDelta)
 {
-	if (!lpInput || !lpDblOut)
+	if (!ulpInput || !lpDblOut)
 		return FALSE;
 
-	fn_FineTune fnFineTune = GetAddr_FineTune(lpInput);
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_FineTune fnFineTune = GetAddr_FineTune((void*)lpInput);
 	int nDelta = iDelta, nNumber;
 
 	if (!fnFineTune)
@@ -736,12 +767,14 @@ BOOL InputFineTune(void *lpInput, double *lpDblOut, double dblCurrent, int iDelt
 	return TRUE;
 }
 
-BOOL InputFineTune2(void *lpInput, double *lpDblOut, double dblCurrent, int iDelta)
+BOOL InputFineTune2(void *ulpInput, double *lpDblOut, double dblCurrent, int iDelta)
 {
-	if (!lpInput || !lpDblOut) 
+	if (!ulpInput || !lpDblOut) 
 		return FALSE;
 
-	fn_FineTune2 fnFineTune2 = GetAddr_FineTune2(lpInput);
+	DWORD lpInput = BASE + (DWORD)ulpInput;
+
+	fn_FineTune2 fnFineTune2 = GetAddr_FineTune2((void*)lpInput);
 
 	if (!fnFineTune2) 
 		return FALSE;
@@ -806,7 +839,7 @@ int MakeUnitStringW(void *lpInput, LPWSTR lpWText, int nMax, LPCSTR lpUnitChar)
 
 void PSTMSG_432_2()
 {
-	PostMessageA(hwMainWnd, 0x0432, 0x02, 0);
+	PostMessageA(hwMainWnd, 0x0432, 0x13, 0);
 }
 
 void PSTMSG_432_E()

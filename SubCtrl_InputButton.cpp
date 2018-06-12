@@ -3,6 +3,7 @@
 static WNDPROC wpfn_InputBox = NULL;
 static LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+void SetInputType(int nNewType);
 void SetInputItem(PSOFT_SUB_ITEM lpSubItem);
 int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam);
 
@@ -504,17 +505,17 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (lpSubItem)
 		{
-// 			SetInputItem(lpSubItem);
-// 
-// 			if (CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TEXT))
-// 			{
-// 				SetInputType(ITID_TEXT);
-// 				ShellExecuteA(hwSoftItem, "open", "C:\\Windows\\system32\\osk.exe", NULL, NULL, SW_SHOW);
-// 			}
-// 			else if (CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
-// 				SetInputType(ITID_NUM);
-// 			else
-// 				SetInputType(ITID_GMK);
+			SetInputItem(lpSubItem);
+
+			if (CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TEXT))
+			{
+				SetInputType(ITID_TEXT);
+				ShellExecuteA(hwSoftItem, "open", "C:\\Windows\\system32\\osk.exe", NULL, NULL, SW_SHOW);
+			}
+			else if (CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
+				SetInputType(ITID_NUM);
+			else
+			SetInputType(ITID_GMK);
 		}
 	}
 	break;
@@ -526,8 +527,8 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		else
 			lResult = DefWindowProc(hWnd, msg, wParam, lParam);
 
-// 		SetInputItem(NULL);
-// 		SetInputType(ITID_UNKNOWN);
+ 		SetInputItem(NULL);
+ 		SetInputType(ITID_UNKNOWN);
 
 		HWND hItem = GetParent(hWnd);
 		PSOFT_SUB_ITEM lpSubItem = (PSOFT_SUB_ITEM)GetWindowLong(hItem, GWL_USERDATA);
@@ -553,7 +554,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 			else
 			{
-				fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpSubItem->lpOpt[1]);
+				fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)(BASE + (DWORD)(lpSubItem->lpOpt[1])));
 				FmtValueToStringExW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, fnGetDbl(lpSubItem->lpOpt[1]));
 				SetWindowTextW(hWnd, wcsText);
 			}
