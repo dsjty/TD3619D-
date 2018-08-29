@@ -20,9 +20,9 @@ int SubCtrl_ComboButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 		rcSub.left += 6;
 
 		if (rcSub.bottom - 30 < 26)
-			rcSub.top = 16;
+			rcSub.top = 20;
 		else
-			rcSub.top = rcSub.bottom - 44;
+			rcSub.top = rcSub.bottom - 32;
 
 		MoveWindow((HWND)lpMe->lpOpt[4], rcSub.left, rcSub.top, rcSub.right - 12, 20, TRUE);
 	}

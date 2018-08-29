@@ -16,10 +16,6 @@ int nLangId = 1;
 //CWnd对象
 //DWORD dw_CWnd__Create = 0;
 CWnd *cwMainWnd = (CWnd *)NULL;
-void *cfOrgCreate = (CWnd *)NULL;
-
-//原程序Free函数地址
-fn_Free fnFree = NULL;
 
 //钩子跳转指针结构
 static HOOK_JMPPTR hjpOnSize = { (BASE + 0x94E3F9), (DWORD)&ef_CWnd__OnSize_main, 6, 0 };
@@ -45,7 +41,7 @@ static WORD wBakw_004A8FA0 = 0xFF6A, wBakw_004A90A0 = 0xFF6A;
 //窗口过程
 LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK wpfn_SoftItem(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-// LRESULT CALLBACK wpfn_ToolBar(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+LRESULT CALLBACK wpfn_ToolBar(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 
 //初始化原程序界面多语言hook
@@ -370,8 +366,6 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 
 	InitCommonControls();
 
-	fnFree = *(fn_Free *)(BASE + 0xD51708);
-
 	//注册SoftMenu窗口类
 	if (wcSoftMenu == 0)
 	{
@@ -424,12 +418,12 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 	if (wcToolBar == 0)
 	{
 		WNDCLASSEX wcex;
-
+	
 		ZeroMemory(&wcex, sizeof(wcex));
 		wcex.cbSize = sizeof(WNDCLASSEX);
-
+	
 		wcex.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
-		wcex.lpfnWndProc = 0;// &wpfn_ToolBar;
+		wcex.lpfnWndProc = &wpfn_ToolBar;
 		wcex.hInstance = hMod;
 		wcex.hIcon = NULL;
 		wcex.hCursor = LoadCursor(NULL, IDC_ARROW);
@@ -437,9 +431,9 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 		wcex.lpszMenuName = NULL;
 		wcex.lpszClassName = _T("WndCls_ToolBar_X1");
 		wcex.hIconSm = NULL;
-
+	
 		wcToolBar = RegisterClassEx(&wcex);
-
+	
 		if (wcToolBar == 0)
 			return FALSE;
 	}
@@ -459,9 +453,6 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 	hBmp_Enter = (HBITMAP)LoadImage(hModule, MAKEINTRESOURCE(IDB_BMP_ENTER), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
 
 	InitHookPointers(HookPtr);  //CreateWidnows
-
-	cfOrgCreate = (CWnd *)HookPtr[0].lpOrgAddr;
-
 
 
 	//输入框跳过
@@ -523,7 +514,7 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 	SetOffsetHook((int *)(BASE + 0x96DCDA), &nTmp, (int)&fnhk_SetFocus);
 #endif
 
-	//InitLocaleHook();  
+	InitLocaleHook();  
 
 	return TRUE;
 }

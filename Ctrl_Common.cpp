@@ -5,7 +5,7 @@ HPEN hPen_Gray = NULL;
 HBRUSH hPatternBrush_LtBlue = NULL;
 HBRUSH hBrush_Light = NULL;
 HBRUSH hBrush_LightGreen = NULL;
-HBRUSH hBrush_Dark = NULL,hCalDlg_bk=NULL;
+HBRUSH hBrush_Dark = NULL, hCalDlg_bk = NULL;
 
 HFONT hFont_cfg1 = NULL, hFont_cfg2;    //字体配置1
 
@@ -18,12 +18,12 @@ int WINAPI fnItemSelected_Default(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 	{
 		if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOT_ENTER))
 		{
+			OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
 			OrigSoftMenu_Enter(lpSubItem->lpThis);
 		}
 
 		OrigSoftMenu_ItemClicked2(lpSubItem->lpThis, lpSubItem->lpVTable, nIndex);
 	}
-
 	return 0;
 }
 
@@ -45,6 +45,12 @@ int WINAPI fnUpdateData_Default(DWORD dwFlags, WPARAM wParam, LPARAM lParam, str
 	if (lpSubItem == NULL || lpSubItem->lpOpt[2] == NULL)
 		return -1;
 
+	if (lpSubItem->lpOpt[12])
+	{
+		lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+		lpSubItem->lpOpt[12] = 0;
+	}
+	OrigSoftMenu_UpdateItems(lpSubItem->lpThis);
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 	ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex);
 
@@ -58,6 +64,12 @@ int WINAPI fnUpdateData_DEC_Default(DWORD dwFlags, WPARAM wParam, LPARAM lParam,
 	if (lpSubItem == NULL || lpSubItem->lpOpt[2] == NULL)
 		return -1;
 
+	if (lpSubItem->lpOpt[12])
+	{
+		lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+		lpSubItem->lpOpt[12] = 0;
+	}
+
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 	ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex - 1);
 
@@ -67,7 +79,7 @@ int WINAPI fnUpdateData_DEC_Default(DWORD dwFlags, WPARAM wParam, LPARAM lParam,
 void DrawSolidEdge(HDC hDC, LPRECT lpRect, HBITMAP hFillBrush, int nFlags, LPCWSTR lpWStr)
 {
 	RECT rect = *lpRect;
-	
+
 	rect.left -= 2;
 	DrawStretchBitmap(hDC, hFillBrush, &rect);
 	rect.left += 2;
@@ -93,24 +105,35 @@ void DrawSolidEdge(HDC hDC, LPRECT lpRect, HBITMAP hFillBrush, int nFlags, LPCWS
 			rectTmp.right--;
 			rectTmp.bottom--;
 
-			if (nFlags==0x10)
+			if (nFlags == 0x10)
 				SetTextColor(hDC, RGB(255, 255, 0));//设置文字颜色
 			else
 				SetTextColor(hDC, RGB(255, 255, 255));//设置文字颜色
 
 			SetBkMode(hDC, TRANSPARENT);
-			
-			if (wcslen(lpWStr) > 2)
-			{
-				if (wcslen(lpWStr) > 4)
-					rectTmp.top += 4;
-				else
-					rectTmp.top += 10;
 
-				DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+			if (0 != nLangId)
+			{
+				if (wcslen(lpWStr) > 5)
+				{
+					rectTmp.top += 6;
+					rectTmp.left += 6;
+					rectTmp.top += 6;
+					DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+				}
+				else
+					DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
 			}
 			else
-				DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			{
+				if ((wcslen(lpWStr)) > 11)
+				{
+					rectTmp.top += 10;
+					DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+				}
+				else
+					DrawTextW(hDC, lpWStr, -1, &rectTmp, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			}
 		}
 	}
 

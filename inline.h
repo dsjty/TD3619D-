@@ -129,7 +129,7 @@ inline void UpdateDataByTagPage(PSOFT_TAG_PAGE lpTagPage)
 			else if ((lpTagPage->lpSubItem[dwIndex].dwStyle == SIS_InputButtonEx) && (lpTagPage->lpSubItem[dwIndex].lpOpt[1]))
 			{
 				PSOFT_SUB_ITEM lpSubItem = &(lpTagPage->lpSubItem[dwIndex]);
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				wcsText[0] = 0;
 
@@ -144,11 +144,11 @@ inline void UpdateDataByTagPage(PSOFT_TAG_PAGE lpTagPage)
 				}
 				else
 				{
-					char szText[MAX_PATH];
+					char szText[MAX_PATH] = { 0 };
 					szText[0] = 0;
 
 					FmtValueToString(lpSubItem->lpOpt[1], szText, MAX_PATH, NULL);
-					MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+					MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 				}
 
 				SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
@@ -196,7 +196,7 @@ inline void UpdateCurrentItemsAndData()
 			if ((lpTagPage->lpSubItem[dwIndex].dwStyle == SIS_InputButtonEx) && (lpTagPage->lpSubItem[dwIndex].lpOpt[1]) && (lpTagPage->lpSubItem[dwIndex].lpOpt[4]))
 			{
 				PSOFT_SUB_ITEM lpSubItem = &(lpTagPage->lpSubItem[dwIndex]);
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				wcsText[0] = 0;
 
@@ -209,11 +209,11 @@ inline void UpdateCurrentItemsAndData()
 
 				else
 				{
-					char szText[MAX_PATH];
+					char szText[MAX_PATH] = { 0 };
 					szText[0] = 0;
 
 					FmtValueToString(lpSubItem->lpOpt[1], szText, MAX_PATH, NULL);
-					MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+					MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 				}
 
 				SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
@@ -231,8 +231,8 @@ inline void UpdateCurrentItemsAndData()
 			}
 		}
 	}
-	InvalidateRect(hwSoftItem, NULL, TRUE);
 
+	InvalidateRect(hwSoftItem, NULL, TRUE);
 	UpdateWindow(hwSoftItem);
 	PopWnd_UpdateInputBox();
 }
@@ -427,6 +427,11 @@ inline void UpdateCheckBoxState(PSOFT_SUB_ITEM lpSubItem)
 {
 	if (CHK_FLAGS(lpSubItem->dwAttributes, SIA_GETCHKSTATE) && (lpSubItem->lpOpt[2]))
 	{
+		if (lpSubItem->lpOpt[12])
+		{
+			lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+			lpSubItem->lpOpt[12] = 0;
+		}
 		if (GetButtonCheckState(lpSubItem->lpOpt[2], (int)lpSubItem->lpOpt[3]))
 		{
 			SET_FLAGS(lpSubItem->dwAttributes, SIAE_CHECKED);

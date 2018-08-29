@@ -31,7 +31,11 @@ int WINAPI fnUpdateData_CT(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _
 
 	if (lpSubItem->lpOpt[2] == NULL) 
 		return -1;
-
+	if (lpSubItem->lpOpt[12])
+	{
+		lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+		lpSubItem->lpOpt[12] = 0;
+	}
 	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
 
 	if ((*lppWStr) && ((DWORD)nIndex < lpSubItem->dwNumberOfParams))
@@ -150,11 +154,11 @@ static int WINAPI fnUpdateData_SC(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 		case 2:
 		case 3:
 		{
-			func_007666D0 fn007666D0 = (func_007666D0)0x007666D0;
-			if (fn007666D0(lpSubItem->dwFunctionId)) 
+			func_007666D0 fn009360B0 = (func_007666D0)0x009360B0;
+			if (fn009360B0(lpSubItem->dwFunctionId))
 				blTest = TRUE;
 
-			GetButtonStateIndex((const char *)0x00B613F0, (void *)0x01, &nType, 0x00020100);
+			GetButtonStateIndex((const char *)0x00D64508, (void *)0x01, &nType, 0x00020100);
 
 			if (nType < 0 || nType >= 4) 
 				nType = 0;
@@ -166,8 +170,8 @@ static int WINAPI fnUpdateData_SC(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 		case 6:
 		case 7:
 		{
-			func_007666E0 fn007666E0 = (func_007666E0)0x007666E0;
-			if (fn007666E0(lpSubItem->dwFunctionId - 4)) 
+			func_007666E0 fn009360D0 = (func_007666E0)0x009360D0;
+			if (fn009360D0(lpSubItem->dwFunctionId - 4))
 				blTest = TRUE;
 		}
 		break;
@@ -220,8 +224,8 @@ static int WINAPI fnUpdateData_RC(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 				return -1;
 		}
 
-		func_007666D0 fn007666D0 = (func_007666D0)0x007666D0;
-		if (fn007666D0(nIndex)) 
+		func_007666D0 fn009360B0 = (func_007666D0)0x009360B0;
+		if (fn009360B0(nIndex))
 			blTest = TRUE;
 
 		if (blTest)
@@ -597,7 +601,7 @@ static SOFT_SUB_ITEM subitemSaveState[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x00020100, 0, (void *)0x00B613F0, (void *)0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00020100, 0, (void *)0x00D65408, (void *)0x01, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, 0, &fnItemSelected_Default, &fnUpdateData_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -620,7 +624,7 @@ static SOFT_SUB_ITEM subitemSaveState[] =
 		BtnWidth_W,
 		BtnHeith_H2,
 		NULL,
-		{ (void *)0x00010000, 0, (void *)0x00B613B0, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ (void *)0x00030400, 0, (void *)0x00D653C8, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		{ 0, &fnItemClicked_CT, 0, &fnUpdateData_CT, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
@@ -632,12 +636,35 @@ static SOFT_SUB_ITEM subitemSaveState[] =
 		RESERVE_DWORD4,
 		RESERVE_DWORD4
 	}
+		,
+		{
+			SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
+			SIA_FULLLINE | SIA_GETBTNSTATE ,
+			SIS_CheckButtonEx,
+			7,
+			L"Auto Trig Source\0Auto Trig Source\0Auto Trig Source\0\0",
+			NULL,
+			BtnWidth_W,
+			BtnHeith_H,
+			NULL,
+			{ (void *)0x00040500, 0, (void *)0xD652CC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+			INVALID_INDEX,
+			NULL,
+			NULL,
+			TA_SR,
+			CA_SR,
+			NULL,
+			NULL,
+			RESERVE_DWORD4,
+			RESERVE_DWORD4
+		}
 	,
 	{
 		SIF_ORIGCLICK,
 		SIA_FULLLINE,
 		SIS_ButtonEx,
-		7,
+		8,
 		L"Save Trace Data\0保存曲线数据\0保存曲線數據\0\0",
 		NULL,
 		BtnWidth_W,
@@ -660,7 +687,7 @@ static SOFT_SUB_ITEM subitemSaveState[] =
 		SIF_ORIGCLICK,
 		SIA_FULLLINE,
 		SIS_ButtonEx,
-		8,
+		10,
 		L"Explorer\0资源管理器\0資源管理器\0\0",
 		NULL,
 		BtnWidth_W,
@@ -1028,6 +1055,7 @@ static SOFT_SUB_ITEM subitemRecallState[] =
 		RESERVE_DWORD4,
 		RESERVE_DWORD4
 	}
+		
 	,
 	{
 		SIF_ORIGCLICK,
@@ -1061,13 +1089,13 @@ static SOFT_SUB_ITEM subitemSaveChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		0,
-		L"State && Cal A\0状态&&校准数据A\0狀態&&校準數據A\0\0",
+		L"State A\0状态A\0狀態A\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1084,13 +1112,13 @@ static SOFT_SUB_ITEM subitemSaveChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		1,
-		L"State && Cal B\0状态&&校准数据B\0狀態&&校準數據B\0\0",
+		L"State B\0状态B\0狀態B\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1107,13 +1135,13 @@ static SOFT_SUB_ITEM subitemSaveChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		2,
-		L"State && Cal C\0状态&&校准数据C\0狀態&&校準數據C\0\0",
+		L"State C\0状态C\0狀態C\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1130,105 +1158,13 @@ static SOFT_SUB_ITEM subitemSaveChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		3,
-		L"State && Cal D\0状态&&校准数据D\0狀態&&校準數據D\0\0",
+		L"State D\0状态D\0狀態D\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_SC,
-		CA_SR_SC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		4,
-		L"Cal Only A\0仅校准数据A\0僅校準數據A\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
 		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_SC,
-		CA_SR_SC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		5,
-		L"Cal Only B\0仅校准数据B\0僅校準數據B\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_SC,
-		CA_SR_SC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		6,
-		L"Cal Only C\0仅校准数据C\0僅校準數據C\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_SC,
-		CA_SR_SC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK | SIF_FN_CLICKED | SIF_FN_UPDATEDATA,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		7,
-		L"Cal Only D\0仅校准数据D\0僅校準數據D\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		{ 0, &fnItemClicked_SC, 0, &fnUpdateData_SC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1272,13 +1208,13 @@ static SOFT_SUB_ITEM subitemRecallChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		0,
-		L"Unknown A\0未知 A\0未知 A\0\0",
+		L"State A\0状态A\0狀態A\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, 0, 0, &fnUpdateData_RC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1295,13 +1231,13 @@ static SOFT_SUB_ITEM subitemRecallChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		1,
-		L"Unknown B\0未知 B\0未知 B\0\0",
+		L"State B\0状态B\0狀態B\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, 0, 0, &fnUpdateData_RC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1318,13 +1254,13 @@ static SOFT_SUB_ITEM subitemRecallChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		2,
-		L"Unknown C\0未知 C\0未知 C\0\0",
+		L"State C\0状态C\0狀態C\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
 		NULL,
 		RESERVE_DWORD16,
-		{ 0, 0, 0, &fnUpdateData_RC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
 		INVALID_INDEX,
 		NULL,
 		NULL,
@@ -1341,99 +1277,7 @@ static SOFT_SUB_ITEM subitemRecallChannel[] =
 		SIA_FULLLINE,
 		SIS_ButtonEx,
 		3,
-		L"Unknown D\0未知 D\0未知 D\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		{ 0, 0, 0, &fnUpdateData_RC, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_RC,
-		CA_SR_RC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		4,
-		L"Cal Only A\0仅校准数据A\0僅校準數據A\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_RC,
-		CA_SR_RC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		5,
-		L"Cal Only B\0仅校准数据B\0僅校準數據B\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_RC,
-		CA_SR_RC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		6,
-		L"Cal Only C\0仅校准数据C\0僅校準數據C\0\0",
-		NULL,
-		BtnWidth_W,
-		BtnHeith_H,
-		NULL,
-		RESERVE_DWORD16,
-		RESERVE_DWORD16,
-		INVALID_INDEX,
-		NULL,
-		NULL,
-		TA_SR_RC,
-		CA_SR_RC,
-		0,
-		NULL,
-		RESERVE_DWORD4,
-		RESERVE_DWORD4
-	}
-	,
-	{
-		SIF_ORIGCLICK,
-		SIA_FULLLINE,
-		SIS_ButtonEx,
-		7,
-		L"Cal Only D\0仅校准数据D\0僅校準數據D\0\0",
+		L"State D\0状态D\0狀態D\0\0",
 		NULL,
 		BtnWidth_W,
 		BtnHeith_H,
@@ -1462,6 +1306,7 @@ static int WINAPI fnTagPageEnter_SS(DWORD dwFlags, WPARAM wParam, LPARAM lParam,
 	OrigSoftMenu_UpdateItems(CA_SR_SS);
 	return 0;
 }
+
 //RS==recall state
 static int WINAPI fnTagPageEnter_RS(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
 {
@@ -1483,6 +1328,7 @@ static int WINAPI fnTagPageEnter_SC(DWORD dwFlags, WPARAM wParam, LPARAM lParam,
 	OrigSoftMenu_UpdateItems(CA_SR_SC);
 	return 0;
 }
+
 //RC==Recall channel
 static int WINAPI fnTagPageEnter_RC(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
 {

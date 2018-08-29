@@ -3,150 +3,110 @@
 extern CALDLG_CTXT dcCal_1;
 
 static void UpdateButtonState(HWND hClient);
+static void ChangeCurPortNumber(int nPort);
 
-/*
-static void TestSelected_21(HWND hClient)
-{
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), FALSE);
-return;
-}
-
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), TRUE);
-}
-
-static void TestSelected_12(HWND hClient)
-{
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-return;
-}
-
-if (Button_GetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T)) == BST_UNCHECKED)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-return;
-}
-
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), TRUE);
-}
-
-static void UnSelected(HWND hClient)
-{
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), FALSE);
-EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-
-
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T), BST_UNCHECKED);
-Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I), BST_UNCHECKED);
-}
-*/
 
 INT_PTR WINAPI fndeCal_1_3(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, LPARAM lParam, LPARAM lParam2)
 {
-	if (lpDlgCtxt == NULL) return -1;
+	if (lpDlgCtxt == NULL) 
+		return -1;
+	void *lpThis_Temp = nullptr;
 
 	INT_PTR lResult = 0;
 
 	switch (dwCode)
 	{
 	case DEC_ENTER:
-
-		OrigSoftMenu_Enter(CA_CALCAL);
-		OrigSoftMenu_UpdateItems(CA_CALCAL);
-
-		OrigSoftMenu_Enter(CA_CC_ER);
-		OrigSoftMenu_UpdateItems(CA_CC_ER);
-
-
+		OrigSoftMenu_UpdateItems(CA_CALIBRAT);
+		OrigSoftMenu_Enter(CA_CAL_CAL);
+		OrigSoftMenu_UpdateItems(CA_CAL_CAL);
+		OrigSoftMenu_Enter(CA_CAL_CAL_Enh);
+		OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+		
 		EnableWindow(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_OK), FALSE);
 		EnableWindow(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_OK), FALSE);
 
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_GB_P21), GetStringByIndex(L"Port 2-1 (S21 S11)\0端口2-1 (S21 S11)\0端口2-1 (S21 S11)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_GB_P12), GetStringByIndex(L"Port 1-2 (S12 S22)\0端口1-2 (S12 S22)\0端口1-2 (S12 S22)\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_GB_P21),
-			GetStringByIndex(L"Port 2-1 (S21 S11)\0端口2-1 (S21 S11)\0端口2-1 (S21 S11)\0\0", nLangId));
+		ChangeCurPortNumber(0);
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_GB_P12),
-			GetStringByIndex(L"Port 1-2 (S12 S22)\0端口1-2 (S12 S22)\0端口1-2 (S12 S22)\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_O), GetStringByIndex(L"Open(f)\0开路器(f)\0開路器(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_O), GetStringByIndex(L"Open\0开路器\0開路器\0\0", nLangId));
 
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_S), GetStringByIndex(L"Short(f)\0短路器(f)\0短路器(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_S), GetStringByIndex(L"Short\0短路器\0短路器\0\0", nLangId));
 
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_L), GetStringByIndex(L"Load(f)\0负载(f)\0負載(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_L), GetStringByIndex(L"Load\0负载\0負載\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_O),
-			GetStringByIndex(L"Open\0开路器\0開路器\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_T), GetStringByIndex(L"Thru(f)\0短接(f)\0短接(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_T), GetStringByIndex(L"Thru\0短接\0短接\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_S),
-			GetStringByIndex(L"Short\0短路器\0短路器\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_I), GetStringByIndex(L"Isolation(f)(Optional)\0隔离(f)(可选)\0隔離(f)(可選)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_I), GetStringByIndex(L"Isolation (Optional)\0隔离 (可选)\0隔離 (可選)\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_L),
-			GetStringByIndex(L"Load\0负载\0負載\0\0", nLangId));
+		ChangeCurPortNumber(1);
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_T),
-			GetStringByIndex(L"Thru\0短接\0短接\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_O), GetStringByIndex(L"Open(f)\0开路器(f)\0開路器(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_O), GetStringByIndex(L"Open\0开路器\0開路器\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_I),
-			GetStringByIndex(L"Isolation (Optional)\0隔离 (可选)\0隔離 (可選)\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_S), GetStringByIndex(L"Short(f)\0短路器(f)\0短路器(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_S), GetStringByIndex(L"Short\0短路器\0短路器\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_O),
-			GetStringByIndex(L"Open\0开路器\0開路器\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_L), GetStringByIndex(L"Load(f)\0负载(f)\0負載(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_L), GetStringByIndex(L"Load\0负载\0負載\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_S),
-			GetStringByIndex(L"Short\0短路器\0短路器\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_T), GetStringByIndex(L"Thru(f)\0短接(f)\0短接(f)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_T), GetStringByIndex(L"Thru\0短接\0短接\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_L),
-			GetStringByIndex(L"Load\0负载\0負載\0\0", nLangId));
+		lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+		if (lpThis_Temp)
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_I), GetStringByIndex(L"Isolation(f)(Optional)\0隔离(f)(可选)\0隔離(f)(可選)\0\0", nLangId));
+		else
+			SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_I), GetStringByIndex(L"Isolation (Optional)\0隔离 (可选)\0隔離 (可選)\0\0", nLangId));
+		
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_O2), GetStringByIndex(L"Open(m)\0开路器(m)\0開路器(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_S2), GetStringByIndex(L"Short(m)\0短路器(m)\0短路器(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_L2), GetStringByIndex(L"Load(m)\0负载(m)\0負載(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_T2), GetStringByIndex(L"Thru(m)\0短接(m)\0短接(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_I2), GetStringByIndex(L"Isolation(m)(Optional)\0隔离(m)(可选)\0隔離(m)(可選)\0\0", nLangId));
 
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_T),
-			GetStringByIndex(L"Thru\0短接\0短接\0\0", nLangId));
-
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_I),
-			GetStringByIndex(L"Isolation (Optional)\0隔离 (可选)\0隔離 (可選)\0\0", nLangId));
-
-
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_OK),
-			GetStringByIndex(L"Done\0完成\0完成\0\0", nLangId));
-
-		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_OK),
-			GetStringByIndex(L"Done\0完成\0完成\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_O2), GetStringByIndex(L"Open(m)\0开路器(m)\0開路器(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_S2), GetStringByIndex(L"Short(m)\0短路器(m)\0短路器(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_L2), GetStringByIndex(L"Load(m)\0负载(m)\0負載(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_T2), GetStringByIndex(L"Thru(m)\0短接(m)\0短接(m)\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_I2), GetStringByIndex(L"Isolation(m)(Optional)\0隔离(m)(可选)\0隔離(m)(可選)\0\0", nLangId));
+		
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P21_OK),			GetStringByIndex(L"Done\0完成\0完成\0\0", nLangId));
+		SetWindowTextW(GetDlgItem((HWND)lParam2, IDC_CAL13_P12_OK),			GetStringByIndex(L"Done\0完成\0完成\0\0", nLangId));
 
 		UpdateButtonState((HWND)lParam2);
 		SetTimer((HWND)lParam2, 1, 50, NULL);
@@ -164,12 +124,11 @@ INT_PTR WINAPI fndeCal_1_3(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, 
 
 		if (DialogMsgBox_Cal(lpText, lpTitle, MB_YESNO) == IDYES)
 		{
-			OrigSoftMenu_Enter(CA_CC_XX_C);
-			OrigSoftMenu_UpdateItems(CA_CC_XX_C);
+			OrigSoftMenu_Enter(CA_CAL_CAL_XX_CANCEL);
+			OrigSoftMenu_UpdateItems(CA_CAL_CAL_XX_CANCEL);
 
-			OrigSoftMenu_ItemClicked2(CA_CC_XX_C, TA_CC_XX_C, 0);
+			OrigSoftMenu_ItemClicked2(CA_CAL_CAL_XX_CANCEL, TA_CAL_CAL_XX_CANCEL, 0);
 
-			//UnSelected(lpDlgCtxt->hwClient);
 			UpdateButtonState(lpDlgCtxt->hwClient);
 		}
 	}
@@ -187,233 +146,189 @@ INT_PTR WINAPI fndeCal_1_3(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, 
 
 static void ChangeCurPortNumber(int nPort)
 {
-	int nIndex = 0;
+	OrigSoftMenu_Enter(CA_CAL_CAL_Enh_SP);
+	OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh_SP);
 
-	GetButtonStateIndex((const char *)0x00B78CA0, NULL, &nIndex, 0x00010000);
-
-	switch (nPort)
-	{
-	case 21:
-		if (nIndex != 0)
-		{
-			OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 0);
-		}
-		break;
-	case 12:
-		if (nIndex != 1)
-		{
-			OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 0);
-		}
-		break;
-	}
+	OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh_SP, TA_CAL_CAL_Enh_SP, nPort);
 }
 
 static void UpdateButtonState(HWND hClient)
 {
 	BOOL blTmp = FALSE;
+	VOID *lpThis_Temp = nullptr;
 
-	OrigSoftMenu_UpdateItems(CA_CC_ER);
-	OrigSoftMenu_GetItemState(CA_CC_ER, 0, &blTmp, NULL, NULL);
 
-	if (blTmp)
+	ChangeCurPortNumber(0);
+	OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+	if (lpThis_Temp)
 	{
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_O), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_S), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_L), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_T), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_I), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), TRUE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_GB_P12), TRUE);
-
-		ChangeCurPortNumber(21);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 1, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 2, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 3, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 4, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 5, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 6, &blTmp, NULL, NULL);
-
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), blTmp);
-
-		ChangeCurPortNumber(12);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 1, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 2, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 3, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 4, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 5, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 6, &blTmp, NULL, NULL);
-
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), blTmp);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
 	}
 	else
 	{
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_O), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_S), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_L), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_T), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_I), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), FALSE);
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_GB_P12), FALSE);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 1, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 2, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 3, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 4, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 5, NULL, &blTmp, NULL);
-
-		if (blTmp)
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), BST_CHECKED);
-		else
-			Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), BST_UNCHECKED);
-
-		OrigSoftMenu_GetItemState(CA_CC_ER, 6, &blTmp, NULL, NULL);
-
-		EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), blTmp);
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P21_O2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_O), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
 	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P21_S2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 2, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_S), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P21_L2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 3, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_L), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P21_T2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 4, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_T), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P21_I2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 5, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P21_I), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 6, &blTmp, NULL, NULL);
+	EnableWindow(GetDlgItem(hClient, IDC_CAL13_P21_OK), blTmp);
+
+
+	ChangeCurPortNumber(1);
+	OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P12_O2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_O), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P12_S2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 2, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_S), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P12_L2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 3, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_L), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P12_T2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 4, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_T), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+
+	lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+	if (lpThis_Temp)
+	{
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 0, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+		OrigSoftMenu_GetItemState((void *)((DWORD)lpThis_Temp - BASE), 1, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I2), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	else
+	{
+		ShowWindow(GetDlgItem(hClient, IDC_CAL13_P12_I2), 0);
+		OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 5, NULL, &blTmp, NULL);
+		Button_SetCheck(GetDlgItem(hClient, IDC_CAL13_P12_I), (blTmp) ? BST_CHECKED : BST_UNCHECKED);
+	}
+	OrigSoftMenu_GetItemState(CA_CAL_CAL_Enh, 6, &blTmp, NULL, NULL);
+	EnableWindow(GetDlgItem(hClient, IDC_CAL13_P12_OK), blTmp);
 }
 
 
 INT_PTR CALLBACK fndpCal_1_3(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
+	void *lpThis_Temp = nullptr, *lpThis_SP = nullptr;
+
 	switch (msg)
 	{
 	case WM_INITDIALOG:
 		return TRUE;
-		/*
-	case WM_PAINT:
-	{
-		PAINTSTRUCT ps;
-		HDC hDC = BeginPaint(hDlg, &ps), hCDC;
-		BOOL blCDC = TRUE;
-		HBITMAP hBM;
-		RECT rect;
-		int cx, cy;
-
-		if (hDC == NULL)
-			break;
-
-		GetClientRect(hDlg, &rect);
-		cx = rect.right - rect.left;
-		cy = rect.bottom - rect.top;
-
-		//尝试使用双缓冲
-		hCDC = CreateCompatibleDC(hDC);
-
-		//判断双缓冲
-		if (hCDC == NULL)
-		{
-			hCDC = hDC;
-			blCDC = FALSE;
-		}
-		else if (hBM = CreateCompatibleBitmap(hDC, cx, cy))
-		{
-			SelectObject(hCDC, hBM);
-			DeleteObject(hBM);
-		}
-		else
-		{
-			DeleteDC(hCDC);
-			hCDC = hDC;
-			blCDC = FALSE;
-		}
-		SelectObject(hCDC, hCalDlg_bk);
-		Rectangle(hCDC, rect.left, rect.top, rect.right, rect.bottom);
-
-		if (blCDC)
-		{
-			BitBlt(hDC, rect.left, rect.top, cx, cy, hCDC, rect.left, rect.top, SRCCOPY);
-			DeleteDC(hCDC);
-		}
-
-		EndPaint(hDlg, &ps);
-	}
-	return 0;*/
 
 	case WM_TIMER:
 		if (wParam == 1)
@@ -434,85 +349,246 @@ INT_PTR CALLBACK fndpCal_1_3(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 				switch (wId)
 				{
 				case IDC_CAL13_P21_O:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 1);
-					//TestSelected_21(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 1);
+					break;
+
+				case IDC_CAL13_P21_O2:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P21_S:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 2);
-					//TestSelected_21(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 2);
+					break;
+
+				case IDC_CAL13_P21_S2:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P21_L:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 3);
-					//TestSelected_21(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 3);
+					break;
+
+				case IDC_CAL13_P21_L2:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P21_T:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 4);
-					//TestSelected_21(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 4);
+					break;
+
+				case IDC_CAL13_P21_T2:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P21_I:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 5);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 5);
 					break;
 
-				case IDC_CAL13_P12_O:
+				case IDC_CAL13_P21_I2:
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 1);
-					//TestSelected_12(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
+					break;
+
+
+				case IDC_CAL13_P12_O:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 1);
+					break;
+
+				case IDC_CAL13_P12_O2:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 1);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P12_S:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 2);
-					//TestSelected_12(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 2);
+					break;
+
+				case IDC_CAL13_P12_S2:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 2);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P12_L:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 3);
-					//TestSelected_12(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 3);
+					break;
+
+				case IDC_CAL13_P12_L2:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 3);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P12_T:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 4);
-					//TestSelected_12(hDlg);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 4);
+					break;
+
+				case IDC_CAL13_P12_T2:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 4);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P12_I:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
 
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 5);
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+					if (lpThis_Temp)
+					{
+						lpThis_SP = *(void **)lpThis_Temp;
+						OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 0);
+					}
+					else
+						OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 5);
+					break;
+
+				case IDC_CAL13_P12_I2:
+					ChangeCurPortNumber(1);
+					OrigSoftMenu_UpdateItems(CA_CAL_CAL_Enh);
+
+					lpThis_Temp = GetSubMenuPointer(CA_CAL_CAL_Enh, 5);
+					lpThis_SP = *(void **)lpThis_Temp;
+					OrigSoftMenu_ItemClicked2((void *)((DWORD)lpThis_Temp - BASE), (void *)((DWORD)lpThis_SP - BASE), 1);
 					break;
 
 				case IDC_CAL13_P21_OK:
-
-					ChangeCurPortNumber(21);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 6);
-					//DestroyDialog_Cal(0);
+					ChangeCurPortNumber(0);
+					OrigSoftMenu_UpdateItems(TA_CAL_CAL_Enh);
+					OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 6);
 					break;
 
 				case IDC_CAL13_P12_OK:
-
-					ChangeCurPortNumber(12);
-					OrigSoftMenu_ItemClicked2(CA_CC_ER, TA_CC_ER, 6);
-					//DestroyDialog_Cal(0);
+					ChangeCurPortNumber(1);			
+					OrigSoftMenu_UpdateItems(TA_CAL_CAL_Enh);
+					OrigSoftMenu_ItemClicked2(CA_CAL_CAL_Enh, TA_CAL_CAL_Enh, 6);
 					break;
 				}
 

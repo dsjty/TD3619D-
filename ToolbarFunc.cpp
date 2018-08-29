@@ -398,7 +398,7 @@ int WINAPI fntbEvent_Snapshot(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND h
 	switch (dwCode)
 	{
 	case TBEC_CLICKED:
-		OrigSoftMenu_ItemClicked2(CA_SYSTEM, TA_SYSTEM, 4);
+		OrigSoftMenu_ItemClicked2(CA_SYSTEM, TA_SYSTEM, 2);
 		break;
 	}
 
@@ -446,7 +446,7 @@ int WINAPI fntbEvent_Invert(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND hTo
 	switch (dwCode)
 	{
 	case TBEC_CLICKED:
-		OrigSoftMenu_ItemClicked2(CA_DISPLAY, TA_DISPLAY, 10);
+		OrigSoftMenu_ItemClicked2(CA_DISPLAY, TA_DISPLAY, 12);
 		UpdateCurrentItemsAndData();
 		break;
 	}
@@ -461,7 +461,7 @@ int WINAPI fntbEvent_NewTrace(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND h
 	{
 		int nIndex = 0;
 
-		GetButtonStateIndex((char *)0x00B6ACA4, (void *)0x0B, &nIndex, 0x00010000);
+		GetButtonStateIndex((char *)0x00D6A8CC, (void *)0x0B, &nIndex, 0x00010000);
 
 		if ((nIndex > 0) && (nIndex < 4))
 		{
@@ -484,7 +484,7 @@ int WINAPI fntbEvent_DelTrace(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND h
 	{
 		int nIndex = 0;
 
-		GetButtonStateIndex((char *)0x00B6ACA4, (void *)0x0B, &nIndex, 0x00010000);
+		GetButtonStateIndex((char *)0x00D6A8CC, (void *)0x0B, &nIndex, 0x00010000);
 
 		if ((nIndex-- > 0))
 		{
@@ -530,7 +530,7 @@ int WINAPI fntbEvent_Marker(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND hTo
 	{
 		for (int nIndex = 0; nIndex < 9; nIndex++)
 		{
-			if (GetButtonCheckState((void *)0x00BC1458, nIndex) == 0)
+			if (GetButtonCheckState((void *)0x035BADD0, nIndex) == 0)
 			{
 				if (nIndex < 4)
 				{
@@ -563,7 +563,7 @@ int WINAPI fntbEvent_MarkerSub(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND 
 		for (int nIndex = 9; nIndex > 0; nIndex--)	
 		{
 			iSer = nIndex + 1;
-			if (GetButtonCheckState((void*)0x00BC1458, nIndex) != 0)  //目测问题是查询的按钮为nIndex-1序列
+			if (GetButtonCheckState((void*)0x035BADD0, nIndex) != 0)  //目测问题是查询的按钮为nIndex-1序列
 			{
 				OrigSoftMenu_ItemClicked2(CA_CLRMARKER, TA_CLRMARKER, iSer);
 				break;

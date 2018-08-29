@@ -23,9 +23,9 @@ int SubCtrl_InputButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 		rcSub.right -= 8;
 
 		if (rcSub.bottom - 30 < 26)
-			rcSub.top = 18;
+			rcSub.top = 20;
 		else
-			rcSub.top = rcSub.bottom - 30;
+			rcSub.top = rcSub.bottom - 32;
 
 		if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) || CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))
 		{
@@ -59,7 +59,7 @@ int SubCtrl_InputButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 		}
 
 		if (lpMe->lpOpt[4])
-			MoveWindow((HWND)lpMe->lpOpt[4], rcSub.left, rcSub.top, rcSub.right - rcSub.left, 16, TRUE);
+			MoveWindow((HWND)lpMe->lpOpt[4], rcSub.left, rcSub.top, rcSub.right - rcSub.left, 20, TRUE);
 	}
 
 	return 0;
@@ -154,7 +154,7 @@ LRESULT SubCtrl_InputButton_OnClicked(PSOFT_SUB_ITEM lpSubItem, int nCtrlId, HWN
 			}
 			else
 			{
-				char szText[MAX_PATH];
+				char szText[MAX_PATH] = { 0 };
 				szText[0] = 0;
 
 				if (CHK_NOFLAGS(lpSubItem->dwAttributes, SIA_READONLY))
@@ -311,12 +311,12 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (lpSubItem)
 			{
 				DWORD dwStart, dwEnd;
-				WCHAR wcsText[MAX_PATH];
-				char szText[MAX_PATH];
-				char szText2[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
+				char szText[MAX_PATH] = { 0 };
+				char szText2[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
-				WideCharToMultiByte(1253, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
+				WideCharToMultiByte(CP_ACP, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
 				TrimLeft(szText, MAX_PATH);
 				BreakString(szText, MAX_PATH);
 
@@ -337,7 +337,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				else
 					strcpy_s(szText2, MAX_PATH, "-");
 
-				MultiByteToWideChar(1253, 0, szText2, -1, wcsText, MAX_PATH);
+				MultiByteToWideChar(CP_ACP, 0, szText2, -1, wcsText, MAX_PATH);
 				SetWindowTextW(hWnd, wcsText);
 
 				if (*szText2 == '-')
@@ -350,7 +350,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'G':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_NOFLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "G");
@@ -362,7 +362,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'M':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_NOFLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "M");
@@ -374,7 +374,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'k':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_NOFLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "k");
@@ -386,7 +386,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'a':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "a");
@@ -398,7 +398,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'f':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "f");
@@ -410,7 +410,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'p':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "p");
@@ -422,7 +422,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'n':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "n");
@@ -434,7 +434,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'u':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "\xEC\0");   //μ
@@ -446,7 +446,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'm':
 			if (lpSubItem && lpSubItem->lpOpt[1] && CHK_FLAGS(lpSubItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpSubItem->lpOpt[1], wcsText, MAX_PATH, "m");
@@ -541,7 +541,7 @@ LRESULT CALLBACK wp_InputBox(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if ((HWND)wParam == lpSubItem->_hWnd) 
 				break;
 
-			WCHAR wcsText[MAX_PATH];
+			WCHAR wcsText[MAX_PATH] = { 0 };
 
 			if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOREPLY) && lpSubItem->lpThis && lpSubItem->lpVTable)
 			{

@@ -6,9 +6,9 @@
 
 //菜单按钮宽度和高度;
 #define BtnWidth_W	10
-#define BtnHeith_H  24
+#define BtnHeith_H  36
 
-#define BtnHeith_H2  40
+#define BtnHeith_H2  46
 #define BtnHeith_Root	34
 
 
@@ -58,6 +58,17 @@ extern HFONT hFont_cfg1, hFont_cfg2;      //字体配置1
 
 #define IDB_BMP_X9_1                    170
 
+#define  IDB_BMP_SeLShC					154
+#define  IDB_BMP_ShCSeL					150
+#define  IDB_BMP_ShLSeC					152
+#define  IDB_BMP_SeCShL					153
+#define  IDB_BMP_ShLShC					151
+#define  IDB_BMP_SeCShC					199	
+#define  IDB_BMP_ShCSeC					200
+#define  IDB_BMP_SeLShL					201
+#define  IDB_BMP_ShLSeL					202
+#define  IDB_BMP_User					155
+
 
 #define GET_BYTE_0(n)           ((BYTE)(((DWORD_PTR)(n)) & 0xff))
 #define GET_BYTE_1(n)           ((BYTE)((((DWORD_PTR)(n)) >> 8) & 0xff))
@@ -88,6 +99,8 @@ extern HFONT hFont_cfg1, hFont_cfg2;      //字体配置1
 
 extern DWORD dwBaseAdd;
 
+#define PORTNUM										2		//机器端口数
+
 #define BASE										dwBaseAdd
 
 #define TA_ROOT										(void *)(0xD7CD4C)
@@ -99,6 +112,238 @@ extern DWORD dwBaseAdd;
 //Preset
 #define TA_PRESET									(void *)(0xD820F4)
 #define CA_PRESET									(void *)(0x163CA68)
+
+
+
+
+//Calibration
+#define CA_CALIBRAT									(void *)0x1639060
+#define TA_CALIBRAT									(void *)0xD7727C
+
+//Calibration :: ECal
+#define CA_ECAL										(void *)0x1638E20
+#define TA_ECAL										(void *)0xD778BC
+
+//Calibration :: ECal::1-Port Cal
+#define CA_ECAL_PORTCAL								(void *)0x1638B20
+#define TA_ECAL_PORTCAL								(void *)0xD778EC
+
+//Calibration :: ECal::Thru CAL
+#define CA_ECAL_THRUCAL								(void *)0x1638CA0
+#define TA_ECAL_THRUCAL								(void *)0xD779DC
+
+//Calibration :: ECal::Enhanced Response
+#define CA_ECAL_EnhRes								(void *)0x1638D00
+#define TA_ECAL_EnhRes								(void *)0xD77A18
+
+//Calibration :: ECal::Characterization
+#define CA_ECAL_CHAR								(void *)0x1638D60
+#define TA_ECAL_CHAR								(void *)0xD77A5C
+
+//Calibration :: ECal::Orientation
+#define CA_ECAL_ORIT								(void *)0x1638DC0
+#define TA_ECAL_ORIT								(void *)0xD77AD0
+
+//Calibration :: ECal::ECAL
+#define CA_ECAL_ECAL								(void *)0x1639540
+#define TA_ECAL_ECAL								(void *)0xD79564
+
+
+//Calibration :: Calibrate
+#define CA_CAL_CAL									(void *)0x1638AB8
+#define TA_CAL_CAL									(void *)0xD7756C
+
+//Calibration :: Calibrate::Response(open)
+#define TA_CAL_CAL_Resp_OS							(void *)0xD7818C
+
+//Calibration :: Calibrate::Response(open)::Select Port
+#define TA_CAL_CAL_Resp_OS_SP						(void *)0xD77704
+
+//Calibration :: Calibrate::Response(open)::Open
+#define TA_CAL_CAL_Resp_OS_OP						(void *)0xD78020
+
+//Calibration :: Calibrate::Response(Thru)
+#define CA_CAL_CAL_Resp_T							(void *)0x16385D8
+#define TA_CAL_CAL_Resp_T							(void *)0xD775CC
+
+//Calibration :: Calibrate::Response(Thru)::SP
+#define TA_CAL_CAL_Resp_T_SP						(void *)0xD77634
+
+//Calibration :: Calibrate::Enhanced
+#define CA_CAL_CAL_Enh								(void *)0x1638698
+#define TA_CAL_CAL_Enh								(void *)0xD77674
+
+//Calibration :: Calibrate::Enhanced::Select Port
+#define CA_CAL_CAL_Enh_SP								(void *)0x1638638
+#define TA_CAL_CAL_Enh_SP								(void *)0xD776A4
+
+//Calibration :: Calibrate::XXX::Cancel		(通用)
+#define CA_CAL_CAL_XX_CANCEL						(void *)0x1638458
+#define TA_CAL_CAL_XX_CANCEL						(void *)0xD775fc
+
+//Calibration :: Calibrate::1-Port Cal
+#define CA_CAL_CAL_OnePCal							(void *)0x16386F8
+#define TA_CAL_CAL_OnePCal							(void *)0xD776D4
+
+//Calibration :: Calibrate::1-Port Cal::Select Port
+#define TA_CAL_CAL_OnePCal_SP						(void *)0xD77704
+
+//Calibration :: Calibrate::1-Port Cal::Open
+#define TA_CAL_CAL_OnePCal_OP						(void *)0xD78020
+
+//Calibration :: Calibrate::2-Port Cal
+#define TA_CAL_CAL_TWOPCal							(void *)0xD77748
+//Calibration :: Calibrate::2-Port Cal::Re
+#define TA_CAL_CAL_TWOPCal_R						(void *)0xD77778
+//Calibration :: Calibrate::2-Port Cal::Trans
+#define TA_CAL_CAL_TWOPCal_T						(void *)0xD777D8
+//Calibration :: Calibrate::2-Port Cal::Iso
+#define TA_CAL_CAL_TWOPCal_I						(void *)0xD77808
+
+//Calibration :: Calibrate::2-Port TRL Cal
+#define TA_CAL_CAL_2TRLCal							(void *)0x0D77850
+
+//Calibration :: Calibrate::2-Port TRL Cal::Thru/Line
+#define TA_CAL_CAL_2TRLCal_TL							(void *)0x0D777D8
+//Calibration :: Calibrate::2-Port TRL Cal::Reflect
+#define TA_CAL_CAL_2TRLCal_REF							(void *)0x0D77880
+//Calibration :: Calibrate::2-Port TRL Cal::Line/Match
+#define TA_CAL_CAL_2TRLCal_LM							(void *)0x0D777D8
+
+
+//Calibration :: Calibrate::AdapterRemoval
+#define CA_CAL_CAL_AdaRe       					(void *)0x1638578
+#define TA_CAL_CAL_AdaRe					    (void *)0xD77D88
+
+
+//Calibration :: Clear
+#define CA_CAL_CLS						(void *)0x1638A58
+#define TA_CAL_CLS						(void *)0xD77534
+
+
+//Calibration :: Cal Kit
+#define CA_CAL_CALK						(void *)0x1638518
+#define TA_CAL_CALK						(void *)0xD772AC
+
+//Calibration :: Modify Cal Kit
+#define CA_CAL_MCK						(void *)0x16389F8
+#define TA_CAL_MCK						(void *)0xD772F0
+
+//Calibration :: Modify Cal Kit :: Define STDs
+#define CA_CAL_MCK_DSTD					(void *)0x16387B8
+#define TA_CAL_MCK_DSTD					(void *)0xD77320
+
+//Calibration :: Modify Cal Kit :: Define STDs::ALL
+#define TA_CALMCK_DSTD_ALL			(void *)0xD77350
+
+//Calibration :: Modify Cal Kit :: Define STDs::Short(m)::STD Type
+#define CA_CAL_MCK_DSTD_SHORTm_STD			(void *)0x16392D8
+#define TA_CAL_MCK_DSTD_SHORTm_STD			(void *)0xD771BC		//???
+
+//Calibration :: Modify Cal Kit :: Define STDs::ALL::STD Type
+#define CA_CAL_MCK_DSTD_ALL_STD				(void *)0x16392D8
+#define TA_CAL_MCK_DSTD_ALL_STD				(void *)0xD781BC
+
+//Calibration :: Modify Cal Kit :: Define STDs::Thru::LengthType
+#define TA_CAL_MCK_DSTD_THRU_LENTP			(void *)0xD77380
+
+
+//Calibration :: Modify Cal Kit :: Specify CLSs
+#define CA_CAL_MCK_SPCCLS					(void *)0x16388D8
+#define TA_CAL_MCK_SPCCLS					(void *)0xD773E0
+
+//Calibration :: Modify Cal Kit :: Specify CLSs::Sub Class
+#define CA_CAL_MCK_SPCCLS_SUBCLA				(void *)0x1638878
+#define TA_CAL_MCK_SPCCLS_SUBCLA				(void *)0xD7744C
+
+//Calibration :: Modify Cal Kit :: Specify CLSs::Open&Short&load
+#define TA_CAL_MCK_SPCCLS_OSL					(void *)0xD78220
+//Calibration :: Modify Cal Kit :: Specify CLSs::Open::SetAll
+#define CA_CAL_MCK_SPCCLS_OSL_SA				(void *)0x1639130
+#define TA_CAL_MCK_SPCCLS_OSL_SA				(void *)0xD78280
+//Calibration :: Modify Cal Kit :: Specify CLSs::Open::Port
+#define TA_CAL_MCK_SPCCLS_OSL_PORTn				(void *)0xD78250
+
+
+
+//Calibration :: Modify Cal Kit :: Specify CLSs::Thru&TRLLine/Match
+#define TA_CAL_MCK_SPCCLS_THRU					(void *)0xD782D4
+//Calibration :: Modify Cal Kit :: Specify CLSs::Thru&TRLLine/Match::SetAll
+#define CA_CAL_MCK_SPCCLS_THRU_SA					(void *)0x16391b0
+#define TA_CAL_MCK_SPCCLS_THRU_SA					(void *)0xD78340
+//Calibration :: Modify Cal Kit :: Specify CLSs::Thru&TRLLine/Match::Port
+#define TA_CAL_MCK_SPCCLS_THRU_PORT					(void *)0xD78304
+
+//Calibration :: Modify Cal Kit :: Specify CLSs::TRL Reflect
+#define CA_CAL_MCK_SPCCLS_TRLREF						(void *)0x1638818
+#define TA_CAL_MCK_SPCCLS_TRLREF						(void *)0xD77410
+
+
+//Calibration :: Modify Cal Kit :: TRL Option
+#define CA_CAL_MCK_TRLOp							(void *)0x1638998
+#define TA_CAL_MCK_TRLOp							(void *)0xD776E8
+
+//Calibration :: Modify Cal Kit :: Restore Cal Kit
+#define CA_CAL_MCK_ResCalKit						(void *)0x1638938
+#define TA_CAL_MCK_ResCalKit						(void *)0xD774A8
+
+//Calibration :: PortExtensions
+#define CA_CAL_PE								(void *)0x1638fa0
+#define TA_CAL_PE								(void *)0xD77dc8
+
+//Calibration :: PortExtensions::Auto Port Extension
+#define CA_CAL_PE_AUTOPE								(void *)0x1638F40
+#define TA_CAL_PE_AUTOPE								(void *)0xD77DF8
+
+//Calibration :: PortExtensions::Auto Port Extension::SelectPorts
+#define CA_CAL_PE_AUTOPE_SP							(void *)0x1638EE0
+#define TA_CAL_PE_AUTOPE_SP							(void *)0xD77E58
+
+//Calibration :: PortExtensions::Auto Port Extension::Measure OPEN/SHORT
+#define TA_CAL_PE_AUTOPE_MOP							(void *)0xD77E88
+
+//Calibration :: PortExtensions::Auto Port Extension::Method
+#define CA_CAL_PE_AUTOPE_MT							(void *)0x1638e80
+#define TA_CAL_PE_AUTOPE_MT							(void *)0xD77E28
+
+//Calibration :: PortExtensions::Extension Port1
+#define TA_CAL_PE_EP1								(void *)0xD77ee4
+
+//Calibration :: PortExtensions::Extension Port1::Loss
+#define TA_CAL_PE_EP1_LOS								(void *)0xD77f14
+
+
+//Calibration ::Power Calibration
+#define CA_CAL_PWCAL								(void *)0x163a988
+#define TA_CAL_PWCAL								(void *)0xD7C1B0
+
+//Calibration ::Power Calibration::SelectPort
+#define CA_CAL_PWCAL_SP								(void *)0x163A860
+#define TA_CAL_PWCAL_SP								(void *)0xD7C1E0
+
+//Calibration ::Power Calibration::LossCompen
+#define CA_CAL_PWCAL_LC								(void *)0x163A928
+#define TA_CAL_PWCAL_LC								(void *)0xD7C210
+
+//Calibration ::Power Calibration::LossCompen::Clear
+#define CA_CAL_PWCAL_LC_CLS							(void *)0x163A8C0
+#define TA_CAL_PWCAL_LC_CLS							(void *)0xD7C240
+
+//Calibration ::Power Calibration::Sensor A Settings
+#define TA_CAL_PWCAL_SAS							(void *)0xD7C41C
+
+//Calibration ::Power Calibration::Sensor A Settings::Clear
+#define TA_CAL_PWCAL_SAS_CLS						(void *)0xD7C460
+
+
+//Calibration ::Receiver Calibration
+#define CA_CAL_RECCAL								(void *)0x1639000
+#define TA_CAL_RECCAL								(void *)0xD77B44
+
+//Calibration ::Receiver Calibration::SelectPort&SourcePort
+#define TA_CAL_RECCAL_SELP								(void *)0xD77B74
+
+
 
 
 
@@ -119,9 +364,13 @@ extern DWORD dwBaseAdd;
 #define TA_ANALY_FIXSIM_TOPO_DEV					(void *)(0xD7507C)
 #define CA_ANALY_FIXSIM_TOPO_DEV					(void *)(0x1636420)
 
-//Analysis::Fixtre SiMulator::Topology::Port1
-#define TA_ANALY_FIXSIM_TOPO_P1						(void *)(0xD75004)
-#define CA_ANALY_FIXSIM_TOPO_p1						(void *)(0x16363C0)
+//Analysis::Fixtre SiMulator::Topology(SeBal)::Port1
+#define TA_ANALY_FIXSIM_TOPO_SeBal_P1				(void *)(0xD75004)
+#define CA_ANALY_FIXSIM_TOPO_SeBal_P1				(void *)(0x16363C0)
+
+//Analysis::Fixtre SiMulator::Topology(bal)::Port1
+#define TA_ANALY_FIXSIM_TOPG_BAL_P1					(void *)( 0xD74F50)
+#define CA_ANALY_FIXSIM_TOPG_BAL_P1 				(void *)( 0x16362A0)
 
 //Analysis::Fixtre SiMulator::Topology::Port2
 #define TA_ANALY_FIXSIM_TOPO_P2						(void *)(0xD74F8C)
@@ -129,7 +378,6 @@ extern DWORD dwBaseAdd;
 
 //Analysis::Fixtre SiMulator::Topology::Port3
 #define TA_ANALY_FIXSIM_TOPO_P3						(void *)(0xD74FC8)	 
-#define CA_ANALY_FIXSIM_TOPO_p3							//未找到，需要4端口仪器配合
 
 //Analysis::Fixtre SiMulator::Port Matching
 #define TA_ANALY_FIXSIM_PMATCH						(void *)(0xD74DA4)
@@ -391,7 +639,6 @@ extern DWORD dwBaseAdd;
 #define TA_MARKER									(void *)(0xD7AE4C)
 
 //Clear Marker
-#define FAI_CLRMARKER								(void *)(0x36EB50)
 #define CA_CLRMARKER								(void *)(0x1639EE8)         //0x005413F0
 #define TA_CLRMARKER								(void *)(0xD7AE7C)
 
@@ -400,12 +647,10 @@ extern DWORD dwBaseAdd;
 #define TA_MREMARKER								(void *)(0xD7AEE0)
 
 //Marker Search
-#define FAI_MARKERSEA								(void *)(0x37D380)
 #define CA_MARKERSEA								(void *)(0x163A6C8)	       //0x005553E0
 #define TA_MARKERSEA								(void *)(0xD7B454)
 
 //Marker Search::Search Range
-#define FAI_SEARCHRANGE								(void *)(0x37CEA0)
 #define CA_SEARCHRANGE								(void *)(0x163A668)
 #define TA_SEARCHRANGE								(void *)(0xD7B674)
 
@@ -463,7 +708,6 @@ extern DWORD dwBaseAdd;
 
 //Measurement::Aux Input									
 #define TA_SPARAM_AUXINPUT							(void *)(0xD7B084)
-#define CA_SPARAM_AUXINPUT							(void *)(0x163A020)
 
 //Measurement::Aux Input::Sweep Port						
 #define TA_SPARAM_AUXINPUT_SP						(void *)(0xD7B0B4)
@@ -559,7 +803,6 @@ extern DWORD dwBaseAdd;
 #define TA_SR_SSNP_SF       (void *)(0xD7D028)
 
 //Save/Recall :: Save Snp::S%nP	 
-#define CA_SR_SSNP_S1P      (void *)(0x8E8F878)			//目测不准，需要重定位。
 #define TA_SR_SSNP_S1P      (void *)(0xD7D094)
 
 
@@ -574,19 +817,15 @@ extern DWORD dwBaseAdd;
 #define TA_SYSTEM_MTSS		(void *)(0xD79ECC)
 
 //System::Multiport Test Set Setup::Test Set %d			//根据值确定
-#define CA_SYSTEM_MTSS_TS		(void *)(0xBB1BAF0)			//目测不准，需要重定位。
 #define TA_SYSTEM_MTSS_TS		(void *)(0xD79EFC)
 
 //System::Multiport Test Set Setup::Test Set %d	::Port %d
-#define CA_SYSTEM_MTSS_TS_P		(void *)0x0
 #define TA_SYSTEM_MTSS_TS_P		(void *)(0xD79F6C)
 
 //System::Multiport Test Set Setup::Test Set %d	::Select Test Set
-#define CA_SYSTEM_MTSS_TS_STS	(void *)0x0
 #define TA_SYSTEM_MTSS_TS_STS   (void *)(0xD7A1AC)
 
 //System::Multiport Test Set Setup::Test Set %d	::Control Lines
-#define CA_SYSTEM_MTSS_TS_CL	(void *)0x0
 #define TA_SYSTEM_MTSS_TS_CL	(void *)(0xD79F2C )       
 
 
@@ -627,8 +866,12 @@ extern DWORD dwBaseAdd;
 #define TA_SYS_MISC_CLOCK   (void *)(0xD82398)
 
 //System :: Misc Setup :: Key Lock
-#define CA_SYS_MISC_KL      (void *)(0x163CDD0)
-#define TA_SYS_MISC_KL      (void *)(0xD823D4)
+#define CA_SYS_MISC_KL		(void *)(0x163CDD0)
+#define TA_SYS_MISC_KL	    (void *)(0xD823D4)
+
+//System :: Misc Setup :: Display Setup
+#define CA_SYS_MISC_DS      (void *)(0x163CEF0)
+#define TA_SYS_MISC_DS      (void *)(0xD82538)
 
 //System :: Misc Setup :: Channel/Trace Setup
 #define CA_SYS_MISC_CTS     (void *)(0x163D0D8)
@@ -644,22 +887,22 @@ extern DWORD dwBaseAdd;
 
 
 
-//System :: Misc Setup :: Color Setup
-#define CA_CLR              (void *)0x00A0C920
-#define TA_CLR              (void *)0x00BC5240
+//System :: Misc Setup :: Display Setup :: Color Setup
+#define CA_COLR              (void *)0x0163CE90
+#define TA_COLR              (void *)0x00D82410
 
-//System :: Misc Setup :: Color Setup :: (Normal / Invert)
-#define CA_CLR_XX           (void *)0x00A0C950
+//System :: Misc Setup :: Display Setup :: Color Setup :: (Normal / Invert)
+#define TA_COLR_XX           (void *)0x00D82440
 
-//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: Reset Color
-#define CA_CLR_XX_RC        (void *)0x00A0C9E0
+//System :: Misc Setup :: Display Setup ::  Color Setup :: (Normal / Invert) :: Reset Color
+#define TA_COLR_XX_RC        (void *)0x00D824E0
 
-//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: RGB
-#define CA_CLR_XX_RGB       (void *)0x00A0C980
-#define TA_CLR_XX_RGB       (void *)0x00BC4FE0
+//System :: Misc Setup :: Display Setup :: Color Setup :: (Normal / Invert) :: RGB
+#define CA_COLR_XX_RGB       (void *)0x0163CE30
+#define TA_COLR_XX_RGB       (void *)0x00D82470
 
-//System :: Misc Setup :: Color Setup :: (Normal / Invert) :: RGB :: (R /G /B)
-#define CA_CLR_XX_RGB_X     (void *)0x00A0C9B0
+//System :: Misc Setup :: Display Setup :: Color Setup :: (Normal / Invert) :: RGB :: (R /G /B)
+#define TA_COLR_XX_RGB_X     (void *)0x00D824A0
 
 
 //System :: Service Menu
@@ -675,7 +918,6 @@ extern DWORD dwBaseAdd;
 #define TA_SYS_SERMEU_ETS		(void *)(0xD7E784)
 
 //System :: Service Menu ::Channel/Trace Setup
-#define CA_SYS_SERMEU_CTS		(void *)(0xE8ECEB0	)		//目测不准，需要重定位。
 #define TA_SYS_SERMEU_CTS		(void *)(0xD7F4A0)
 
 //System :: Service Menu ::Init Src Port
@@ -686,18 +928,4 @@ extern DWORD dwBaseAdd;
 #define CA_SYS_SERMEU_SECLEV	(void *)(0x163BC30)
 #define TA_SYS_SERMEU_SECLEV	(void *)(0xD7E818)
 
-
-
-
-//Calibration
-#define CA_CALIBRAT							(void *)0x1637BA8
-#define TA_CALIBRAT							(void *)0xD76FD4
-
-//Calibration :: Calibrate
-#define CA_CALCAL							(void *)0x1638AB8
-#define TA_CALCAL							(void *)0xD7756C
-
-//Calibration :: ECal
-#define CA_ECAL								(void *)0x1638E20
-#define TA_ECAL								(void *)0xD778BC
 

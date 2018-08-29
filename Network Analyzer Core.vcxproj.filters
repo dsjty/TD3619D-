@@ -174,6 +174,63 @@
     <ClCompile Include="Menu_System.cpp">
       <Filter>源文件\Menus</Filter>
     </ClCompile>
+    <ClCompile Include="Locale.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Func.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_0.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_1.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_2.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_3.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_4.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_5.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_2.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_7.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_7_1.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_CalFunc.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Menu_Calibration.cpp">
+      <Filter>源文件\Menus</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Color.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Ctrl_Toolbar.cpp">
+      <Filter>源文件\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="ToolbarFunc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_1_6.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Cal_3.cpp">
+      <Filter>源文件\Dialogs</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Network Analyzer Core.rc">
@@ -287,6 +344,12 @@
       <Filter>资源文件</Filter>
     </Image>
     <Image Include="ico_Tracesconfig.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="G:\git\功能DLL源代码集合\ico_print.bmp">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="G:\git\功能DLL源代码集合\ico_snapshot.ico">
       <Filter>资源文件</Filter>
     </Image>
   </ItemGroup>

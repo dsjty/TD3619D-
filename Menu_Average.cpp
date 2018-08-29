@@ -74,6 +74,29 @@ SOFT_SUB_ITEM subitemAverage[] =
 	}
 	,
 	{
+		SIF_ORIGCLICK,
+		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+		SIS_CheckButtonEx,
+		3,
+		L"Avg Trigger\0平均触发\0平均觸發\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_H,
+		NULL,
+		{ (void *)0x000D0C00, 0, (void *)0x00D68C58, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
+		INVALID_INDEX,
+		NULL,
+		NULL,
+		TA_AVERAGE,
+		CA_AVERAGE,
+		NULL,
+		NULL,
+		RESERVE_DWORD4,
+		RESERVE_DWORD4
+	}
+	,
+	{
 		SIF_ORIGCLICK | SIF_NOREPLY,
 		SIA_FULLLINE,
 		SIS_InputButtonEx,
@@ -123,7 +146,7 @@ SOFT_SUB_ITEM subitemAverage[] =
 		SIF_ORIGCLICK | SIF_NOREPLY,
 		SIA_FULLLINE | SIA_FINETUNE,
 		SIS_InputButtonEx,
-		5,
+		6,
 		L"IF Bandwidth\0中频带宽\0中頻帶寬\0\0",
 		NULL,
 		BtnWidth_W,

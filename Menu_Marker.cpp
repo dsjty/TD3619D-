@@ -1,14 +1,5 @@
 ﻿#include "stdafx.h"
 
-/*
-const char szTRACking[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:TRACking";
-const char szMULTiTRACking[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:MULTi:TRACking";
-const char szPPOLarity[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:PPOLarity";
-const char szMULTiPPOLarity[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:MULTi:PPOLarity";
-const char szTTRansition[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:TTRansition";
-const char szMULTiTTRansition[] = "CALCulate*:TRACe*:MARKer1:FUNCtion:MULTi:TTRansition";
-*/
-
 const LPCSTR szTRACking[] =
 {
 	"CALCulate*:TRACe*:MARKer1:FUNCtion:TRACking",
@@ -499,6 +490,12 @@ int WINAPI func_PWUP_Marker(PSOFT_SUB_ITEM lpSubItem, PPWUPS lpPWUPS, DWORD dwFl
 {
 	int nCurIndex = 0;
 	bool blRef = false;
+
+	if (lpSubItem->lpOpt[12])
+	{
+		lpSubItem->lpOpt[2] = (void*)((DWORD)lpSubItem->lpOpt[2] - BASE);
+		lpSubItem->lpOpt[12] = 0;
+	}
 
 	GetMarkerStateIndex(lpSubItem->lpOpt[2], &nCurIndex, NULL, &blRef);
 

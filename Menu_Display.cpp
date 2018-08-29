@@ -14,6 +14,14 @@ const LPCWSTR wcsListDisplay[] =
 	L"OFF\0关闭\0關閉\0\0"
 };
 
+const LPCWSTR wcsListDataHold[] =
+{
+	L"OFF\0关闭\0關閉\0\0",
+	L"Minimum\0最小\0最小\0\0",
+	L"Maximum\0最大\0最大\0\0", 
+	L"Restart\0重新开始\0重新開始\0\0"
+};
+
 const LPCWSTR wcsListDataMath[] =
 {
 	L"OFF\0关闭\0關閉\0\0",
@@ -28,83 +36,6 @@ const LPCWSTR wcsListGL[] =
 	L"Auto\0自动\0自動\0\0",
 	L"Relative\0相对\0相對\0\0"
 };
-
-int WINAPI fnUpdateData_DM(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	int nIndex = 0;
-
-	if (lpSubItem->lpOpt[2] == NULL) return -1;
-
-	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
-
-	switch (nIndex)
-	{
-	case 1:
-		nIndex = 3;
-		break;
-	case 2:
-		nIndex = 1;
-		break;
-	case 3:
-		nIndex = 4;
-		break;
-	case 4:
-		nIndex = 2;
-		break;
-	}
-
-	ComboBox_SetCurSel((HWND)lpSubItem->lpOpt[4], nIndex);
-
-	return 0;
-}
-
-int WINAPI fnUpdateData_GL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	int nIndex = 0;
-	LPCWSTR lpText = NULL;
-
-	if (lpSubItem->lpOpt[2] == NULL)
-		return -1;
-
-	GetButtonStateIndex((char *)lpSubItem->lpOpt[2], lpSubItem->lpOpt[3], &nIndex, (int)lpSubItem->lpOpt[0]);
-
-	__try
-	{
-		LPCWSTR *lppWStr = (LPCWSTR *)lpSubItem->lpParams;
-		
-		if ((lppWStr) && ((DWORD)nIndex < lpSubItem->dwNumberOfParams))
-		{
-			lpText = GetStringByIndex(lppWStr[nIndex], nLangId);
-		}
-		else
-			lpText = L"!ERROR!";
-	}
-	__except (1)
-	{
-		wstring *lppWStr = (wstring *)lpSubItem->lpParams;
-
-		if ((lppWStr) && ((DWORD)nIndex < lpSubItem->dwNumberOfParams))
-		{
-			lpText = GetStringByIndex(lppWStr[nIndex].c_str(), nLangId);
-		}
-		else
-			lpText = L"!ERROR!";
-	}
-	if (lpSubItem->lpOpt[4])
-		SetWindowTextW((HWND)lpSubItem->lpOpt[4], lpText);
-
-	return 0;
-}
-
-int WINAPI fnItemClicked_GL(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
-{
-	if (wParam == IC_CLICKED_LAST)
-	{
-		fnUpdateData_GL(0, 0, 0, lpSubItem);
-	}
-
-	return 0;
-}
 
 
 //存储子条目
@@ -180,8 +111,77 @@ static SOFT_SUB_ITEM subitemDisplay[] =
 	}
 	,
 	{
+		SIF_FN_SELECTED | SIF_FN_UPDATEDATA,
+		SIA_FULLLINE,
+		SIS_ComboButtonEx,
+		0,
+		L"Data Hold\0保持数据\0保持數據\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_H2,
+		NULL,
+		{ (void *)0, 0, (void *)0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		{ 0, 0, &fnItemSelected_Default, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		INVALID_INDEX,
+		NULL,
+		NULL,
+		TA_DISPLAY_DH,
+		CA_DISPLAY_DH,
+		sizeof(wcsListDataHold) / sizeof(LPCWSTR),
+		wcsListDataHold,
+		RESERVE_DWORD4,
+		RESERVE_DWORD4
+	}
+	,
+	{
+		SIF_ORIGCLICK,
+		SIA_FULLLINE | SIA_GETBTNSTATE | SIA_UPDATEITEM,
+		SIS_CheckButtonEx,
+		8,
+		L"Equation\0方程式\0方程式\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_H,
+		NULL,
+		{ (void *)0x000A0900, 0, (void *)0x00D638BC, (void *)0x00, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+		RESERVE_DWORD16,
+		INVALID_INDEX,
+		NULL,
+		NULL,
+		TA_DISPLAY,
+		CA_DISPLAY,
+		NULL,
+		NULL,
+		RESERVE_DWORD4,
+		RESERVE_DWORD4
+	}
+	,
+	{
+		SIF_ORIGCLICK,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		7,
+		L"Equation Editor\0方程式编辑器\0方程式編輯器\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_H,
+		NULL,
+		RESERVE_DWORD16,
+		RESERVE_DWORD16,
+		INVALID_INDEX,
+		NULL,
+		NULL,
+		TA_DISPLAY,
+		CA_DISPLAY,
+		0,
+		NULL,
+		RESERVE_DWORD4,
+		RESERVE_DWORD4
+	}
+	,
+	{
 		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE | SIA_INPUT_TEXT,
+		SIA_FULLLINE,
 		SIS_InputButtonEx,
 		9,
 		L"Edit Title Lable\0编辑标题标签\0編輯標題標簽\0\0",

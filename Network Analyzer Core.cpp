@@ -17,30 +17,27 @@ HWND hwMainWnd = NULL;
 
 void UpdateSize_UI();
 
+//************************************
+// 函数名:    GetSubMenuPointer
+// 函数性质:    public 
+// 函数类型:   void *
+// 描述:获取次级菜单的指针;
+//************************************
 void *GetSubMenuPointer(void *ulpThis, int nIndex)
-{
+{	
+	//目测 在上级菜单指针+0x34处即为下级菜单指针;序号*0x4即可
 	void *lpResult = NULL;
-	void *lpVar1, *lpVar2;
-	int nMaxItem;
+	void *lpVar1;
 
 	if (ulpThis == NULL) 
 		return lpResult;
 
-	DWORD lpThis = BASE + (DWORD)ulpThis;
+	void *lpThis = (void *)(BASE + (DWORD)ulpThis);
 
 
-	lpVar1 = GetOffsetPointer((void*)lpThis, 0x24);
+	lpVar1 = GetOffsetPointer(lpThis, 0x34);
 
-	if (lpVar1)
-	{
-		lpVar2 = GetOffsetPointer((void*)lpThis, 0x28);
-		nMaxItem = ((int)lpVar2 - (int)lpVar1) >> 2; // ((int)lpVar2 - (int)lpVar1) ÷ 4
-	}
-	else
-		nMaxItem = 0;
-
-	if (nIndex < nMaxItem)
-		lpResult = GetOffsetPointer(lpVar1, nIndex * 4);
+	lpResult = GetOffsetPointer(lpVar1, nIndex * 0x4);
 
 	return lpResult;
 }
@@ -57,7 +54,6 @@ bool GetButtonCheckState(void * ulpBtnState, int nIndex)
 
 	DWORD lpBtnState = BASE + (DWORD)ulpBtnState;
 
-	lpTmp = *(void **)lpBtnState;
 	priFn1 = (fn_priFn1)(BASE+0x97FF00);
 
 	lpTmp2 = priFn1((void *)lpBtnState, -1);
@@ -166,7 +162,6 @@ int GetButtonStateIndex(const char *ulpszCmd, void *lpUnk, int *lpIndex, int nVa
 
 	typedef void *(__cdecl *fn_00023650)(void *lpOutput, PAVG_STRA pbsInput, int nNum);
 	typedef void *(__cdecl *fn_00A33D80)(PAVG_STRA pbsVar, void *lpMemAddr2);
-	typedef void *(__thiscall *fn_00484060)(void *lpMemAddr);
 
 	fn_00023650 fn00023650 = (fn_00023650)(BASE + 0x00023650);
 	fn_00A33D80 fn00A33D80 = (fn_00A33D80)(BASE + 0x00A33D80);
@@ -183,7 +178,6 @@ int GetButtonStateIndex(const char *ulpszCmd, void *lpUnk, int *lpIndex, int nVa
 
 	bsVar.lpszText = (char *)lpAlloc;
 	bsVar.dwStringLen = nLen;
-	bsVar.dwBufferMaxLen = nLen + 0xf;
 
 	if (bsVar.lpszText == NULL)
 		return -3;
@@ -192,9 +186,15 @@ int GetButtonStateIndex(const char *ulpszCmd, void *lpUnk, int *lpIndex, int nVa
 	bsVar.lpszText++;
 
 	if (bsVar.dwStringLen >= 0x8)
+	{
+		bsVar.dwBufferMaxLen = nLen + 0x8;
 		strcpy_s(bsVar.lpszText, bsVar.dwBufferMaxLen, (char*)lpszCmd);
+	}
 	else
+	{
+		bsVar.dwBufferMaxLen = 0x7;
 		strcpy_s(bsVar.szText, bsVar.dwBufferMaxLen, (char*)lpszCmd);
+	}
 
 	lpTmp = fn00023650(btUnkObj, &bsVar, 0);
 
@@ -311,9 +311,9 @@ int FmtValueToString(void *ulpInput, char *lpszBuffer, DWORD dwMaxLen, double *l
 	if (lpbs && (lpbs->lpszText))
 	{
 		if (lpbs->dwBufferMaxLen >= 8)
-			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->lpszText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->lpszText, -1, lpszBuffer, lpbs->dwBufferMaxLen + 1, NULL, NULL);
 		else
-			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->szText, -1, lpszBuffer, lpbs->dwBufferMaxLen, NULL, NULL);
+			nRet = WideCharToMultiByte(CP_ACP, 0, lpbs->szText, -1, lpszBuffer, lpbs->dwBufferMaxLen + 1, NULL, NULL);
 	}
 
 	return nRet;
@@ -361,9 +361,9 @@ int FmtValueToStringExW(void *ulpInput, LPWSTR lpszBuffer, DWORD dwMaxLen, doubl
 	if (lpbs && (lpbs->lpszText))
 	{
 		if (lpbs->dwBufferMaxLen >= 8)
-			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen, lpbs->lpszText);
+			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen + 1, lpbs->lpszText);
 		else
-			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen, lpbs->szText);
+			wcscpy_s(lpszBuffer, lpbs->dwBufferMaxLen + 1, lpbs->szText);
 	}
 
 	return nRet;
@@ -389,11 +389,15 @@ BOOL ScanfStringToValue(void *ulpInput, LPCSTR lpszText, double *lpDbl)
 	bsVar.dwStringLen = strlen(lpszText);
 	if (bsVar.dwStringLen >= 8)
 	{
+		bsVar.dwBufferMaxLen = bsVar.dwStringLen + 0x8;
 		bsVar.lpszText = wszText;
-		MultiByteToWideChar(1253, 0, lpszText, -1, wszText, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, lpszText, -1, wszText, MAX_PATH);
 	}
 	else
-		MultiByteToWideChar(1253, 0, lpszText, -1, bsVar.szText, 8);
+	{
+		bsVar.dwBufferMaxLen = 0x7;
+		MultiByteToWideChar(CP_ACP, 0, lpszText, -1, bsVar.szText, 8);
+	}
 	
 	__asm
 	{
@@ -418,9 +422,10 @@ BOOL ScanfStringToValue(void *ulpInput, LPCSTR lpszText, double *lpDbl)
 	return blRet;
 }
 
-BOOL ScanfStringToValueW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
+
+BOOL ScanfStringToValueW(void *ulpInput, LPCWSTR lpszText, double *lpDbl)
 {
-	if (!ulpInput || !lpWcsText)
+	if (!ulpInput || !lpszText)
 		return FALSE;
 
 	DWORD lpInput = BASE + (DWORD)ulpInput;
@@ -435,14 +440,18 @@ BOOL ScanfStringToValueW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
 	wszText[0] = 0;
 	wszText[1] = 0;
 
-	bsVar.dwStringLen = wcslen(lpWcsText);
+	bsVar.dwStringLen = wcslen(lpszText);
 	if (bsVar.dwStringLen >= 8)
 	{
+		bsVar.dwBufferMaxLen = bsVar.dwStringLen + 0x8;
 		bsVar.lpszText = wszText;
-		wcscpy_s(bsVar.lpszText,bsVar.dwStringLen,lpWcsText);
+		wcscpy_s(wszText, bsVar.dwStringLen+1, lpszText);
 	}
 	else
-		wcscpy_s(bsVar.szText, bsVar.dwStringLen, lpWcsText);
+	{
+		bsVar.dwBufferMaxLen = 0x7;
+		wcscpy_s(bsVar.szText, bsVar.dwStringLen + 1, lpszText);
+	}
 
 	__asm
 	{
@@ -453,16 +462,20 @@ BOOL ScanfStringToValueW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
 		lea eax, bsVar
 		push eax
 		call fnScfDbl
-		fstp[lpDbl]
+		mov ecx, lpInput
+		mov eax, [ecx]
+		sub esp, 0x8
+		fstp qword ptr ss : [esp]
+		call fnSetDbl
+		mov blRet, eax
 
 		pop ecx
 		pop eax
 	}
 
-	blRet = fnSetDbl((void*)lpInput, lpDbl);
-
 	return blRet;
 }
+
 
 BOOL ScanfStringToValueEx(void *ulpInput, LPCSTR lpText, double *lpDbl)
 {
@@ -477,59 +490,45 @@ BOOL ScanfStringToValueEx(void *ulpInput, LPCSTR lpText, double *lpDbl)
 
 	szText[0] = 0;
 	szText[1] = 0;
-	bsVar.lpszText = &(szText[1]);
+	bsVar.lpszText = szText;
 
-	MultiByteToWideChar(1253, 0, lpText, -1, szText, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, lpText, -1, szText, MAX_PATH);
 	bsVar.dwStringLen = wcslen(bsVar.lpszText);
+	bsVar.dwBufferMaxLen = bsVar.dwStringLen + 0x8;
 
 	*lpDbl = fnScfDbl((void*)lpInput, &bsVar);
 
 	return TRUE;
 }
 
-BOOL ScanfStringToValueExW(void *ulpInput, LPCWSTR lpWcsText, double *lpDbl)
-{
-	if (!ulpInput || !lpWcsText || !lpDbl) 
-		return FALSE;
-
-	DWORD lpInput = BASE + (DWORD)ulpInput;
-
-	fn_ScanfToDouble fnScfDbl = GetAddr_ScfDbl((void*)lpInput);
-	AVG_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
-	WCHAR szText[MAX_PATH];
-
-	szText[0] = 0;
-	szText[1] = 0;
-	bsVar.lpszText = &(szText[1]);
-
-	bsVar.dwStringLen = wcslen(bsVar.lpszText);
-	wcscpy_s(bsVar.lpszText, bsVar.dwStringLen + 1, lpWcsText);
-
-	*lpDbl = fnScfDbl((void*)lpInput, &bsVar);
-
-	return TRUE;
-}
 
 BOOL SetInputStringObjectW(void *ulpInObj, LPCWSTR lpWcsText)
 {
 	if (ulpInObj == NULL || lpWcsText == NULL)
 		return FALSE;
 
+	WCHAR wcText[MAX_PATH] = { 0 };
 	DWORD lpInObj = BASE + (DWORD)ulpInObj;
 
-	typedef BOOL(__thiscall *func_SetInStrObj)(void *lpThis_lpInStrObj, PBAS_STR lpBasStr);
+	typedef BOOL(__thiscall *func_SetInStrObj)(void *lpThis_lpInStrObj, PAVG_STR lpBasStr);
 
 	func_SetInStrObj fnSISO = (func_SetInStrObj)*(DWORD *)(*((DWORD *)lpInObj) + 0x04);
-	BAS_STR bsVar = { NULL, NULL, 0, 0, MAX_PATH - 1 };
-	char szText[MAX_PATH];
+	AVG_STR bsVar = { 0 };
 
-	szText[0] = 0;
-	szText[1] = 0;
-	bsVar.lpszText = &szText[1];
+	bsVar.dwStringLen = wcslen(lpWcsText);
 
-	WideCharToMultiByte(CP_ACP, 0, lpWcsText, -1, bsVar.lpszText, bsVar.dwBufferMaxLen, NULL, NULL);
-	bsVar.dwStringLen = strlen(bsVar.lpszText);
-
+	if (bsVar.dwStringLen >= 8)
+	{
+		bsVar.dwBufferMaxLen = bsVar.dwStringLen + 0x8;
+		bsVar.lpszText = wcText;
+		wcscpy_s(wcText, bsVar.dwStringLen + 1, lpWcsText);
+	}
+	else
+	{
+		bsVar.dwBufferMaxLen = 0x7;
+		wcscpy_s(bsVar.szText, bsVar.dwStringLen + 1, lpWcsText);
+	}
+		
 	return fnSISO((void*)lpInObj, &bsVar);
 }
 
@@ -564,9 +563,9 @@ BOOL GetInputStringObjectW(void *ulpInObj, LPWSTR lpWcsText, DWORD dwMaxLen, int
 	if (lpbs && (lpbs->lpszText))
 	{
 		if (lpbs->dwBufferMaxLen >= 8)
-			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen, lpbs->lpszText);
+			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen + 1, lpbs->lpszText);
 		else
-			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen, lpbs->szText);
+			wcscpy_s(lpWcsText, lpbs->dwBufferMaxLen + 1, lpbs->szText);
 
 		return TRUE;
 	}
@@ -587,7 +586,7 @@ BOOL SetInputBtnStateIndex(void *ulpBtnState, int nIndex)
 	fn_priCall1 fnCall1;
 
 	lpVar1 = *(void **)lpBtnState;
-	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar1, 0x04);
+	fnCall1 = (fn_priCall1)(BASE + 0x097FF00);
 
 	lpVar1 = fnCall1((void*)lpBtnState, -1);
 
@@ -598,7 +597,7 @@ BOOL SetInputBtnStateIndex(void *ulpBtnState, int nIndex)
 
 	lpVar3 = GetOffsetPointer(lpVar2, 0x08);
 	lpVar1 = *(void **)lpVar3;
-	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar1, 0x24);
+	fnCall1 = (fn_priCall1)GetOffsetPointer(lpVar1, 0x28);
 
 	fnCall1(lpVar3, nIndex);
 
@@ -620,7 +619,6 @@ BOOL GetMarkerStateIndex(void *ulpBtnState, int *lpIndex, bool *lpBool, bool *lp
 
 	DWORD lpBtnState = BASE + (DWORD)ulpBtnState;
 
-	lpVar1 = *(void **)lpBtnState;
 	fnCall1 = (fn_priCall1)(BASE+0x097FF00);
 
 	lpVar1 = fnCall1((void *)lpBtnState, -1);
@@ -828,7 +826,7 @@ int MakeUnitStringW(void *lpInput, LPWSTR lpWText, int nMax, LPCSTR lpUnitChar)
 	if (!lpInput || !lpWText) 
 		return -1;
 
-	WideCharToMultiByte(1253, 0, lpWText, -1, szText, MAX_PATH, NULL, NULL);
+	WideCharToMultiByte(CP_ACP, 0, lpWText, -1, szText, MAX_PATH, NULL, NULL);
 	TrimLeft(szText, MAX_PATH);
 	BreakString(szText, MAX_PATH);
 	strcat_s(szText, MAX_PATH, lpUnitChar);
@@ -839,10 +837,5 @@ int MakeUnitStringW(void *lpInput, LPWSTR lpWText, int nMax, LPCSTR lpUnitChar)
 
 void PSTMSG_432_2()
 {
-	PostMessageA(hwMainWnd, 0x0432, 0x13, 0);
-}
-
-void PSTMSG_432_E()
-{
-	PostMessageA(hwMainWnd, 0x0432, 0x0E, 0);
+	PostMessageA(hwMainWnd, 0x0432, 0x12, 0);
 }

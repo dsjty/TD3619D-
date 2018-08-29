@@ -993,10 +993,37 @@ static void OnDrawItem_Button(int nCtrlId, LPDRAWITEMSTRUCT lpDIS, PSOFT_SUB_ITE
 			  DrawStretchBitmap(hCDC, hBmp_Checked, &rect2);
 		  else
 			  DrawStretchBitmap(hCDC, hBmp_Unchecked, &rect2);
-
 		  rect3.left = rect2.right + 2;
+		  if (nLangId == 0)
+		  {
+			  if (wcslen(wStr) > 12)
+			  {
+				  rect3.top += 3;
+				  rect3.left += 6;
+				  rect3.right -= 7;
+				  rect3.bottom += 8;
+				  DrawTextW(hCDC, wStr, -1, &rect3, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+			  }
+			  else
+				  DrawTextW(hCDC, wStr, -1, &rect3, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+		  }
+		  else
+		  {
+			  if (wcslen(wStr) > 6)
+			  {
+				  rect3.top += 3;
+				  rect3.left += 7;
+				  rect3.right -= 8;
+				  rect3.bottom += 8;
+				  DrawTextW(hCDC, wStr, -1, &rect3, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+			  }
+			  else
+			  {
+				  rect3.top -= 3;
+				  DrawTextW(hCDC, wStr, -1, &rect3, DT_CENTER | DT_SINGLELINE | DT_VCENTER);
+			  }
+		  }
 
-		  DrawTextW(hCDC, wStr, -1, &rect3, DT_CENTER|DT_SINGLELINE|DT_VCENTER);
 	  }
 	  break;
 
@@ -1004,9 +1031,10 @@ static void OnDrawItem_Button(int nCtrlId, LPDRAWITEMSTRUCT lpDIS, PSOFT_SUB_ITE
 	  case SIS_ComboButtonEx:
 	  case SIS_ComboRadioButtonEx:
 		  rect2.left += 2;
-		  rect2.top += 3;
 		  rect2.right -= 2;
-		  rect2.bottom = rect.bottom - 25;	//调整其他框字符
+
+		  rect2.top += 4;
+		  rect2.bottom = rect.bottom - 23;		  //调整其他框字符}
 		  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER);
 		  break;
 
@@ -1017,10 +1045,34 @@ static void OnDrawItem_Button(int nCtrlId, LPDRAWITEMSTRUCT lpDIS, PSOFT_SUB_ITE
 			  rect2.top += 3;
 			  rect2.right -= 2;
 			  rect2.bottom -= 2;
-			  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_VCENTER );
+			  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_VCENTER);
 		  }
 		  else
-			  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+		  {
+			  if (nLangId == 0)
+			  {
+				  if (wcslen(wStr) > 15)
+				  {
+					  rect2.top += 2;
+					  rect2.left += 7;
+					  rect2.right -= 7;
+					  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+				  }
+				  else
+					  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			  }
+			  else
+			  {
+				  if (wcslen(wStr) > 9)
+				  {
+					  rect2.left += 7;
+					  rect2.right -= 7;
+					  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_EDITCONTROL | DT_WORDBREAK);
+				  }
+				  else
+					  DrawTextW(hCDC, wStr, -1, &rect2, DT_CENTER | DT_VCENTER | DT_SINGLELINE);
+			  }
+		  }
 	  break;
 	  }
   }
@@ -1057,15 +1109,9 @@ static LRESULT OnCommand_Button(PSOFT_SUB_ITEM lpSubItem, int nItemIndex, int nC
 	{
 	case BN_CLICKED:
 	{
-		//PopWnd_Destroy(0, TRUE);
+		PopWnd_Destroy(0, TRUE);
 
 		PSTMSG_432_2();
-
-		if (CHK_FLAGS(lpSubItem->dwFlags, SIF_FN_CLICKED) && (lpSubItem->lpEvent[FNID_CLICKED]))
-		{
-			func_ItemEvent_Clicked fnClicked = (func_ItemEvent_Clicked)lpSubItem->lpEvent[FNID_CLICKED];
-			fnClicked(0, IC_CLICKED_FIRST, 0, lpSubItem);
-		}
 
 		switch (lpSubItem->dwStyle)
 		{
@@ -1099,6 +1145,23 @@ static LRESULT OnCommand_Button(PSOFT_SUB_ITEM lpSubItem, int nItemIndex, int nC
 
 		SoftItem_ActivationItem(lpSubItem);
 
+		if (CHK_FLAGS(lpSubItem->dwFlags, SIF_FN_SWITCH))
+		{
+			if (lpSubItem->lpEvent[FNID_CLICKED])
+			{
+				func_ItemEvent_Clicked fnClicked = (func_ItemEvent_Clicked)lpSubItem->lpEvent[FNID_CLICKED];
+				fnClicked(0, IC_CLICKED_LAST, 0, lpSubItem);
+			}			
+			else if (lpSubItem->lpEvent[FNID_SELECTED])			
+			{
+				func_ItemEvent_Selected fnSelected = (func_ItemEvent_Selected)lpSubItem->lpEvent[FNID_SELECTED];
+
+				fnSelected(0, 0, 0, lpSubItem, ComboBox_GetCurSel((HWND)lpSubItem->lpOpt[4]));
+
+				UpdateCurrentItemsAndData();
+			}			
+		}
+
 		if (CHK_FLAGS(lpSubItem->dwFlags, SIF_ORIGCLICK))
 		{
 			if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOREPLY) && (lpSubItem->dwStyle != SIS_CheckButtonEx))
@@ -1118,13 +1181,13 @@ static LRESULT OnCommand_Button(PSOFT_SUB_ITEM lpSubItem, int nItemIndex, int nC
 		else if (CHK_FLAGS(lpSubItem->dwFlags, SIF_SNDMSGCMD))
 			SNDMSG(cwMainWnd->m_hWnd, WM_COMMAND, lpSubItem->wParam, lpSubItem->lParam);
 		
-// 		else if (CHK_FLAGS(lpSubItem->dwFlags, SIF_CALWND) && (lpSubItem->lpCalDlgCtxt))
-// 			CreateDialog_Cal(lpSubItem->lpCalDlgCtxt, 0);
-// 
-// 		else if (CHK_FLAGS(lpSubItem->dwFlags, SIF_DIALOG) && (lpSubItem->lpDlgCtxt))
-// 			CreateDialog_Def(lpSubItem->lpDlgCtxt, 0);
+ 		else if (CHK_FLAGS(lpSubItem->dwFlags, SIF_CALWND) && (lpSubItem->lpCalDlgCtxt))
+ 			CreateDialog_Cal(lpSubItem->lpCalDlgCtxt, 0);
 
-		if (CHK_FLAGS(lpSubItem->dwFlags, SIF_FN_CLICKED) && (lpSubItem->lpEvent[FNID_CLICKED]))
+		else if (CHK_FLAGS(lpSubItem->dwFlags, SIF_DIALOG) && (lpSubItem->lpDlgCtxt))
+			CreateDialog_Def(lpSubItem->lpDlgCtxt, 0);
+
+		if (CHK_FLAGS(lpSubItem->dwFlags, SIF_FN_CLICKED) && (lpSubItem->lpEvent[FNID_CLICKED])&&CHK_NOFLAGS(lpSubItem->dwFlags,SIF_FN_SWITCH))
 		{
 			func_ItemEvent_Clicked fnClicked = (func_ItemEvent_Clicked)lpSubItem->lpEvent[FNID_CLICKED];
 			fnClicked(0, IC_CLICKED_LAST, 0, lpSubItem);
@@ -1299,23 +1362,6 @@ inline PSOFT_TAG_PAGE SoftItem_GetCurrentTagPage()
 	return lpCurTagPage;
 }
 
-int SoftItem_InvalidFocus()
-{
-	PSOFT_TAG_PAGE lpTagPage = SoftItem_GetCurrentTagPage();
-
-	if (lpTagPage == NULL)
-		return -1;
-	if (dwFocusItem >= lpTagPage->dwNumOfSubItems)
-		return -2;
-
-	if (lpTagPage->lpSubItem[dwFocusItem]._hWnd)
-	{
-		InvalidateRect(lpTagPage->lpSubItem[dwFocusItem]._hWnd, NULL, TRUE);
-		UpdateWindow(lpTagPage->lpSubItem[dwFocusItem]._hWnd);
-	}
-
-	return 0;
-}
 
 int SoftItem_InvalidLastFocus()
 {
@@ -1517,8 +1563,8 @@ int SoftItem_Finetune(PSOFT_SUB_ITEM lpSubItem, int nDelta, int nCount)
 	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)dwTemp);
 	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)dwTemp);
 	BOOL blRet;
-	char szText[MAX_PATH];
-	WCHAR wcsText[MAX_PATH];
+	char szText[MAX_PATH] = { 0 };
+	WCHAR wcsText[MAX_PATH] = { 0 };
 
 	if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOREPLY) && lpSubItem->lpThis && lpSubItem->lpVTable)
 	{
@@ -1530,14 +1576,16 @@ int SoftItem_Finetune(PSOFT_SUB_ITEM lpSubItem, int nDelta, int nCount)
 		blRet = InputFineTune(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl((void*)dwTemp), nDelta);
 	}
 
-	if (blRet) 
-		fnSetDbl((void*)dwTemp, &dblOutput);
+	if (blRet)
+	{
+		fnSetDbl((void*)dwTemp, dblOutput);
+	}
 
 	if (lpSubItem->lpOpt[4] == NULL) 
 		return TRUE;
 
 	FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl((void*)dwTemp));
-	MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+	MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 	SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
 	SelectAllText((HWND)lpSubItem->lpOpt[4]);
@@ -1565,8 +1613,8 @@ int SoftItem_Finetune2(PSOFT_SUB_ITEM lpSubItem, int nDelta)
 	double dblOutput;
 	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)dwTemp);
 	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)dwTemp);
-	char szText[MAX_PATH];
-	WCHAR wcsText[MAX_PATH];
+	char szText[MAX_PATH] = { 0 };
+	WCHAR wcsText[MAX_PATH] = { 0 };
 
 	if (CHK_NOFLAGS(lpSubItem->dwFlags, SIF_NOREPLY) && lpSubItem->lpThis && lpSubItem->lpVTable)
 	{
@@ -1575,13 +1623,13 @@ int SoftItem_Finetune2(PSOFT_SUB_ITEM lpSubItem, int nDelta)
 
 	if (InputFineTune2(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl((void*)dwTemp), nDelta))
 	{
-		fnSetDbl((void*)dwTemp, &dblOutput);
+		fnSetDbl((void*)dwTemp, dblOutput);
 
 		if (lpSubItem->lpOpt[4] == NULL) 
 			return 1;
 
 		FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, fnGetDbl((void*)dwTemp));
-		MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 		SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
 		SelectAllText((HWND)lpSubItem->lpOpt[4]);

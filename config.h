@@ -6,7 +6,7 @@
 #define CF_NEWMENU                        1
 
 //创建工具条
-#define CF_MYTOOLBAR                      0
+#define CF_MYTOOLBAR                      1
 
 //隐藏主菜单
 #define CF_HIDEMENU                       0
@@ -30,13 +30,13 @@
 #define CF_SET_TITLE                      1
 
 //设置物理事件处理器 (物理键码处理函数) (第七章 用于挂钩前面板事件及主菜单事件)
-#define CF_PHYSEVENT                      0
+#define CF_PHYSEVENT                      0		//启动前hook会被重置，换到time事件触发
 
 //设置事件处理器 (虚拟键码处理函数) (第七章 用于挂钩前面板事件及主菜单事件)
-#define CF_EVENTHANDLE                    0
+#define CF_EVENTHANDLE                    1
 
 //挂钩焦点 (保持E5070程序在激活窗口时,焦点始终在软菜单上)
-#define CF_HOOKFOCUS                      0
+#define CF_HOOKFOCUS                      1
 
 //禁用编译时的警告
 #define CF_DISABLE_WARN                   1

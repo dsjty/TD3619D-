@@ -72,7 +72,7 @@
 #include "dialog.h"
 #include "softmenu.h"
 #include "popwnd.h"
-// #include "toolbar.h"
+#include "toolbar.h"
 #include "externs.h"
 #include "inline.h"
 #include "CalKit.h"

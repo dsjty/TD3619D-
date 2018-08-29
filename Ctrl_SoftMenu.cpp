@@ -1,18 +1,18 @@
 ﻿#include "stdafx.h"
 
-#define WIDTH_SOFTMENU_MIN          148				//这里取值必须满足(N-0.5)/1.25为整数...因为懒得在程序里做判断纠错...
+#define WIDTH_SOFTMENU_MIN          208				//这里取值必须满足(N-0.5)/1.25为整数...因为懒得在程序里做判断纠错...
 #define WIDTH_SOFTMENU_MAX          240
-#define WIDTH_SOFTMENU              WIDTH_SOFTMENU_MIN + 20
+#define WIDTH_SOFTMENU              WIDTH_SOFTMENU_MIN
 
-#define WIDTH_SUBMENU               55
+#define WIDTH_SUBMENU               90
 
-#define HEIGHT_DIFF_SOFTMENU        21
+#define HEIGHT_DIFF_SOFTMENU        18
 
 extern WORD wWidth_MainWnd, wHeight_MainWnd, wWidth_Toolbar;
 extern HHOOK hhkcwrp_MainWnd, hhkcwp_MainWnd;
-//extern HWND hwToolbar;
-//extern DWORD dwTopHeight;
-//extern DWORD *lpdwTopHeight;
+extern HWND hwToolbar;
+extern DWORD dwTopHeight;
+extern DWORD *lpdwTopHeight;
 
 static DWORD *lpdwMenuWidth = NULL;
 static BOOL sStartRef = FALSE;			//用于第一次启动时刷新界面操作;
@@ -53,8 +53,8 @@ void DSM_TagPage(HWND hWnd, HDC hDC, const LPPAINTSTRUCT lpps);
 LRESULT CALLBACK cwrphk_MainWnd(int nCode, WPARAM wParam, LPARAM lParam);
 LRESULT CALLBACK cwphk_MainWnd(int nCode, WPARAM wParam, LPARAM lParam);
 void SetSoftMenuWidth(WORD wWidth);
-//void UpdateToolbarHeight();
-//int PhysEventHook();
+void UpdateToolbarHeight();
+int PhysEventHook();
 
 
 void UpdateWidthPointer()
@@ -99,8 +99,8 @@ NAKED int fnhk_Ba12FCB8(int nValue, POINT pt)
 
 	dwTemp = (DWORD*)(BASE + 0x162DFB4);
 	__asm mov eax, [dwTemp]
-		__asm mov eax, [eax]
-		__asm cmp eax, 0x1
+	__asm mov eax, [eax]
+	__asm cmp eax, 0x1
 	__asm je lbl_RetnAddr
 
 	nBackAddr = BASE + 0x12FCE3;
@@ -110,13 +110,13 @@ NAKED int fnhk_Ba12FCB8(int nValue, POINT pt)
 	__asm jmp dword ptr nBackAddr
 
 	lbl_RetnAddr :
-				 __asm call UpdateCurrentItemsAndData
+	 __asm call UpdateCurrentItemsAndData
 
-				 nBackAddr = BASE + 0x12FCE3;
-				 __asm pop eax
-				 __asm push ebp
-				 __asm mov ebp, esp
-				 __asm jmp dword ptr nBackAddr
+	 nBackAddr = BASE + 0x12FCE3;
+	 __asm pop eax
+	 __asm push ebp
+	 __asm mov ebp, esp
+	 __asm jmp dword ptr nBackAddr
 }
 
 #endif
@@ -141,8 +141,7 @@ BOOL WINAPI _CWnd__Create(CWnd *lpThis, LPCTSTR lpszClassName, LPCTSTR lpszWindo
 	if (hhkcwrp_MainWnd == NULL)
 		hhkcwrp_MainWnd = SetWindowsHookEx(WH_CALLWNDPROCRET, &cwrphk_MainWnd, hMod, GetCurrentThreadId());
 
-	hwSoftMenu = CreateWindowEx(WS_EX_STATICEDGE, (LPCTSTR)wcSoftMenu, NULL, WS_CHILDWINDOW | WS_VISIBLE | WS_CLIPCHILDREN,
-		(int)wWidth_SoftMenu, 0, (int)wWidth_SoftMenu, (int)wHeight_SoftMenu, pParentWnd->m_hWnd, NULL, hMod, NULL);
+	hwSoftMenu = CreateWindowEx(WS_EX_STATICEDGE, (LPCTSTR)wcSoftMenu, NULL, WS_CHILDWINDOW | WS_VISIBLE | WS_CLIPCHILDREN, (int)wWidth_SoftMenu, 0, (int)wWidth_SoftMenu, (int)wHeight_SoftMenu, pParentWnd->m_hWnd, NULL, hMod, NULL);
 
 	if (hwSoftMenu)
 	{
@@ -420,7 +419,7 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			hCalDlg_bk = (HBRUSH)GetStockObject(DKGRAY_BRUSH);
 
 		//创建字体
-		logfont.lfHeight = 12;
+		logfont.lfHeight = 14;
 		logfont.lfWidth = 0;
 		logfont.lfEscapement = 0;
 		logfont.lfOrientation = 0;
@@ -440,7 +439,7 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		if (hFont_cfg1 == NULL)
 			hFont_cfg1 = (HFONT)GetStockObject(SYSTEM_FIXED_FONT);
 
-		logfont.lfHeight = 14;
+		logfont.lfHeight = 16;
 		hFont_cfg2= CreateFontIndirectA(&logfont);
 		if (hFont_cfg2 == NULL)
 			hFont_cfg2 = (HFONT)GetStockObject(SYSTEM_FIXED_FONT);
@@ -464,6 +463,7 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		SizeMainWnd(TRUE);
 		HWND hParenthwnd = GetParent(hWnd);
 		ShowWindow(hParenthwnd, SW_MAXIMIZE);
+		PhysEventHook();
 		KillTimer(hWnd, 0x1);
 		break;
 	}
@@ -718,15 +718,6 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			SoftMenu_Switch((PSOFT_MENU)lParam, wParam, 0);
 	}
 	break;
-
-	case WM_TEST_FP:
-	{
-		int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam);
-
-		PhysEventHandler_Entry(wParam, lParam);
-	}
-	return 0;
-
 	}
 	return DefWindowProc(hWnd, msg, wParam, lParam);
 }
@@ -760,19 +751,19 @@ void SetSoftMenuWidth(WORD wWidth)
 */
 void SetToolbarHeight(WORD wHeight)
 {
-// 	if (!lpdwTopHeight)
-// 	{
-// 		UpdateToolbarHeight();
-// 
-// 		if (lpdwTopHeight)
-// 		{
-// 			*lpdwTopHeight = wHeight;
-// 		}
-// 	}
-// 	else
-// 	{
-// 		*lpdwTopHeight = wHeight;
-// 	}
+ 	if (!lpdwTopHeight)
+ 	{
+ 		UpdateToolbarHeight();
+ 
+ 		if (lpdwTopHeight)
+ 		{
+ 			*lpdwTopHeight = wHeight;
+ 		}
+ 	}
+ 	else
+ 	{
+ 		*lpdwTopHeight = wHeight;
+ 	}
 }
 
 void UpdateSize_UI()
@@ -780,7 +771,7 @@ void UpdateSize_UI()
 	if (!blWidth)
 		return;
 
-	LONG lngWidth = 0, lngHeight = 0;
+	LONG lngWidth = 0, lngHeight = 0, lngToolHeight = 0;
 
 	RECT rect2;
 	cwMainWnd->GetClientRect(&rect2);
@@ -788,7 +779,6 @@ void UpdateSize_UI()
 	lngHeight = rect2.bottom - rect2.top;
 
 	wHeight_SoftMenu = lngHeight - HEIGHT_DIFF_SOFTMENU;
-	lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
 
 
 	if (!lpdwMenuWidth)
@@ -797,26 +787,30 @@ void UpdateSize_UI()
 
 		if (lpdwMenuWidth)
 		{
+			lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
 			*lpdwMenuWidth = lngWidth;
 		}
 	}
 	else
 	{
+		lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
 		*lpdwMenuWidth = lngWidth;
 	}
 
-	/*
+	
 	if (!lpdwTopHeight)
 	{
 		UpdateToolbarHeight();
 		if (lpdwTopHeight)
 		{
-			*lpdwTopHeight = dwTopHeight;
+			lngToolHeight= (dwTopHeight - 0.5) / 1.25;
+			*lpdwTopHeight = lngToolHeight;
 		}
 	}
 	else
 	{
-		*lpdwTopHeight = dwTopHeight;
+		lngToolHeight = (dwTopHeight - 0.5) / 1.25;
+		*lpdwTopHeight = lngToolHeight;
 	}
 
 	if (IsWindowVisible(hwSoftMenu))
@@ -828,7 +822,7 @@ void UpdateSize_UI()
 
 	InvalidateRect(hwToolbar, NULL, TRUE);
 	UpdateWindow(hwToolbar);
-	*/
+	
 
 	wHeight_SoftMenu = wHeight_MainWnd - HEIGHT_DIFF_SOFTMENU;
 
@@ -837,7 +831,7 @@ void UpdateSize_UI()
 
 	RedrawWindow(hwMainWnd, NULL, NULL, 0);
 
-	//Toolbar_UpdateItemsPos();
+	Toolbar_UpdateItemsPos();
 }
 
 //DrawSoftMenu 绘制标题 (Title)

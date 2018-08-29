@@ -24,12 +24,10 @@ extern int nLangId;
 extern HOOK_PTR HookPtr[];
 extern CWnd *cwMainWnd;
 extern CWnd *cwDrawRect;
-extern void *cfOrgCreate;
-extern fn_Free fnFree;
 
 extern HWND hwSoftMenu;
 extern HWND hwSoftItem;
-/*extern HWND hwToolbar;*/
+extern HWND hwToolbar;
 extern HWND hwMainWnd;
 
 //window hook 句柄
@@ -72,10 +70,8 @@ int FmtValueToStringExW(void *lpInput, LPWSTR lpszBuffer, DWORD dwMaxLen, double
 
 
 BOOL ScanfStringToValue(void *lpVal, LPCSTR lpszText, double *lpDbl);
-BOOL ScanfStringToValueW(void *lpInput, LPCWSTR lpWcsText, double *lpDbl);
 BOOL ScanfStringToValueEx(void *lpInput, LPCSTR lpText, double *lpDbl);
-BOOL ScanfStringToValueExW(void *lpInput, LPCWSTR lpWcsText, double *lpDbl);
-
+BOOL ScanfStringToValueW(void *lpInput, LPCWSTR lpWcsText, double *lpDbl);
 
 BOOL SetInputStringObjectW(void *lpInObj, LPCWSTR lpWcsText);
 
@@ -93,8 +89,6 @@ int OrigSoftMenu_Leave(void *lpThis);
 void OrigSoftMenu_ClearItems(void *lpThis);
 
 int OrigSoftMenu_UpdateItems(void *lpThis);
-
-int OrigSoftMenu_ItemClicked(void *lpThis, int nItemIndex);
 
 int OrigSoftMenu_ItemClicked2(void *lpThis, void *lpOptVTable, int nItemIndex);
 
@@ -118,7 +112,6 @@ int BreakString(char *s, int nMax);
 int MakeUnitStringW(void *lpInput, LPWSTR lpWText, int nMax, LPCSTR lpUnitChar);
 //向E5070主窗口PostMessage 0x0432
 void PSTMSG_432_2();
-void PSTMSG_432_E();
 
 
 PSOFT_MENU GetCurrentSoftMenu();
@@ -136,7 +129,6 @@ PSOFT_SUB_ITEM SoftItem_GetLastFocusItem();
 
 int SoftItem_SetFocusValue(DWORD dwNewFocus, DWORD dwNewFlags);
 
-int SoftItem_InvalidFocus();
 
 int SoftItem_InvalidLastFocus();
 
@@ -188,11 +180,11 @@ int TagPage_RefreshItems(BOOL blReload);
 int TagPage_UpdateItemsPos(DWORD dwFlags);
 
 //创建工具栏
-/*int Toolbar_Create(HWND hParent);*/
+int Toolbar_Create(HWND hParent);
 //重绘工具栏
-/*int Toolbar_Redraw();*/
+int Toolbar_Redraw();
 //更新工具栏及子控件位置
-/*int Toolbar_UpdateItemsPos();*/
+int Toolbar_UpdateItemsPos();
 
 //复位的确认提示
 void ConfirmPreset();
@@ -234,21 +226,21 @@ BOOL ClientToScreen(HWND hWnd, LPRECT lpRect);
 //选择全部文本 (Edit Control)
 void SelectAllText(HWND hEdit);
 
-// 创建对话框 校准部分
-// int CreateDialog_Cal(PCALDLG_CTXT lpDlgCtxt, DWORD dwFlags);
-// 更新对话框 校准部分
-// int UpdateDialog_Cal(PCALDLG_CTXT lpDlgCtxt, DWORD dwFlags);
-// 弹出模态消息框 校准部分
-// int DialogMsgBox_Cal(LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
-// 销毁对话框 校准部分
-// int DestroyDialog_Cal(DWORD dwFlags);
-// 启用按钮 校准部分
-// BOOL EnableButton_Cal(DWORD dwCode, BOOL bEnable);
+ //创建对话框 校准部分
+ int CreateDialog_Cal(PCALDLG_CTXT lpDlgCtxt, DWORD dwFlags);
+ //更新对话框 校准部分
+ int UpdateDialog_Cal(PCALDLG_CTXT lpDlgCtxt, DWORD dwFlags);
+ //弹出模态消息框 校准部分
+ int DialogMsgBox_Cal(LPCWSTR lpText, LPCWSTR lpCaption, UINT uType);
+ //销毁对话框 校准部分
+ int DestroyDialog_Cal(DWORD dwFlags);
+ //启用按钮 校准部分
+ BOOL EnableButton_Cal(DWORD dwCode, BOOL bEnable);
 
-// 创建对话框 默认
-// int CreateDialog_Def(PDLG_CTXT lpDlgCtxt, DWORD dwFlags);
-// 销毁对话框 默认
-// int DestroyDialog_Def(DWORD dwFlags);
+ //创建对话框 默认
+ int CreateDialog_Def(PDLG_CTXT lpDlgCtxt, DWORD dwFlags);
+ //销毁对话框 默认
+ int DestroyDialog_Def(DWORD dwFlags);
 
 //更新复位确认的状态
 void UpdatePresetState();

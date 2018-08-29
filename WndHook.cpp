@@ -16,8 +16,8 @@ void wndhk_SoftItem_FineTune(LPCWPRETSTRUCT lpCWPR, LPNMUPDOWN lpNMUD, PSOFT_SUB
 
 	double dblOutput;
 	fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpSubItem->lpOpt[1]);
-	char szText[MAX_PATH];
-	WCHAR wcsText[MAX_PATH];
+	char szText[MAX_PATH] = { 0 };
+	WCHAR wcsText[MAX_PATH] = { 0 };
 
 	if (lpSubItem->lpOpt[2])
 		SetInputBtnStateIndex(lpSubItem->lpOpt[2], (int)lpSubItem->lpOpt[3]);
@@ -28,7 +28,7 @@ void wndhk_SoftItem_FineTune(LPCWPRETSTRUCT lpCWPR, LPNMUPDOWN lpNMUD, PSOFT_SUB
 		{
 			FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, dblOutput);
 
-			MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 			SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
 		}
@@ -38,7 +38,7 @@ void wndhk_SoftItem_FineTune(LPCWPRETSTRUCT lpCWPR, LPNMUPDOWN lpNMUD, PSOFT_SUB
 		if (InputFineTune(lpSubItem->lpOpt[1], &dblOutput, fnGetDbl(lpSubItem->lpOpt[1]), -(lpNMUD->iDelta)))
 		{
 			FmtValueToStringEx(lpSubItem->lpOpt[1], szText, MAX_PATH, dblOutput);
-			MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 			SetWindowTextW((HWND)lpSubItem->lpOpt[4], wcsText);
 		}
@@ -72,7 +72,7 @@ void wndhk_SoftItem_OnNotify(LPCWPRETSTRUCT lpCWPR, PSOFT_SUB_ITEM lpSubItem)
 
 	switch (GetWindowLong(lpNMHDR->hwndFrom, GWL_USERDATA))
 	{
-	case SIA_FINETUNE://旋钮
+	case SIA_FINETUNE:
 	{
 		SoftItem_Finetune(lpSubItem, -(((LPNMUPDOWN)lpCWPR->lParam)->iDelta), 1);
 	}
@@ -187,10 +187,10 @@ LRESULT CALLBACK cwrphk_MainWnd(int nCode, WPARAM wParam, LPARAM lParam)
 			InvalidateRect(hP1, NULL, TRUE);
 			UpdateWindow(hP1);
 		}
-// 		else if (hP1 == hwToolbar)
-// 		{
-// 			SetFocus(hwSoftMenu);
-// 		}
+		else if (hP1 == hwToolbar)
+		{
+			SetFocus(hwSoftMenu);
+ 		}
 	}
 	break;
 	}

@@ -6,6 +6,8 @@ extern CALDLG_CTXT dcCal_1_2;
 extern CALDLG_CTXT dcCal_1_3;
 extern CALDLG_CTXT dcCal_1_4;
 extern CALDLG_CTXT dcCal_1_5;
+extern CALDLG_CTXT dcCal_1_6;
+
 
 extern CalKit cCalkit;
 
@@ -38,26 +40,25 @@ INT_PTR WINAPI fndeCal_1(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, LP
 		ComboBox_InsertStringW(GetDlgItem((HWND)lParam2, IDC_CAL1_CB_CALTYPE), 3, GetStringByIndex(L"Enhanced Response\0增强型响应\0增強型響應\0\0", nLangId));
 
 		ComboBox_InsertStringW(GetDlgItem((HWND)lParam2, IDC_CAL1_CB_CALTYPE), 4, GetStringByIndex(L"1-Port Cal\0\x31-端口校准\0\x31-端口校準\0\0", nLangId));
+		
+		ComboBox_InsertStringW(GetDlgItem((HWND)lParam2, IDC_CAL1_CB_CALTYPE), 5, GetStringByIndex(L"2-Port Cal\0\x32-端口校准\0\x32-端口校準\0\0", nLangId));
 
+		ComboBox_InsertStringW(GetDlgItem((HWND)lParam2, IDC_CAL1_CB_CALTYPE), 6, GetStringByIndex(L"2PortTRLCal\0\x32端口TRL校准\0\x32端口TRL校準\0\0", nLangId));
+
+
+		OrigSoftMenu_Enter(CA_CAL_CAL);
+		OrigSoftMenu_UpdateItems(CA_CAL_CAL);
+
+		for (int i = 0; i < 26; i++)
 		{
-			BOOL blTmp = FALSE;
-
-			OrigSoftMenu_GetItemState(CA_CALCAL, 5, &blTmp, NULL, NULL);
-
-			if (blTmp & 0xFF)
-			{
-				ComboBox_InsertStringW(GetDlgItem((HWND)lParam2, IDC_CAL1_CB_CALTYPE), 5, GetStringByIndex(L"2-Port Cal\0\x32-端口校准\0\x32-端口校準\0\0", nLangId));
-			}
+			ComboBox_InsertStringW(hCALKIT, i, cCalkit.CalKitList[i].c_str());
 		}
 
-		for (int i = 0; i < 10; i++)
-			ComboBox_InsertStringW(hCALKIT, i, cCalkit.CalKitList[i].c_str());
-
 		{
-			WCHAR wcsTmp[MAX_PATH];
-			GetInputStringObjectW((void *)0x00BB8FD8, wcsTmp, MAX_PATH, &nCalSel);
+			WCHAR wcsTmp[MAX_PATH] = {0};
+			GetInputStringObjectW((void *)0x010B3628, wcsTmp, MAX_PATH, &nCalSel);
 			nCalSel = 0;
-			for (int i = 0; i < 10; i++)
+			for (int i = 0; i < 26; i++)
 			{
 				if (0 == wcscmp(wcsTmp, cCalkit.OldCalKitList[i].c_str()))
 				{
@@ -80,9 +81,9 @@ INT_PTR WINAPI fndeCal_1(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, LP
 		if (nCalType == CB_ERR || nCalKit == CB_ERR) 
 			break;
 
-		OrigSoftMenu_Enter(CA_CALIBRAT_CK);
-		OrigSoftMenu_UpdateItems(CA_CALIBRAT_CK);
-		OrigSoftMenu_ItemClicked2(CA_CALIBRAT_CK, TA_CALIBRAT_CK, nCalKit);
+		OrigSoftMenu_Enter(CA_CAL_CALK);
+		OrigSoftMenu_UpdateItems(CA_CAL_CALK);
+		OrigSoftMenu_ItemClicked2(CA_CAL_CALK, TA_CAL_CALK, nCalKit);
 
 		switch (nCalType)
 		{
@@ -103,6 +104,9 @@ INT_PTR WINAPI fndeCal_1(PCALDLG_CTXT lpDlgCtxt, DWORD dwCode, WPARAM wParam, LP
 			break;
 		case 5:
 			UpdateDialog_Cal(&dcCal_1_5, 0);
+			break;
+		case 6:
+			UpdateDialog_Cal(&dcCal_1_6, 0);
 			break;
 		default:
 			break;

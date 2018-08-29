@@ -1,19 +1,19 @@
 ﻿#include "stdafx.h"
 
-// extern SOFT_MENU menuMeasurement;
+extern SOFT_MENU menuMeasurement;
 extern SOFT_MENU menuTracesConfig;
 extern SOFT_MENU menuChannelsConfig;
 extern SOFT_MENU menuMarker;
 extern SOFT_MENU menuAnalysis;
 extern SOFT_MENU menuAverage;
-// extern SOFT_MENU menuSweepSetup;
-// extern SOFT_MENU menuCalibration;
+extern SOFT_MENU menuSweepSetup;
+extern SOFT_MENU menuCalibration;
 extern SOFT_MENU menuFrequency;
 extern SOFT_MENU menuPower;
-// extern SOFT_MENU menuSystem;
-// extern SOFT_MENU menuSaveRecall;
+extern SOFT_MENU menuSystem;
+extern SOFT_MENU menuSaveRecall;
 extern SOFT_MENU menuDisplay;
-// extern SOFT_MENU menuMacroSetup;
+extern SOFT_MENU menuMacroSetup;
 extern SOFT_MENU menuPreset;
 
 int WINAPI fnClicked_Preset(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem);
@@ -107,7 +107,7 @@ SOFT_SUB_ITEM subitemTrace[] =
 		NULL,
 		NULL,
 		NULL,
-		0,//&menuMeasurement,
+		&menuMeasurement,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -283,7 +283,7 @@ SOFT_SUB_ITEM subitemChannel[] =
 		NULL,
 		NULL,
 		NULL,
-		0,//&menuSweepSetup,
+		&menuSweepSetup,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -306,7 +306,7 @@ SOFT_SUB_ITEM subitemChannel[] =
 		NULL,
 		NULL,
 		NULL,
-		0,//&menuCalibration,
+		&menuCalibration,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -408,14 +408,13 @@ SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuSaveRecall,*/0,
+		&menuSaveRecall,
 		0,
 		NULL,
 		RESERVE_DWORD4,
 		{ 0, 1096, 0, 0 }
 	}
 	,
-
 	{
 		SIF_ISMENU,
 		SIA_FULLLINE,
@@ -432,7 +431,7 @@ SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuSystem,*/0,
+		&menuSystem,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -455,7 +454,7 @@ SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		NULL,
-		/*&menuMacroSetup,*/0,
+		&menuMacroSetup,
 		0,
 		NULL,
 		RESERVE_DWORD4,
@@ -588,7 +587,7 @@ SOFT_TAG_PAGE submenuMain[] =
 
 static int WINAPI fnSoftMenuEnter_Root(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_MENU *lpSoftMenu)
 {
-	DirectCall((void*)(BASE + 0x163AC88), GetOffsetPointer((void*)(BASE + 0xD7CD4C), 0x08));
+	DirectCall((void*)(BASE + (DWORD)CA_ROOT), GetOffsetPointer((void*)(BASE + (DWORD)TA_ROOT), 0x08));
 	return 0;
 }
 

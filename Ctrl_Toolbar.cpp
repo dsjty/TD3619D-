@@ -9,7 +9,6 @@
 #define DEFAULT_BTN_WIDTH           38
 #define DEFAULT_ITEM_HEIGHT         38
 #define DEFAULT_TB_HEIGHT           47
-#define DEFAULT_TBEX_HEIGHT         91
 #define DEFAULT_TB_RIGHT            17
 
 #define TF_STOP                     0x00000001
@@ -24,7 +23,6 @@ static HANDLE hThread = NULL;
 static DWORD dwThreadFlags = 0;
 static int nLeft = START_LEFT, nLeftEx = START_LEFT;
 static int nTop = START_TOP, nTopEx = START_TOPEX;
-static BOOL blExtended = FALSE;
 
 WORD wWidth_Toolbar = 0;
 DWORD dwTopHeight = 0;
@@ -324,48 +322,33 @@ SOFT_TB_ITEM toolbarItem[] =
 
 void UpdateToolbarHeight()
 {
-	void *lpVar, *lpVar2, *lpVar3;
+	void *lpVar = (void *)(BASE + 0x35B7918);
 
-	lpVar2 = GetOffsetPointer((void *)0x00400000, 0x007C114C);
-	if (!lpVar2) 
+	lpVar = GetOffsetPointer(lpVar, 0x04);
+	if (!lpVar)
 		return;
 
-	lpVar = GetOffsetPointer(lpVar2, 0x04);
-	if (!lpVar) 
+	lpVar = GetOffsetPointer(lpVar, 0x04);
+	if (!lpVar)
 		return;
 
-	lpVar2 = GetOffsetPointer(lpVar, 0x08); 
-	if (!lpVar2) 
+	lpVar = GetOffsetPointer(lpVar, 0x04);
+	if (!lpVar)
 		return;
 
-	lpVar = GetOffsetPointer(lpVar2, 0x20);
-	if (!lpVar) 
+	lpVar = GetOffsetPointer(lpVar, 0x08);
+	if (!lpVar)
 		return;
 
-	lpVar2 = GetOffsetPointer(lpVar, 0x0C);
-	if (!lpVar2) 
+	lpVar = GetOffsetPointer(lpVar, 0x30);
+	if (!lpVar)
 		return;
 
-	lpVar3 = GetOffsetPointer(lpVar2, 0x10);
-	if (!lpVar3) 
+	lpVar = GetOffsetPointer(lpVar, 0x34);
+	if (!lpVar)
 		return;
-
-	for (int nStart = (int)lpVar2; nStart != (int)lpVar3; nStart += 4)
-	{
-		int nHeight;
-
-		lpVar2 = GetOffsetPointer((void *)nStart, 0);
-		nHeight = (int)GetOffsetPointer(lpVar2, 0x24);
-
-		if (nHeight == 0x1D)
-		{
-			lpOrgInputObj = lpVar2;
-			break;
-		}
-	}
-
-	if (lpOrgInputObj)
-		lpdwTopHeight = (DWORD *)((int)lpVar2 + 0x24);
+	lpOrgInputObj = (void*)lpVar;
+	lpdwTopHeight = (DWORD *)((int)lpVar + 0x24);
 }
 
 unsigned int WINAPI tpToolbarProc(void *lParam)
@@ -376,9 +359,7 @@ unsigned int WINAPI tpToolbarProc(void *lParam)
 		hwToolbar = NULL;
 	}
 
-	hwToolbar = CreateWindowExW(WS_EX_STATICEDGE, (LPCWSTR)wcToolBar, NULL,
-		WS_CHILDWINDOW | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS,
-		0, 0, wWidth_MainWnd - wWidth_SoftMenu, DEFAULT_TB_HEIGHT, (HWND)lParam, NULL, hMod, NULL);
+	hwToolbar = CreateWindowExW(WS_EX_STATICEDGE, (LPCWSTR)wcToolBar, NULL, WS_CHILDWINDOW | WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS, 0, 0, wWidth_MainWnd - wWidth_SoftMenu, DEFAULT_TB_HEIGHT, (HWND)lParam, NULL, hMod, NULL);
 
 	dwTopHeight = DEFAULT_TB_HEIGHT;
 
@@ -419,24 +400,25 @@ unsigned int WINAPI tpToolbarProc(void *lParam)
 
 #if CF_TOPHEIGHT
 static BOOL blSetHook_008B3224 = TRUE;
-static int nFn_008B3226 = 0x008B3226;
-static int nFn_008B3242 = 0x008B3242;
+static int nFn_008B3226 = 0x0096BE72 ;
+static int nFn_008B3242 = 0x0096BE8C;
 
 NAKED void fnhk_008B3224()
 {
-	__asm mov edx, lpOrgInputObj
-	__asm cmp edx, eax
+	__asm push ecx
+	__asm mov ecx, lpOrgInputObj
+	__asm cmp ecx, eax
 	__asm jne lbl_Org
-	/*
-	__asm xor edx, edx
-	__asm mov dword ptr [eax + 0x20], edx
-	*/
-	__asm jmp dword ptr[nFn_008B3242]
+	__asm pop ecx
+	__asm mov ebx, 0x0096BE8C
+	__asm add ebx,BASE
+	__asm jmp ebx
 
 	lbl_Org:
-		__asm mov dl, byte ptr[eax + 0x1C]
-			__asm test dl, dl
-		__asm jmp dword ptr[nFn_008B3226]
+	__asm mov ecx, 0x0096BE71
+	__asm add ecx, BASE
+	__asm cmp byte ptr[eax + 0x1C], 0x0
+	__asm jmp ecx
 }
 #endif
 
@@ -449,13 +431,13 @@ int Toolbar_Create(HWND hParent)
 		blSetHook_008B3224 = FALSE;
 
 		int nTmp;
-		WORD wCode = 0xE9E9;
+		DWORD wCode = 0xE9E9E9E9;
 
-		WriteMemory((void *)0x008B31D9, &wCode, 1);
-		SetOffsetHook((int *)0x008B31DA, &nTmp, (int)&fnhk_008B3224);
+		WriteMemory((void *)(0x0096BE16 + BASE), &wCode, 1);
+		SetOffsetHook((int *)(0x0096BE17 + BASE), &nTmp, (int)&fnhk_008B3224);
 
-		wCode = 0xB3EB;
-		WriteMemory((void *)0x008B3224, &wCode, 2);
+		wCode = 0x5990A6EB;
+		WriteMemory((void *)(0x0096BE6E + BASE), &wCode, 4);
 	}
 #endif
 
@@ -506,12 +488,6 @@ int Toolbar_UpdateItemsPos()
 				MoveWindow(toolbarItem[dwIndex].hwCtrl, nLeft, nTop, toolbarItem[dwIndex].nWidth, DEFAULT_ITEM_HEIGHT, TRUE);
 				ShowWindow(toolbarItem[dwIndex].hwCtrl, SW_SHOW);
 				nLeft += toolbarItem[dwIndex].nWidth + 4;
-			}
-			else if ((blExtended) && (nLeftEx + toolbarItem[dwIndex].nWidth < wWidth_Toolbar - (DEFAULT_TB_RIGHT + 5)))
-			{
-				MoveWindow(toolbarItem[dwIndex].hwCtrl, nLeftEx, nTopEx, toolbarItem[dwIndex].nWidth, DEFAULT_ITEM_HEIGHT, TRUE);
-				ShowWindow(toolbarItem[dwIndex].hwCtrl, SW_SHOW);
-				nLeftEx += toolbarItem[dwIndex].nWidth + 4;
 			}
 			else
 			{
@@ -653,7 +629,6 @@ LRESULT CALLBACK wpfn_ToolBar(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			blCDC = FALSE;
 		}
 
-		//FillRect(hCDC, &rect, (HBRUSH)GetStockObject(WHITE_BRUSH));
 		FillRect(hCDC, &rect, CreateSolidBrush(RGB(40, 58, 87)));
 
 		rect2.top++;
@@ -662,50 +637,28 @@ LRESULT CALLBACK wpfn_ToolBar(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		FillRect(hCDC, &rect2, (HBRUSH)GetStockObject(DKGRAY_BRUSH));
 		FrameRect(hCDC, &rect, (HBRUSH)GetStockObject(BLACK_BRUSH));
 
-		if (blExtended)
-		{
-			int nX = rect2.left + 4;
-			int nY1 = 20;
 
-			SetPixelV(hCDC, nX, nY1 + 3, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 1, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 2, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 3, nY1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 4, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 5, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 6, nY1 + 3, RGB(250, 250, 250));
+		int nX = rect2.left + 4;
+		int nY1 = 20;
 
-			nY1 += 3;
-			SetPixelV(hCDC, nX, nY1 + 3, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 1, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 2, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 3, nY1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 4, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 5, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 6, nY1 + 3, RGB(250, 250, 250));
-		}
-		else
-		{
-			int nX = rect2.left + 4;
-			int nY1 = 20;
+		SetPixelV(hCDC, nX, nY1 + 3, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 1, nY1 + 2, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 2, nY1 + 1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 3, nY1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 4, nY1 + 1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 5, nY1 + 2, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 6, nY1 + 3, RGB(250, 250, 250));
 
-			SetPixelV(hCDC, nX, nY1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 1, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 2, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 3, nY1 + 3, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 4, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 5, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 6, nY1, RGB(250, 250, 250));
+		nY1 += 3;
+		SetPixelV(hCDC, nX, nY1 + 3, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 1, nY1 + 2, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 2, nY1 + 1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 3, nY1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 4, nY1 + 1, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 5, nY1 + 2, RGB(250, 250, 250));
+		SetPixelV(hCDC, nX + 6, nY1 + 3, RGB(250, 250, 250));
 
-			nY1 += 3;
-			SetPixelV(hCDC, nX, nY1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 1, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 2, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 3, nY1 + 3, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 4, nY1 + 2, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 5, nY1 + 1, RGB(250, 250, 250));
-			SetPixelV(hCDC, nX + 6, nY1, RGB(250, 250, 250));
-		}
+
 		if (blCDC)
 		{
 			BitBlt(hDC, rect.left, rect.top, cx, cy, hCDC, rect.left, rect.top, SRCCOPY);
@@ -743,12 +696,7 @@ LRESULT CALLBACK wpfn_ToolBar(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if ((px >= wWidth_Toolbar - DEFAULT_TB_RIGHT) && (px < wWidth_Toolbar))
 		{
-			if (blExtended)
-				dwTopHeight = DEFAULT_TB_HEIGHT;
-			else
-				dwTopHeight = DEFAULT_TBEX_HEIGHT;
-
-			blExtended = !blExtended;
+			dwTopHeight = DEFAULT_TB_HEIGHT;
 
 			Toolbar_UpdateItemsPos();
 

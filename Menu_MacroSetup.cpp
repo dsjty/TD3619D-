@@ -329,7 +329,7 @@ static int WINAPI fnTagPageEnter_Macro(DWORD dwFlags, WPARAM wParam, LPARAM lPar
 
 			wcsText[0] = 0;
 
-			MultiByteToWideChar(1253, 0, lpText, -1, wcsText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, lpText, -1, wcsText, MAX_PATH);
 			nLen = wcslen(wcsText);
 
 			subitemMacro[6].wHeight = 56;
@@ -393,7 +393,7 @@ static int WINAPI fnTagPageEnter_LoadRun(DWORD dwFlags, WPARAM wParam, LPARAM lP
 
 		if (SubItem.szItemText && lpszText)
 		{
-			MultiByteToWideChar(1253, 0, lpszText, -1, SubItem.szItemText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, lpszText, -1, SubItem.szItemText, MAX_PATH);
 		}
 
 		TagPage_AddItem(lpTagPage, &SubItem);
@@ -440,7 +440,7 @@ static int WINAPI fnTagPageEnter_UserMenu(DWORD dwFlags, WPARAM wParam, LPARAM l
 
 		if (SubItem.szItemText && lpszText)
 		{
-			MultiByteToWideChar(1253, 0, lpszText, -1, SubItem.szItemText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, lpszText, -1, SubItem.szItemText, MAX_PATH);
 		}
 
 		TagPage_AddItem(lpTagPage, &SubItem);

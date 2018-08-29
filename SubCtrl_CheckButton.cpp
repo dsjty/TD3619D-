@@ -19,6 +19,11 @@ int SubCtrl_CheckButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 	{
 		if (CHK_FLAGS(lpMe->dwAttributes, SIA_GETCHKSTATE) && (lpMe->lpOpt[2]))
 		{
+			if (lpMe->lpOpt[12])
+			{
+				lpMe->lpOpt[2] = (void*)((DWORD)lpMe->lpOpt[2] - BASE);
+				lpMe->lpOpt[12] = 0;
+			}
 			if (GetButtonCheckState(lpMe->lpOpt[2], (int)lpMe->lpOpt[3]))
 			{
 				SET_FLAGS(lpMe->dwAttributes, SIAE_CHECKED);

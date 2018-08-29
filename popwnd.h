@@ -31,6 +31,3 @@ void PopWnd_SetTitleSuffix(LPCWSTR lpSuffix);
 BOOL PopWnd_Destroy(PSOFT_SUB_ITEM lpSubItem, BOOL blForce);//销毁浮动输入框
 BOOL PopWnd_IsFocus();
 int PopWnd_Finetune(BOOL blFinetune2, int nDelta, int nCount);
-HWND PopWnd_GetPopWnd();
-HWND PopWnd_GetPopInputWnd();
-//int PopWnd_FrontPanelEventHandler(LPARAM lParam, DWORD dwFlags);

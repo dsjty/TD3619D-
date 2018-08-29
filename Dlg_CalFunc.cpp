@@ -70,11 +70,6 @@ void InitDialogClient(HWND hDlg)
 	else
 		SetWindowTextW(hDlg, GetStringByIndex(L"Calibration\0校准\0校準\0\0", nLangId));
 
-	//if (lpContext->lpszGroupTitle)
-	//	SetWindowTextW(GetDlgItem(hDlg, IDC_GB), GetStringByIndex(lpContext->lpszGroupTitle, nLangId));
-	//else
-	//	SetWindowTextW(GetDlgItem(hDlg, IDC_GB), NULL);
-
 	if (CHK_FLAGS(lpContext->dwDlgFlags, DFL_CMD_OK))
 	{
 		if (lpContext->lpszCmdOK)
@@ -251,53 +246,7 @@ static INT_PTR CALLBACK DlgProc_Cal(HWND hDlg, UINT msg, WPARAM wParam, LPARAM l
 	switch (msg)
 	{
 	case WM_PAINT:
-	/*{
-		PAINTSTRUCT ps;
-		HDC hDC = BeginPaint(hDlg, &ps), hCDC;
-		BOOL blCDC = TRUE;
-		HBITMAP hBM;
-		RECT rect;
-		int cx, cy;
-
-		if (hDC == NULL)
-			break;
-
-		GetClientRect(hDlg, &rect);
-		cx = rect.right - rect.left;
-		cy = rect.bottom - rect.top;
-
-		//尝试使用双缓冲
-		hCDC = CreateCompatibleDC(hDC);
-
-		//判断双缓冲
-		if (hCDC == NULL)
-		{
-			hCDC = hDC;
-			blCDC = FALSE;
-		}
-		else if (hBM = CreateCompatibleBitmap(hDC, cx, cy))
-		{
-			SelectObject(hCDC, hBM);
-			DeleteObject(hBM);
-		}
-		else
-		{
-			DeleteDC(hCDC);
-			hCDC = hDC;
-			blCDC = FALSE;
-		}
-		SelectObject(hCDC, hCalDlg_bk);
-		Rectangle(hCDC, rect.left, rect.top, rect.right, rect.bottom);
-
-		if (blCDC)
-		{
-			BitBlt(hDC, rect.left, rect.top, cx, cy, hCDC, rect.left, rect.top, SRCCOPY);
-			DeleteDC(hCDC);
-		}
-
-		EndPaint(hDlg, &ps);
-	}*/
-	return 0;
+		return 0;
 	case WM_INITDIALOG:
 	{
 		if (lParam == NULL)
@@ -410,21 +359,21 @@ BOOL ReSizeCalDlg(HWND hWnd, PCALDLG_CTXT lpDlgCtxt, CRect Crect)
 {
 	//获取CALWND中静态框大小做减法;
 	CRect rcStaticRect;
-	CalDlgSize stCalDlg ;
+	CalDlgSize stCalDlg;
 	GetClientRect(GetDlgItem(hWnd, IDC_GB), rcStaticRect);
 	stCalDlg.iDlgDeffeX = stCalDlg.iDlgDeffeY = 0;
 	switch (lpDlgCtxt->nDlgResId)
 	{
 		stCalDlg.rcStaticSize = rcStaticRect;
 		stCalDlg.rcDlgSize = Crect;
-	case IDD_CAL_1:	
-		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 386;
+	case IDD_CAL_1:
+		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 404;
 		stCalDlg.iDlgDeffeY = rcStaticRect.Height() - 176;
 		EnumChildWindows(hWnd, EnumCalDlgProc, (LPARAM)&stCalDlg);
 		break;
 	case IDD_CAL_2:
-		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 418;
-		stCalDlg.iDlgDeffeY = rcStaticRect.Height() - 151;
+		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 383;
+		stCalDlg.iDlgDeffeY = rcStaticRect.Height() - 276;
 		EnumChildWindows(hWnd, EnumCalDlgProc, (LPARAM)&stCalDlg);
 		break;
 	case IDD_CAL_3:
@@ -433,14 +382,14 @@ BOOL ReSizeCalDlg(HWND hWnd, PCALDLG_CTXT lpDlgCtxt, CRect Crect)
 		EnumChildWindows(hWnd, EnumCalDlgProc, (LPARAM)&stCalDlg);
 		break;
 	case IDD_CAL_7:
-		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 455;
-		stCalDlg.iDlgDeffeY = rcStaticRect.Height() - 278;
+		stCalDlg.iDlgDeffeX = rcStaticRect.Width() - 610;
+		stCalDlg.iDlgDeffeY = rcStaticRect.Height() - 358;
 		EnumChildWindows(hWnd, EnumCalDlgProc, (LPARAM)&stCalDlg);
 		break;
 	default:
 		break;
 	}
-	SetWindowPos(hWnd,NULL,Crect.left, Crect.top, Crect.Width() - stCalDlg.iDlgDeffeX , Crect.Height() - stCalDlg.iDlgDeffeY , SWP_NOZORDER|SWP_NOMOVE);
+	SetWindowPos(hWnd, NULL, Crect.left, Crect.top, Crect.Width() - stCalDlg.iDlgDeffeX, Crect.Height() - stCalDlg.iDlgDeffeY, SWP_NOZORDER | SWP_NOMOVE);
 	return TRUE;
 }
 

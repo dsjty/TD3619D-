@@ -47,6 +47,12 @@ int SubCtrl_Button_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, int x, 
 
 			int nIndex = 0;
 
+			if (lpMe->lpOpt[12])
+			{
+				lpMe->lpOpt[2] = (void*)((DWORD)lpMe->lpOpt[2] - BASE);
+				lpMe->lpOpt[12] = 0;
+			}
+
 			GetButtonStateIndex((char *)lpMe->lpOpt[2], lpMe->lpOpt[3], &nIndex, (int)lpMe->lpOpt[0]);
 
 			if ((*lppWStr) && ((DWORD)nIndex < lpMe->dwNumberOfParams))

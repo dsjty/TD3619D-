@@ -1,19 +1,19 @@
 ﻿#include "stdafx.h"
 
-// extern SOFT_MENU menuMeasurement;
+extern SOFT_MENU menuMeasurement;
 extern SOFT_MENU menuTracesConfig;
 extern SOFT_MENU menuChannelsConfig;
 extern SOFT_MENU menuMarker;
 extern SOFT_MENU menuAnalysis;
 extern SOFT_MENU menuAverage;
-// extern SOFT_MENU menuSweepSetup;
-// extern SOFT_MENU menuCalibration;
+extern SOFT_MENU menuSweepSetup;
+extern SOFT_MENU menuCalibration;
 extern SOFT_MENU menuFrequency;
 extern SOFT_MENU menuPower;
-// extern SOFT_MENU menuSystem;
-// extern SOFT_MENU menuSaveRecall;
+extern SOFT_MENU menuSystem;
+extern SOFT_MENU menuSaveRecall;
 extern SOFT_MENU menuDisplay;
-// extern SOFT_MENU menuMacroSetup;
+extern SOFT_MENU menuMacroSetup;
 extern SOFT_MENU menuPreset;
 
 extern WORD wWidth_MainWnd, wHeight_MainWnd, wWidth_SoftMenu;
@@ -26,16 +26,11 @@ bool bPreset = FALSE;
 
 
 void SetSoftMenuWidth(WORD wWidth);
-//int SoftItem_FrontPanelEventHandler(LPARAM lParam, DWORD dwFlags);
 
 typedef int(__stdcall *dwfn_00BC3028)(WPARAM wParam, LPARAM lParam);
 
 dwfn_00BC3028 fn00BC3028 = NULL;
 
-int GetInputType()
-{
-	return nInputType;
-}
 
 void SetInputType(int nNewType)
 {
@@ -57,15 +52,19 @@ int WINAPI PhysEventHandler_Button(WPARAM wParam, LPARAM lParam)
 	case 0x0D:
 	{
 		if (nInputType == ITID_GMK || nInputType == ITID_PW_GMK)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0034, 0x0001));
+		{
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x0035, 0x0001));
+		}
 		else if (nInputType == ITID_NUM)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0037, 0x0001));
+		{
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x0038, 0x0001)); 
+		}
 		else
 		{
 			if (fn00BC3028)
 				nRet = fn00BC3028(wParam, lParam);
 			else
-				nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+				nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 		}
 	}
 	break;
@@ -73,16 +72,19 @@ int WINAPI PhysEventHandler_Button(WPARAM wParam, LPARAM lParam)
 	case 0x1D:
 	{
 		if (nInputType == ITID_GMK || nInputType == ITID_PW_GMK)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0035, 0x0001));
+		{
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x0036, 0x0001));
+		}
 		else if (nInputType == ITID_NUM)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0038, 0x0001));
+		{
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x0039, 0x0001));
+		}
 		else
 		{
-			//PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x003A, 0x0001));
 			if (fn00BC3028)
 				nRet = fn00BC3028(wParam, lParam);
 			else
-				nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+				nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 		}
 	}
 	break;
@@ -90,16 +92,15 @@ int WINAPI PhysEventHandler_Button(WPARAM wParam, LPARAM lParam)
 	case 0x2D:
 	{
 		if (nInputType == ITID_GMK || nInputType == ITID_PW_GMK)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0036, 0x0001));
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x0037, 0x0001));
 		else if (nInputType == ITID_NUM)
-			PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x0039, 0x0001));
+			PSTMSG(hwMainWnd, 0x0432, 0xB, MAKELPARAM(0x003A, 0x0001));
 		else
 		{
 			if (fn00BC3028)
 				nRet = fn00BC3028(wParam, lParam);
 			else
-				nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
-			//PSTMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x003A, 0x0001));
+				nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 		}
 	}
 	break;
@@ -108,7 +109,7 @@ int WINAPI PhysEventHandler_Button(WPARAM wParam, LPARAM lParam)
 		if (fn00BC3028)
 			nRet = fn00BC3028(wParam, lParam);
 		else
-			nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+			nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 		break;
 	}
 
@@ -130,14 +131,14 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam)
 
 	switch (wParam)
 	{
-	case 0x40:
+	case 0x40:	
+	case 0x24:
 		nRet = PhysEventHandler_Button(wParam, lParam);
 		break;
 
-	case 0x42:
-	case 0x43:
-	case 0x44:
-
+	case 0x42:	 //左旋三档
+	case 0x43:	 //左旋三档
+	case 0x44:	 //左旋三档
 		switch (nInputType)
 		{
 		case ITID_GMK:
@@ -159,16 +160,15 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam)
 			if (fn00BC3028)
 				nRet = fn00BC3028(wParam, lParam);
 			else
-				nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+				nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 			break;
 		}
 		break;
 
 
-	case 0x45:
-	case 0x46:
-	case 0x47:
-
+	case 0x45:	//右旋三挡
+	case 0x46:	//右旋三挡
+	case 0x47:	//右旋三挡
 		switch (nInputType)
 		{
 		case ITID_GMK:
@@ -191,7 +191,7 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam)
 			if (fn00BC3028)
 				nRet = fn00BC3028(wParam, lParam);
 			else
-				nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+				nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 			break;
 		}
 		break;
@@ -200,7 +200,7 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam)
 		if (fn00BC3028)
 			nRet = fn00BC3028(wParam, lParam);
 		else
-			nRet = ((dwfn_00BC3028)0x004FD160)(wParam, lParam);
+			nRet = ((dwfn_00BC3028)(0x309EF0 + BASE))(wParam, lParam);
 		break;
 	}
 
@@ -215,11 +215,11 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam)
 //************************************
 int PhysEventHook()
 {
-	if (*(DWORD *)0x00BC3028 != (DWORD)&PhysEventHandler_Entry)
+	if (*(DWORD *)(0x3660FC0 + BASE) != (DWORD)&PhysEventHandler_Entry)
 	{
-		fn00BC3028 = (dwfn_00BC3028)*(DWORD *)0x00BC3028;
-		*(DWORD *)0x00BC3028 = (DWORD)&PhysEventHandler_Entry;
-		WriteMemory((void *)0x004FC621, (void *)0x00BC3028, 4);
+		fn00BC3028 = (dwfn_00BC3028)*(DWORD *)(0x3660FC0 + BASE);
+		*(DWORD *)(0x3660FC0 + BASE) = (DWORD)&PhysEventHandler_Entry;
+		WriteMemory((void *)(0x30A3F1 + BASE), (void *)(0x3660FC0 + BASE), 4);
 
 		return (int)fn00BC3028;
 	}
@@ -238,7 +238,7 @@ int PhysEventHook()
 
 int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 {
-	/*
+	
 	LPWORD lpVirtCode = (LPWORD)_lParam;
 	int nRet = 1;
 
@@ -357,7 +357,6 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 	case 0x32:
 	case 0x33:
 	case 0x3A:
-	case 0x3C:
 		if (NULL == IsWindowVisible(hwSoftMenu))
 		{
 			nRet = 0;
@@ -365,7 +364,7 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 		}
 		break;
 
-	case 0x3B:			//'隐藏/显示'菜单
+	case 0x3C:		//'隐藏/显示'菜单
 	{
 		static WORD wBackupWidth = 0;
 
@@ -379,7 +378,8 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 		else
 		{
 			wWidth_SoftMenu = wBackupWidth;
-			SetSoftMenuWidth(wWidth_SoftMenu);
+			int lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
+			SetSoftMenuWidth(lngWidth);
 			ShowWindow(hwSoftMenu, SW_SHOW);
 			SoftItem_SetFocus(0, 0);
 		}
@@ -390,12 +390,12 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 	}
 	break;
 
-	case 0x3F:
+	case 0x3E:
 		PSTMSG(hwSoftMenu, WM_SWITCH_SUBMENU, 0, (LPARAM)&menuMacroSetup);
 		nRet = 0;
 		break;
 
-	case 0x40:	//帮助
+	case 0x46:	//帮助
 		if (NULL == IsWindowVisible(hwSoftMenu))
 		{
 			nRet = 0;
@@ -406,17 +406,17 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 		nRet = 0;
 		break;
 
-	case 0x42:
+	case 0x43:
 		PSTMSG(hwSoftMenu, WM_SWITCH_SUBMENU, 0, (LPARAM)&menuSaveRecall);
 		nRet = 0;
 		break;
 
-	case 0x43:
+	case 0x44:
 		PSTMSG(hwSoftMenu, WM_SWITCH_SUBMENU, 0, (LPARAM)&menuSystem);
 		nRet = 0;
 		break;
 
-	case 0x44:
+	case 0x45:
 		if (bPreset==TRUE)
 			break;
 		bPreset = TRUE;
@@ -424,8 +424,8 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 		nRet = 0;
 		break;
 	}
-	*/
-return 0; //nRet;
+
+return nRet;
 }
 
 

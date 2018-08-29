@@ -118,8 +118,8 @@ void PopWnd_UpdateInputBox()
 
 	if (hWnd_PopWnd && hInputEdit && lpInputObject)
 	{
-		char szText[MAX_PATH];
-		WCHAR wcsText[MAX_PATH];
+		char szText[MAX_PATH] = { 0 };
+		WCHAR wcsText[MAX_PATH] = { 0 };
 
 		szText[0] = 0;
 		wcsText[0] = 0;
@@ -130,7 +130,7 @@ void PopWnd_UpdateInputBox()
 		}
 
 		FmtValueToString(lpInputObject, szText, MAX_PATH, NULL);
-		MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 		SetWindowTextW(hInputEdit, wcsText);
 
@@ -215,16 +215,14 @@ int PopWnd_Finetune(BOOL blFinetune2, int nDelta, int nCount)
 	double dblOutput;
 	BOOL blRet;
 
-	fn_GetDouble fnGetDbl = GetAddr_GetDbl(lpInputObject);
-	fn_SetDouble fnSetDbl = GetAddr_SetDbl(lpInputObject);
+	fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)(BASE + (DWORD)lpInputObject));
+	fn_SetDouble fnSetDbl = GetAddr_SetDbl((void*)(BASE + (DWORD)lpInputObject));
 
-	char szText[MAX_PATH];
-	WCHAR wcsText[MAX_PATH];
+	char szText[MAX_PATH] = { 0 };
+	WCHAR wcsText[MAX_PATH] = { 0 };
 
 	if (CHK_NOFLAGS(lpInputItem->dwFlags, SIF_NOREPLY) && lpInputItem->lpThis && lpInputItem->lpVTable)
-	{
 		OrigSoftMenu_ItemClicked2(lpInputItem->lpThis, lpInputItem->lpVTable, lpInputItem->dwFunctionId);
-	}
 
 	if (CHK_FLAGS(lpInputItem->dwAttributes, SIA_SETSTATEIDX) && lpInputItem->lpOpt[2])
 		SetInputBtnStateIndex(lpInputItem->lpOpt[2], (int)lpInputItem->lpOpt[3]);
@@ -232,16 +230,17 @@ int PopWnd_Finetune(BOOL blFinetune2, int nDelta, int nCount)
 	for (int nIndex = 0; nIndex < nCount; nIndex++)
 	{
 		if (blFinetune2)
-			blRet = InputFineTune2(lpInputObject, &dblOutput, fnGetDbl(lpInputObject), nDelta);
+			blRet = InputFineTune2(lpInputObject, &dblOutput, fnGetDbl((void*)(BASE + (DWORD)lpInputObject)), nDelta);
 		else
-			blRet = InputFineTune(lpInputObject, &dblOutput, fnGetDbl(lpInputObject), nDelta);
+			blRet = InputFineTune(lpInputObject, &dblOutput, fnGetDbl((void*)(BASE + (DWORD)lpInputObject)), nDelta);
 	}
 
 	if (blRet)
-		fnSetDbl(lpInputObject, &dblOutput);
+		blRet=fnSetDbl((void*)(BASE + (DWORD)lpInputObject), dblOutput);
 
-	FmtValueToStringEx(lpInputObject, szText, MAX_PATH, fnGetDbl(lpInputObject));
-	MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+	if (blRet)
+		FmtValueToStringEx(lpInputObject, szText, MAX_PATH, fnGetDbl((void*)(BASE + (DWORD)lpInputObject)));
+	MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 	SetWindowTextW(hInputEdit, wcsText);
 
 	if (CHK_FLAGS(lpInputItem->dwAttributes, SIA_PSTMSG_432_2))
@@ -256,15 +255,6 @@ int PopWnd_Finetune(BOOL blFinetune2, int nDelta, int nCount)
 	return 0;
 }
 
-HWND PopWnd_GetPopWnd()
-{
-	return hWnd_PopWnd;
-}
-
-HWND PopWnd_GetPopInputWnd()
-{
-	return hInputEdit;
-}
 
 LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -397,8 +387,8 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	break;
 	case WM_ACTIVATE:
 	{
-		char szText[MAX_PATH];
-		WCHAR wcsText[MAX_PATH];
+		char szText[MAX_PATH] = { 0 };
+		WCHAR wcsText[MAX_PATH] = { 0 };
 
 		szText[0] = 0;
 		wcsText[0] = 0;
@@ -409,7 +399,7 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 
 		FmtValueToString(lpInputObject, szText, MAX_PATH, NULL);
-		MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 		SetWindowTextW(hInputEdit, wcsText);
 
@@ -428,8 +418,8 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		}
 		else if (wId == IDOK)
 		{
-			WCHAR wcsText[MAX_PATH];
-			char szText[MAX_PATH];
+			WCHAR wcsText[MAX_PATH] = { 0 };
+			char szText[MAX_PATH] = { 0 };
 
 			wcsText[0] = 0;
 			szText[0] = 0;
@@ -440,14 +430,14 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 			}
 
 			GetWindowTextW(hInputEdit, wcsText, MAX_PATH);
-			WideCharToMultiByte(1253, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
+			WideCharToMultiByte(CP_ACP, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
 
 			if (CHK_NOFLAGS(lpInputItem->dwAttributes, SIA_READONLY))
 				ScanfStringToValue(lpInputObject, szText, NULL);
 
 			FmtValueToString(lpInputObject, szText, MAX_PATH, NULL);
 
-			MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+			MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 			SetWindowTextW(hInputEdit, wcsText);
 
@@ -483,19 +473,17 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	break;
 	case WM_LBUTTONDBLCLK:
 	{
-		char szText[MAX_PATH];
-		WCHAR wcsText[MAX_PATH];
+		char szText[MAX_PATH] = { 0 };
+		WCHAR wcsText[MAX_PATH] = { 0 };
 
 		szText[0] = 0;
 		wcsText[0] = 0;
 
 		if (CHK_NOFLAGS(lpInputItem->dwFlags, SIF_NOREPLY) && lpInputItem->lpThis && lpInputItem->lpVTable)
-		{
 			OrigSoftMenu_ItemClicked2(lpInputItem->lpThis, lpInputItem->lpVTable, lpInputItem->dwFunctionId);
-		}
 
 		FmtValueToString(lpInputObject, szText, MAX_PATH, NULL);
-		MultiByteToWideChar(1253, 0, szText, -1, wcsText, MAX_PATH);
+		MultiByteToWideChar(CP_ACP, 0, szText, -1, wcsText, MAX_PATH);
 
 		SetWindowTextW(hInputEdit, wcsText);
 	}
@@ -536,13 +524,15 @@ LRESULT CALLBACK wpfn_PopupWnd(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 		if (!hBtnEnter)
 		{
 			hBtnEnter = CreateWindowExW(0, WC_BUTTONW, L"->", WS_CHILD | WS_VISIBLE, 40, 104, 24, 24, hWnd, NULL, NULL, NULL);
-			if (hBtnEnter) SetWindowLong(hBtnEnter, GWL_ID, IDOK);
+			if (hBtnEnter) 
+				SetWindowLong(hBtnEnter, GWL_ID, IDOK);
 		}
 
 		if (!hBtnClose)
 		{
 			hBtnClose = CreateWindowExW(0, WC_BUTTONW, L"X", WS_CHILD | WS_VISIBLE, 40, 114, 24, 24, hWnd, NULL, NULL, NULL);
-			if (hBtnClose) SetWindowLong(hBtnClose, GWL_ID, IDOK);
+			if (hBtnClose) 
+				SetWindowLong(hBtnClose, GWL_ID, IDOK);
 		}
 
 		InvalidateRect(hWnd, NULL, TRUE);
@@ -674,12 +664,12 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			if (lpInputItem)
 			{
 				DWORD dwStart, dwEnd;
-				WCHAR wcsText[MAX_PATH];
-				char szText[MAX_PATH];
-				char szText2[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
+				char szText[MAX_PATH] = { 0 };
+				char szText2[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
-				WideCharToMultiByte(1253, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
+				WideCharToMultiByte(CP_ACP, 0, wcsText, -1, szText, MAX_PATH, NULL, NULL);
 				TrimLeft(szText, MAX_PATH);
 				BreakString(szText, MAX_PATH);
 
@@ -700,7 +690,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 				else
 					strcpy_s(szText2, MAX_PATH, "-");
 
-				MultiByteToWideChar(1253, 0, szText2, -1, wcsText, MAX_PATH);
+				MultiByteToWideChar(CP_ACP, 0, szText2, -1, wcsText, MAX_PATH);
 				SetWindowTextW(hWnd, wcsText);
 
 				if (*szText2 == '-')
@@ -713,7 +703,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'G':
 			if (lpInputItem && lpInputObject && CHK_NOFLAGS(lpInputItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpInputObject, wcsText, MAX_PATH, "G");
@@ -725,7 +715,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'M':
 			if (lpInputItem && lpInputObject && CHK_NOFLAGS(lpInputItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpInputObject, wcsText, MAX_PATH, "M");
@@ -737,7 +727,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		case 'k':
 			if (lpInputItem && lpInputObject && CHK_NOFLAGS(lpInputItem->dwAttributes, SIA_INPUT_TIME))
 			{
-				WCHAR wcsText[MAX_PATH];
+				WCHAR wcsText[MAX_PATH] = { 0 };
 
 				GetWindowTextW(hWnd, wcsText, MAX_PATH);
 				MakeUnitStringW(lpInputObject, wcsText, MAX_PATH, "k");
@@ -804,7 +794,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 		if (lpInputObject)
 		{
-			WCHAR wcsText[MAX_PATH];
+			WCHAR wcsText[MAX_PATH] = { 0 };
 
 			if (CHK_NOFLAGS(lpInputItem->dwFlags, SIF_NOREPLY) && lpInputItem->lpThis && lpInputItem->lpVTable)
 			{
@@ -812,7 +802,7 @@ LRESULT CALLBACK wp_InputEdit(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 			}
 
 			fn_GetDouble fnGetDbl = GetAddr_GetDbl((void*)(BASE + (DWORD)lpInputObject));
-			FmtValueToStringExW(lpInputObject, wcsText, MAX_PATH, fnGetDbl(lpInputObject));
+			FmtValueToStringExW(lpInputObject, wcsText, MAX_PATH, fnGetDbl((void*)(BASE + (DWORD)lpInputObject)));
 			SetWindowTextW(hWnd, wcsText);
 		}
 	}

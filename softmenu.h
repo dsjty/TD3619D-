@@ -26,6 +26,7 @@
 #define SIF_FN_SELECTED             0x00020000      //存在条目被选中的事件 (下拉框)
 #define SIF_FN_UPDATEDATA           0x00040000      //存在更新数据的事件过程
 #define SIF_FN_SETFOCUS				0x00100000
+#define SIF_FN_SWITCH				0x00200000		//专门应对需要在点击前获取动态this指针的。所以需要这个来指示先执行自定义函数 然后才点击
 
 //Sub Item Attributes
 #define SIA_FULLLINE                0x00000001      //条目绘制为整行 (独占一行)

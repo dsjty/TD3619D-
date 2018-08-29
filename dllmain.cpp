@@ -17,17 +17,16 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
 {
 	switch (ul_reason_for_call)
 	{
-	case DLL_PROCESS_ATTACH:
-	{
-		MessageBox(0, "TEST 1", 0, 0);
-		DM_ProcessAttach(hModule, ul_reason_for_call, lpReserved);
-		break;
-	}
+		case DLL_PROCESS_ATTACH:
+		{
+			DM_ProcessAttach(hModule, ul_reason_for_call, lpReserved);
+			break;
+		}
 
-	case DLL_PROCESS_DETACH:
-	{
-		break;
-	}
+		case DLL_PROCESS_DETACH:
+		{
+			break;
+		}
 	}
 	return TRUE;
 }

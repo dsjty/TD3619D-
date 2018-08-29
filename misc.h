@@ -61,9 +61,9 @@ typedef struct _LOCALE_TEXT_
 {
   void          * lpHookAddr;
   void          * lpOrigAddr;
-  const char    * lpLocaleText;
-  char          * lpszCurText;
-  char            szCurText[48];
+  const WCHAR   * lpLocaleText;
+  WCHAR          * lpszCurText;
+  WCHAR            szCurText[48];
 } LOCALE_TEXT, *PLOCALE_TEXT;
 
 //原程序free函数
@@ -71,7 +71,7 @@ typedef void(__cdecl *fn_Free)(void *_Block);
 
 typedef double(__thiscall *fn_GetDouble)(void *lpThis);
 
-typedef BOOL(__thiscall *fn_SetDouble)(void *lpThis, double *dblInput);
+typedef BOOL(__thiscall *fn_SetDouble)(void *lpThis, double dblInput);
 
 typedef PAVG_STR(__thiscall *fn_FmtToStringAvg)(void *lpThis, PAVG_STR lpOutBasStr, double dblVal);
 
