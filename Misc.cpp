@@ -10,8 +10,16 @@ ATOM wcToolBar = 0;
 
 DWORD dwBaseAdd = 0;
 
+extern WORD wWidth_SoftMenu;
+void SetSoftMenuWidth(WORD wWidth);
+BOOL WndCHK_TDR();
+
+static DWORD dwTDRDataAdd = NULL;
+
 //语言Id 0=英语,1=简体中文,2=繁体中文
 int nLangId = 1;
+
+int nChannels = 0, nTraces = 0;
 
 //CWnd对象
 //DWORD dw_CWnd__Create = 0;
@@ -348,6 +356,9 @@ BOOL SetPointer(int *lpOffset, int *lpOldPointer, int nPointer)
 	return WriteMemory(lpOffset, &nPointer, sizeof(int));
 }
 
+
+
+
 //DllMain 进程附加
 BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)
 {
@@ -439,6 +450,10 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 	}
 
 	nLangId = GetPrivateProfileIntW(L"System", L"LangId", 1, L"NACore.ini");
+	const WCHAR *lpInfFile;
+	lpInfFile = L"C:\\ProgramData\\Agilent\\E5070\\e5070.ini";
+	nTraces = GetPrivateProfileIntW(L"INSTR", L"TRACE", 0, lpInfFile);
+	nChannels = GetPrivateProfileIntW(L"INSTR", L"CHANNEL", 0, lpInfFile);
 
 	//此处初始化资源句柄
 	hBmp_Button1 = (HBITMAP)LoadImage(hModule, MAKEINTRESOURCE(IDB_BMP_BTN_1), IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION);
@@ -470,7 +485,6 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 		WriteMemory((void *)(BASE + 0x1463D0), &btTmp[6], 2);
 	}
 #endif
-
 
 	//文本输入框跳过
 #if CF_FNHK_PASS_004A90A0
@@ -517,4 +531,97 @@ BOOL APIENTRY DM_ProcessAttach(HMODULE hModule, DWORD ul_reason_for_call, LPVOID
 	InitLocaleHook();  
 
 	return TRUE;
+}
+
+
+//从配置文件里读取TDR开启状态
+BOOL WndCHK_TDR()
+{
+	const WCHAR *lpInfFile;
+	BOOL uVal;
+
+	lpInfFile = L"C:\\ProgramData\\Agilent\\E5070\\e5070.ini";
+
+	uVal = GetPrivateProfileIntW(L"INSTR", L"TDR Mode", 0, lpInfFile);
+
+	return uVal;
+}
+
+
+void TDRCHK()
+{
+	static BOOL blTDRCHK = FALSE;
+	DWORD dwTempAdd = NULL;
+
+	__asm mov dwTempAdd, eax;
+
+	if (dwTempAdd == dwTDRDataAdd)
+	{
+		wWidth_SoftMenu = wBackupWidth;
+		int lngWidth = (wWidth_SoftMenu - 0.5) / 1.25;
+		SetSoftMenuWidth(lngWidth);
+		ShowWindow(hwSoftMenu, SW_SHOW);
+		SoftItem_SetFocus(0, 0);
+	}
+	SizeMainWnd(FALSE);
+
+	return;
+}
+
+//在代码里插入检测TDR关闭状态
+NAKED void fnhk_TDRCHK()
+{
+	__asm
+	{
+		pushad
+		call TDRCHK
+		popad
+		mov byte ptr ds : [eax + 0x1C], bl
+		push eax
+		mov eax, 0x0096E1F9
+		add eax, dwBaseAdd
+		jmp eax
+	}
+}
+
+
+void wndTDRCHK()
+{
+	BOOL blTDR = 0;
+	DWORD *bMenu = 0;
+
+	blTDR = WndCHK_TDR();
+
+	if (blTDR)
+	{
+		//关闭原菜单;
+		void *lpVar = (void *)(BASE + 0x35B7918);
+		lpVar = GetOffsetPointer(lpVar, 0x04);
+		lpVar = GetOffsetPointer(lpVar, 0x04);
+		lpVar = GetOffsetPointer(lpVar, 0x04);
+		lpVar = GetOffsetPointer(lpVar, 0x08);
+		lpVar = GetOffsetPointer(lpVar, 0x30);
+		lpVar = GetOffsetPointer(lpVar, 0x24);//+24 TDR数据
+		bMenu = (DWORD *)((int)lpVar + 0x1C);
+		*bMenu = 0;
+
+		dwTDRDataAdd = (DWORD)lpVar;
+
+		//关闭新菜单;
+		wBackupWidth = wWidth_SoftMenu;
+		wWidth_SoftMenu = 0;
+		SetSoftMenuWidth(wWidth_SoftMenu);
+		ShowWindow(hwSoftMenu, SW_HIDE);
+
+		//hook住关闭窗口变量处,以达到实时获取TDR关闭信息
+		int nTmp = 0;
+		DWORD wCode = 0xE9E9E9E9;
+
+		WriteMemory((void *)(0x0096E1A8 + BASE), &wCode, 1);
+		SetOffsetHook((int *)(0x0096E1A9 + BASE), &nTmp, (int)&fnhk_TDRCHK);
+
+		wCode = 0x1458AFEB;
+		WriteMemory((void *)(0x0096E1F7 + BASE), &wCode, 3);
+		//在 BASE+0x96E1F7 执行hook操作，检测到关闭后再开启新UI；
+	}
 }

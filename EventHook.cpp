@@ -17,6 +17,7 @@ extern SOFT_MENU menuMacroSetup;
 extern SOFT_MENU menuPreset;
 
 extern WORD wWidth_MainWnd, wHeight_MainWnd, wWidth_SoftMenu;
+extern WORD wBackupWidth;
 
 
 void *lpOrgJmpTabPtr_09 = NULL;
@@ -366,8 +367,6 @@ int WINAPI EventHandler_09(WPARAM *_wParam, LPARAM *_lParam)
 
 	case 0x3C:		//'隐藏/显示'菜单
 	{
-		static WORD wBackupWidth = 0;
-
 		if (IsWindowVisible(hwSoftMenu))
 		{
 			wBackupWidth = wWidth_SoftMenu;

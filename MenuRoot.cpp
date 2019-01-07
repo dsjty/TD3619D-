@@ -172,6 +172,17 @@ int WINAPI fnClicked_ChannelMax(DWORD dwFlags, WPARAM wParam, LPARAM lParam, str
 	return 0;
 }
 
+int WINAPI fnClicked_Test(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem)
+{
+	if (wParam == IC_CLICKED_LAST)
+	{
+		PSTMSG(hwSoftMenu, WM_SWITCH_SUBMENU, 0, (LPARAM)&menuDisplay);
+
+		//OrigSoftMenu_ItemClicked2(CA_SYSTEM, TA_SYSTEM, 2);
+	}
+	return 0;
+}
+
 //通道子条目
 SOFT_SUB_ITEM subitemChannel[] =
 {
@@ -312,7 +323,29 @@ SOFT_SUB_ITEM subitemChannel[] =
 		RESERVE_DWORD4,
 		{ 0, 1031, 0, 0 }
 	}
-
+//	,
+//	{
+//		SIF_FN_CLICKED,
+//		SIA_FULLLINE,
+//		SIS_ButtonEx,
+//		0,
+//		L"Test\0\0",
+//		NULL,
+//		BtnWidth_W,
+//		BtnHeith_H,
+//		NULL,
+//		RESERVE_DWORD16,
+//		{ 0, &fnClicked_Test,0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 },
+//		0,
+//		NULL,
+//		NULL,
+//		NULL,
+//		0,
+//		0,
+//		NULL,
+//		RESERVE_DWORD4,
+//		RESERVE_DWORD4
+//	}
 };
 
 
@@ -518,13 +551,6 @@ int WINAPI fnClicked_Preset(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct 
 	return 0;
 }
 
-/*
-static int WINAPI fnTagPageEnter_System(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-UpdatePresetState();
-return 0;
-}
-*/
 
 SOFT_TAG_PAGE submenuMain[] =
 {

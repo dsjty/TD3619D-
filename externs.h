@@ -20,6 +20,9 @@ extern ATOM wcSoftMenu;
 extern ATOM wcSoftItem;
 extern ATOM wcToolBar;
 extern int nLangId;
+extern int nTraces;
+extern int nChannels;
+
 
 extern HOOK_PTR HookPtr[];
 extern CWnd *cwMainWnd;
@@ -42,9 +45,11 @@ extern PSOFT_MENU lpMenuStack[256];
 extern BYTE btMenuIndex;
 extern DWORD dwTagPageIndex;
 
+void wndTDRCHK();
 int ResetHookPointer(HOOK_PTR lpHookPtr);
 BOOL SetOffsetHook(int *lpOffset, int *lpOldAddress, int nAddress);
 BOOL SetPointer(int *lpOffset, int *lpOldPointer, int nAddress);
+int PhysEventHook();
 
 //获取子菜单的指针
 void *GetSubMenuPointer(void *lpThis, int nIndex);

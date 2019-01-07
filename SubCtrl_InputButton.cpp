@@ -11,7 +11,8 @@ int WINAPI PhysEventHandler_Entry(WPARAM wParam, LPARAM lParam);
 //Sub Control :: UpdatePos
 int SubCtrl_InputButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 {
-	if (lpMe == NULL) return -1;
+	if (lpMe == NULL) 
+		return -1;
 
 	if (lpMe->_hWnd)
 	{
@@ -27,14 +28,12 @@ int SubCtrl_InputButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 		else
 			rcSub.top = rcSub.bottom - 32;
 
-		if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) || CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))
+		if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) || CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))			//存在微调按钮
 		{
-			//存在微调按钮
 			LONG lngLeft;
 
-			if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) && CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))
-			{
-				//同时存在2种微调按钮
+			if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) && CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))		//同时存在2种微调按钮
+			{		
 				rcSub.right -= 44;
 				lngLeft = rcSub.right + 2;
 
@@ -47,9 +46,8 @@ int SubCtrl_InputButton_UpdatePos(PSOFT_SUB_ITEM lpMe, DWORD dwFlags)
 					MoveWindow((HWND)lpMe->lpOpt[6], lngLeft, rcSub.top - 3, 19, 18, TRUE);
 
 			}
-			else
-			{
-				//存在单一一种微调按钮
+			else		//存在单一一种微调按钮
+			{		
 				rcSub.right -= 22;
 				lngLeft = rcSub.right + 2;
 
@@ -73,14 +71,10 @@ int SubCtrl_InputButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 
 	if (lpMe->_hWnd)
 	{
-		if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) || CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))
+		if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) || CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))	//存在微调按钮
 		{
-			//存在微调按钮
-
-			if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) && CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))
+			if (CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE) && CHK_FLAGS(lpMe->dwAttributes, SIA_FINETUNE2))	//同时存在2种微调按钮
 			{
-				//同时存在2种微调按钮
-
 				lpMe->lpOpt[5] = CreateWindowExW(0, UPDOWN_CLASSW, NULL, WS_CHILD | WS_VISIBLE,
 					0, 0, 0, 0,
 					lpMe->_hWnd, NULL, hMod, NULL);
@@ -95,9 +89,8 @@ int SubCtrl_InputButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 				if (lpMe->lpOpt[6])
 					SetWindowLong((HWND)lpMe->lpOpt[6], GWL_USERDATA, SIA_FINETUNE2);
 			}
-			else
+			else				//存在单一一种微调按钮
 			{
-				//存在单一一种微调按钮
 				LONG lngUserData = 0;
 
 				lpMe->lpOpt[5] = CreateWindowExW(0, UPDOWN_CLASSW, NULL, WS_CHILD | WS_VISIBLE, 0, 0, 0, 0, lpMe->_hWnd, NULL, hMod, NULL);
@@ -124,10 +117,8 @@ int SubCtrl_InputButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 		}
 		SubCtrl_InputButton_UpdatePos(lpMe, 0);
 	}
-
 	return 0;
 }
-
 
 //Sub Control :: Event
 LRESULT SubCtrl_InputButton_OnClicked(PSOFT_SUB_ITEM lpSubItem, int nCtrlId, HWND hWnd)

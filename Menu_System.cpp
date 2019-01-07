@@ -3,7 +3,7 @@
 #define SERIAL_NUMBER	_T("SerialNum.dat")
 
 extern DLG_CTXT dcColorWizard;
-
+extern DLG_CTXT dcMTSSWizard;
 
 int WINAPI fnItemClicked_WEB(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_SUB_ITEM *lpSubItem);
 
@@ -104,7 +104,7 @@ int WINAPI fnItemSelected_SysLang(DWORD dwFlags, WPARAM wParam, LPARAM lParam, s
 	if (nIndex == -1)
 		nIndex = 0;
 
-	WCHAR wcsText[10];
+	WCHAR wcsText[10] = {0};
 
 	swprintf_s(wcsText, 10, L"%d", nIndex);
 	WritePrivateProfileStringW(L"System", L"LangId", wcsText, L"NACore.ini");
@@ -156,7 +156,7 @@ static SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -217,6 +217,29 @@ static SOFT_SUB_ITEM subitemSystem[] =
 		RESERVE_DWORD4
 	}
 	,
+{
+	SIF_DIALOG,
+		SIA_FULLLINE,
+		SIS_ButtonEx,
+		0,
+		L"Multiport Test Set Setup\0多端口测试装置设置\0多端口測試裝置設置\0\0",
+		NULL,
+		BtnWidth_W,
+		BtnHeith_H,
+		NULL,
+		RESERVE_DWORD16,
+		RESERVE_DWORD16,
+		INVALID_INDEX,
+		NULL,
+		NULL,
+		NULL,
+		&dcMTSSWizard,
+		NULL,
+		NULL,
+		RESERVE_DWORD4,
+		RESERVE_DWORD4
+}
+	,
 	{
 		0,
 		SIA_FULLLINE,
@@ -225,7 +248,7 @@ static SOFT_SUB_ITEM subitemSystem[] =
 		NULL,
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -345,7 +368,7 @@ static SOFT_SUB_ITEM subitemGLSETUP[] =
 		L"GPIB Setup\0GPIB 设置\0GPIB 設置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -437,7 +460,7 @@ static SOFT_SUB_ITEM subitemGLSETUP[] =
 		L"Network Setup\0网络设置\0網路配置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1149,7 +1172,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		L"Beeper\0蜂鸣器设置\0蜂鳴器設置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1264,7 +1287,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		L"Clock Setup\0时钟设置\0時鐘設置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1333,7 +1356,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		L"Lock Setup\0锁定设置\0鎖定設置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1379,7 +1402,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		L"Preset Setup\0复位设置\0復位設置\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1425,7 +1448,7 @@ static SOFT_SUB_ITEM subitemMisc[] =
 		NULL,
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,
@@ -1697,10 +1720,8 @@ static SOFT_SUB_ITEM subitemCTSet[] =
 			RESERVE_DWORD4,
 			RESERVE_DWORD4
 		}
-		,
-
-
 };
+
 
 
 static int WINAPI fnTagPageEnter_System(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)

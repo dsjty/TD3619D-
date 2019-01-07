@@ -104,7 +104,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <TargetName>NACore</TargetName>
+    <TargetName>TDCore</TargetName>
+    <OutDir>C:\Program Files %28x86%29\Agilent\E5070</OutDir>
+    <IntDir />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
@@ -112,6 +114,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <TargetName>TDCore</TargetName>
+    <OutDir>C:\Program Files %28x86%29\Agilent\E5070</OutDir>
+    <IntDir />
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_ICC|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -232,6 +236,7 @@
     <ClInclude Include="defines.h" />
     <ClInclude Include="config.h" />
     <ClInclude Include="dialog.h" />
+    <ClInclude Include="Dlg_MTSS.h" />
     <ClInclude Include="externs.h" />
     <ClInclude Include="inline.h" />
     <ClInclude Include="misc.h" />
@@ -264,6 +269,7 @@
     <ClCompile Include="Dlg_Cal_7_1.cpp" />
     <ClCompile Include="Dlg_Color.cpp" />
     <ClCompile Include="Dlg_Func.cpp" />
+    <ClCompile Include="Dlg_MTSS.cpp" />
     <ClCompile Include="dllmain.cpp">
       <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</CompileAsManaged>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

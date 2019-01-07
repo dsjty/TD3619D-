@@ -181,7 +181,7 @@ static SOFT_SUB_ITEM subitemDisplay[] =
 	,
 	{
 		SIF_ORIGCLICK | SIF_NOREPLY,
-		SIA_FULLLINE,
+		SIA_FULLLINE | SIA_INPUT_TEXT,
 		SIS_InputButtonEx,
 		9,
 		L"Edit Title Lable\0编辑标题标签\0編輯標題標簽\0\0",

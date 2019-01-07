@@ -9,7 +9,7 @@
 #define CF_MYTOOLBAR                      1
 
 //隐藏主菜单
-#define CF_HIDEMENU                       0
+#define CF_HIDEMENU                       1
 
 //输入框跳过
 #define CF_FNHK_PASS_004A8FA0             1

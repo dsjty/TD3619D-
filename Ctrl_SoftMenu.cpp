@@ -345,7 +345,6 @@ void SoftMenu_Switch(PSOFT_MENU lpSoftMenu, DWORD dwNewIndex, DWORD dwFlags)
 	{
 		SNDMSG(hwMainWnd, 0x0432, 9, MAKELPARAM(0x003B, 0x0001));
 	}
-
 	TagPage_RefreshItems(lpTagPage);
 	SoftItem_SetFocus(0, 0);
 	UpdateSoftMenu();
@@ -458,6 +457,7 @@ LRESULT CALLBACK wpfn_SoftMenu(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam
 	
 	case WM_TIMER:
 	{
+		wndTDRCHK();
 		wWidth_MainWnd += 1;
 		UpdateSize_UI();
 		SizeMainWnd(TRUE);

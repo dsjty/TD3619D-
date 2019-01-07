@@ -8,6 +8,8 @@
 #include <Windowsx.h>
 #endif
 
+static WORD wBackupWidth;
+
 typedef struct _HOOK_POINTER
 {
   void                 ** lppPtrAddr;

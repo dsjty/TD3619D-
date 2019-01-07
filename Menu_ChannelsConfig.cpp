@@ -515,15 +515,7 @@ SOFT_SUB_ITEM subitemCurrentChannels[] =
 };
 
 
-int WINAPI fnTagPageEnter_ChannelsConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_Enter(CA_DISPLAY);
-	OrigSoftMenu_UpdateItems(CA_DISPLAY);
-	OrigSoftMenu_Enter(CA_ALLOCCHAN);
-	OrigSoftMenu_UpdateItems(CA_ALLOCCHAN);
-
-	return 0;
-}
+int WINAPI fnTagPageEnter_ChannelsConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage);
 
 //通道配置子菜单
 SOFT_TAG_PAGE submenuChannelsConfig[] =
@@ -556,6 +548,47 @@ SOFT_TAG_PAGE submenuChannelsConfig[] =
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm#Setting_channel_display__layout_of_channel_windows_", (void*)1024, 0, 0 }
 	}
 };
+
+
+int WINAPI fnTagPageEnter_ChannelsConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
+{
+	OrigSoftMenu_Enter(CA_DISPLAY);
+	OrigSoftMenu_UpdateItems(CA_DISPLAY);
+	OrigSoftMenu_Enter(CA_ALLOCCHAN);
+	OrigSoftMenu_UpdateItems(CA_ALLOCCHAN);
+
+	switch (nChannels)
+	{
+	case 1:
+		submenuChannelsConfig[0].dwNumOfSubItems = 1;
+		break;
+	case 2:
+		submenuChannelsConfig[0].dwNumOfSubItems = 5;
+		break;
+	case 4:
+		submenuChannelsConfig[0].dwNumOfSubItems = 14;
+		break;
+	case 9:
+		submenuChannelsConfig[0].dwNumOfSubItems = 19;
+		break;
+	case 12:
+		submenuChannelsConfig[0].dwNumOfSubItems = 19;
+		break;
+	case 16:
+		submenuChannelsConfig[0].dwNumOfSubItems = 19;
+		break;
+	case 24:
+		submenuChannelsConfig[0].dwNumOfSubItems = 19;
+		break;
+	case 36:
+		submenuChannelsConfig[0].dwNumOfSubItems = 19;
+		break;
+	default:
+		break;
+	}
+
+	return 0;
+}
 
 
 //通道配置主菜单

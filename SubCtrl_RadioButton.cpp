@@ -11,8 +11,7 @@ int SubCtrl_RadioButton_Create(HWND hWnd, DWORD dwFlags, PSOFT_SUB_ITEM lpMe, in
 	lpMe->_hWnd = CreateWindowExW(0, WC_BUTTONW, GetSoftItemTextByIndex(lpMe, nLangId),
 		WS_CHILD | WS_VISIBLE | (CHK_FLAGS(lpMe->dwAttributes, SIA_GROUP) ? WS_GROUP : 0) |
 		((lpMe->dwStyle == SIS_RadioButtonEx) ? BS_OWNERDRAW : BS_AUTORADIOBUTTON | BS_PUSHLIKE),
-		x, y, nWidth, nHeight,
-		hWnd, NULL, hMod, NULL);
+		x, y, nWidth, nHeight, hWnd, NULL, hMod, NULL);
 
 	return 0;
 }

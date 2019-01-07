@@ -129,7 +129,7 @@ static SOFT_SUB_ITEM subitemPower[] =
 		NULL,
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,

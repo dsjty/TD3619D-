@@ -400,8 +400,6 @@ unsigned int WINAPI tpToolbarProc(void *lParam)
 
 #if CF_TOPHEIGHT
 static BOOL blSetHook_008B3224 = TRUE;
-static int nFn_008B3226 = 0x0096BE72 ;
-static int nFn_008B3242 = 0x0096BE8C;
 
 NAKED void fnhk_008B3224()
 {

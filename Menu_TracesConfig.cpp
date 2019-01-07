@@ -479,6 +479,7 @@ SOFT_SUB_ITEM subitemTracesConfig[] =
 };
 
 
+
 //当前曲线子条目
 SOFT_SUB_ITEM subitemCurrentTraces[] =
 {
@@ -553,13 +554,8 @@ SOFT_SUB_ITEM subitemCurrentTraces[] =
 };
 
 
-int WINAPI fnTagPageEnter_TracesConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
-{
-	OrigSoftMenu_UpdateItems(CA_DISPLAY);
-	OrigSoftMenu_UpdateItems(CA_ALLOCTRACES);
+int WINAPI fnTagPageEnter_TracesConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage);
 
-	return 0;
-}
 
 //曲线配置子菜单
 SOFT_TAG_PAGE submenuTracesConfig[] =
@@ -592,6 +588,49 @@ SOFT_TAG_PAGE submenuTracesConfig[] =
 		{ L"::/Measurement/Setting_Measurement_Conditions/Setting_Channels_and_Traces.htm", 0, 0, 0 }
 	}
 };
+
+
+
+int WINAPI fnTagPageEnter_TracesConfig(DWORD dwFlags, WPARAM wParam, LPARAM lParam, struct _SOFT_TAG_PAGE *lpTagPage)
+{
+	OrigSoftMenu_UpdateItems(CA_DISPLAY);
+	OrigSoftMenu_UpdateItems(CA_ALLOCTRACES);
+
+	if (nTraces <= 9)
+		subitemTracesConfig[0].dwNumberOfParams = nTraces;
+
+	switch (nTraces)
+	{
+	case 4:
+		submenuTracesConfig[0].dwNumOfSubItems = 14 + 1;
+		break;
+	case 6:
+		submenuTracesConfig[0].dwNumOfSubItems = 16 + 1;
+		break;
+	case 8:
+		submenuTracesConfig[0].dwNumOfSubItems = 18 + 1;
+		break;
+	case 9:
+		submenuTracesConfig[0].dwNumOfSubItems = 19 + 1;
+		break;
+	case 12:
+		submenuTracesConfig[0].dwNumOfSubItems = 19 + 1;
+		break;
+	case 16:
+		submenuTracesConfig[0].dwNumOfSubItems = 19 + 1;
+		break;
+	case 24:
+		submenuTracesConfig[0].dwNumOfSubItems = 19 + 1;
+		break;
+	case 36:
+		submenuTracesConfig[0].dwNumOfSubItems = 19 + 1;
+		break;
+	default:
+		break;
+	}
+
+	return 0;
+}
 
 //曲线配置主菜单
 SOFT_MENU menuTracesConfig =

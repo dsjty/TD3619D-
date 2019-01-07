@@ -1416,7 +1416,7 @@ SOFT_SUB_ITEM subitemMarkerFunc[] =
 		L"Marker Info\0频标信息\0頻標信息\0\0",
 		NULL,
 		40,
-		20,
+		BtnHeith_DH,
 		NULL,
 		RESERVE_DWORD16,
 		RESERVE_DWORD16,

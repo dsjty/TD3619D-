@@ -52,6 +52,9 @@ static HMENU hSubMenu_Channels = NULL;
 static HMENU hSubMenu_Traces = NULL;
 static HMENU hPopupMenu = NULL;
 
+
+void ScreenToBitmap(HWND hwnd);
+
 static void InitPopupMenu()
 {
 	if (hPopupMenu == NULL)
@@ -398,10 +401,12 @@ int WINAPI fntbEvent_Snapshot(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND h
 	switch (dwCode)
 	{
 	case TBEC_CLICKED:
-		OrigSoftMenu_ItemClicked2(CA_SYSTEM, TA_SYSTEM, 2);
+	{
+		ScreenToBitmap(hToolbar);
+		//OrigSoftMenu_ItemClicked2(CA_SYSTEM, TA_SYSTEM, 2);	第一次调用5070功能会莫名其妙的bug，反正功能简单，自己写得了。
 		break;
 	}
-
+	}
 	return 0;
 }
 
@@ -576,3 +581,87 @@ int WINAPI fntbEvent_MarkerSub(DWORD dwCode, WPARAM wParam, LPARAM lParam, HWND 
 	}
 	return 0;
 }
+
+void ScreenToBitmap(HWND hwnd)   //lpRect   代表选定区域   
+{
+	CWnd *pDesktop = CWnd::FromHandle(GetParent(hwnd));
+	CDC *pdeskdc = pDesktop->GetDC();
+	CRect re;
+
+	//获取窗口的大小
+	pDesktop->GetClientRect(&re);
+	CBitmap bmp;
+	bmp.CreateCompatibleBitmap(pdeskdc, re.Width(), re.Height());
+
+	//创建一个兼容的内存画板
+	CDC memorydc;
+	memorydc.CreateCompatibleDC(pdeskdc);
+	//选中画笔
+	CBitmap *pold = memorydc.SelectObject(&bmp);
+	//绘制图像
+	memorydc.BitBlt(0, 0, re.Width(), re.Height(), pdeskdc, 0, 0, SRCCOPY);
+
+	//获取鼠标位置，然后添加鼠标图像
+	CPoint po;
+	GetCursorPos(&po);
+	HICON hinco = (HICON)GetCursor();
+	memorydc.DrawIcon(po.x - 10, po.y - 10, hinco);
+
+	//选中原来的画笔
+	memorydc.SelectObject(pold);
+	BITMAP bit;
+	bmp.GetBitmap(&bit);
+
+	//定义 图像大小（单位：byte）
+	DWORD size = bit.bmWidthBytes * bit.bmHeight;
+	LPSTR lpdata = (LPSTR)GlobalAlloc(GPTR, size);
+
+	//后面是创建一个bmp文件的必须文件头
+	BITMAPINFOHEADER pbitinfo;
+	pbitinfo.biBitCount = 24;
+	pbitinfo.biClrImportant = 0;
+	pbitinfo.biCompression = BI_RGB;
+	pbitinfo.biHeight = bit.bmHeight;
+	pbitinfo.biPlanes = 1;
+	pbitinfo.biSize = sizeof(BITMAPINFOHEADER);
+	pbitinfo.biSizeImage = size;
+	pbitinfo.biWidth = bit.bmWidth;
+	pbitinfo.biXPelsPerMeter = 0;
+	pbitinfo.biYPelsPerMeter = 0;
+
+	GetDIBits(pdeskdc->m_hDC, bmp, 0, pbitinfo.biHeight, lpdata, (BITMAPINFO*)&pbitinfo, DIB_RGB_COLORS);
+
+	BITMAPFILEHEADER bfh;
+	bfh.bfReserved1 = bfh.bfReserved2 = 0;
+	bfh.bfType = 0x4D42;
+	bfh.bfSize = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) + ((size + 31) / 32) * 4 * bit.bmHeight;;
+	bfh.bfOffBits = 54;
+
+
+	//写入文件
+	//弹框获取文件路径和文件名
+	CHAR szFilter[MAX_PATH] = "24-bit Bitmap (*.bmp)|*.bmp| Portable Network Graphics (*.png)|*.png||";
+	//   "24-bit Bitmap (*.bmp)|*.bmp| Portable Network Graphics (*.png)|*.png||";
+	BOOL bOpenFileDialog = FALSE;
+	CFileDialog filedlg(bOpenFileDialog, "bmp", "IMAGE01", NULL, szFilter, pDesktop);
+
+	CStringA strfilePath = "";
+	if (IDOK == filedlg.DoModal())
+	{
+		strfilePath = filedlg.GetPathName();
+	}
+
+	CFile file;
+
+	if (file.Open((LPCTSTR)strfilePath.GetBuffer(), CFile::modeCreate | CFile::modeWrite))
+	{
+		file.Write(&bfh, sizeof(BITMAPFILEHEADER));
+		file.Write(&pbitinfo, sizeof(BITMAPINFOHEADER));
+		file.Write(lpdata, size);
+		file.Close();
+	}
+	GlobalFree(lpdata);
+}
+
+
+

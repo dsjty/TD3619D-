@@ -139,8 +139,8 @@ static void UpdateType_STD(HWND hClient, int nIndex)
 static void UpdateValue_STD(HWND hClient, int nIndex)
 {
 	int nTmp = 0;
-	char szTmp[MAX_PATH];
-	WCHAR wcsTmp[MAX_PATH];
+	char szTmp[MAX_PATH] = { 0 };
+	WCHAR wcsTmp[MAX_PATH] = { 0 };
 
 	GetInputStringObjectW((void *)0x010B3628, wcsTmp, MAX_PATH, &nTmp);
 	SendDlgItemMessage(hClient, IDC_CAL7_EDIT_KIT, EM_LIMITTEXT, nTmp, NULL);

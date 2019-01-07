@@ -7,6 +7,7 @@
 //菜单按钮宽度和高度;
 #define BtnWidth_W	10
 #define BtnHeith_H  36
+#define BtnHeith_DH  22
 
 #define BtnHeith_H2  46
 #define BtnHeith_Root	34
@@ -57,6 +58,8 @@ extern HFONT hFont_cfg1, hFont_cfg2;      //字体配置1
 #define IDB_BMP_X8_2                    174
 
 #define IDB_BMP_X9_1                    170
+
+#define  IDB_BMP_ShuLShC				177
 
 #define  IDB_BMP_SeLShC					154
 #define  IDB_BMP_ShCSeL					150
@@ -816,17 +819,14 @@ extern DWORD dwBaseAdd;
 #define CA_SYSTEM_MTSS		(void *)(0x16399B0)
 #define TA_SYSTEM_MTSS		(void *)(0xD79ECC)
 
-//System::Multiport Test Set Setup::Test Set %d			//根据值确定
+//System::Multiport Test Set Setup::Test Set %d			
 #define TA_SYSTEM_MTSS_TS		(void *)(0xD79EFC)
 
 //System::Multiport Test Set Setup::Test Set %d	::Port %d
 #define TA_SYSTEM_MTSS_TS_P		(void *)(0xD79F6C)
 
 //System::Multiport Test Set Setup::Test Set %d	::Select Test Set
-#define TA_SYSTEM_MTSS_TS_STS   (void *)(0xD7A1AC)
-
-//System::Multiport Test Set Setup::Test Set %d	::Control Lines
-#define TA_SYSTEM_MTSS_TS_CL	(void *)(0xD79F2C )       
+#define TA_SYSTEM_MTSS_TS_STS   (void *)(0xD7A1AC)  
 
 
 //System :: Misc Setup
